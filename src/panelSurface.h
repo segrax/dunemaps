@@ -41,11 +41,11 @@ class cPanelSurface : public wxPanel
 {
 	private:
 		DECLARE_EVENT_TABLE();
-		wxBitmap					 SDL_To_Bitmap(SDL_Surface *surface);
-		
+				
 		size_t						 mScale;
 		wxCoord						 mMouseX, mMouseY;
 		wxTimer						*mTimer;
+		bool						 mMouseIgnore;
 
 	public:
 		cPanelSurface(wxWindow *parent, wxWindowID id = 1, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize);

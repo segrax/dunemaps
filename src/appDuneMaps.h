@@ -27,4 +27,7 @@ class cDuneMapsApp : public wxApp
 		int OnExit();
 };
 
+struct SDL_Surface;
+wxBitmap SDL_To_Bitmap(SDL_Surface *surface);
+
 #endif

@@ -11,6 +11,7 @@
 #include "panelSurface.h"
 #include "stdafx.h"
 #include "screenPlayfield.h"
+#include "appDuneMaps.h"
 //Do not add custom headers between
 //Header Include Start and Header Include End
 //wxDev-C++ designer will remove them
@@ -44,6 +45,7 @@ cPanelSurface::cPanelSurface(wxWindow *parent, wxWindowID id, const wxPoint &pos
 	mMouseX = mMouseY = 0;
 	mTimer = 0;
 
+	mMouseIgnore = false;
 
 	CreateGUIControls();
 }
@@ -87,7 +89,6 @@ void cPanelSurface::OnPaint(wxPaintEvent& event) {
 
 	tileView.Clear();
 	tileView.DrawBitmap( SDL_To_Bitmap( surface.scaleTo(mScale) ), 0, 0 );
-
 }
 
 void cPanelSurface::OnSize(wxSizeEvent& event) {
@@ -102,20 +103,19 @@ void cPanelSurface::OnSize(wxSizeEvent& event) {
 }
 
 void cPanelSurface::OnMouse(wxMouseEvent& event) {
+	mMouseIgnore = false;
+
 	// Click outside of tile viewer?
 	if(event.GetX() < 0 || event.GetY() < 0 || event.GetX() >= this->GetSize().GetWidth() || event.GetY() >= this->GetSize().GetHeight()) {
-		mMouseX = 5;
-		mMouseY = 5;
+		mMouseIgnore = true;
 		
 		return;
 	}
 	
 	mMouseX = event.GetX() / mScale;
 	mMouseY = event.GetY() / mScale;
-	if( mMouseX == 0 )
-		mMouseX = 5;
-	if( mMouseY == 0 )
-		mMouseY = 5;
+	if( mMouseX == 0 || mMouseY == 0 )
+		mMouseIgnore = true;
 
 	// Left Mouse
 	if( event.LeftDown() ) {
@@ -129,12 +129,8 @@ void cPanelSurface::OnMouse(wxMouseEvent& event) {
 
 void cPanelSurface::OnInputTimer(wxTimerEvent& event) {
 
-	// Check for movement along the edge of the tile viewer
-	if( g_DuneEngine->screenPlayfieldGet()->mouseMove( mMouseX, mMouseY ) )
-		this->Refresh(false);
-}
-
-wxBitmap cPanelSurface::SDL_To_Bitmap(SDL_Surface *surface) {
-
-	return wxBitmap((const char*)surface->pixels, surface->w, surface->h ,surface->format->BitsPerPixel);
+	if(!mMouseIgnore)
+		// Check for movement along the edge of the tile viewer
+		if( g_DuneEngine->screenPlayfieldGet()->mouseMove( mMouseX, mMouseY ) )
+			this->Refresh(false);
 }

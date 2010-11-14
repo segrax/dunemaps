@@ -295,14 +295,14 @@ bool cScreenPlayfield::mouseMove(size_t X, size_t Y) {
 		}
 
 	// Right of playfield
-	if(X > ((tilesMaxX-1) * 8))
+	if(X >= ((tilesMaxX-1) * 8))
 		if(_mapX < (_scale[2] + _scale[0]) - tilesMaxX) {
 			_mapX++;
 			redraw = true;
 		}
 
 	// Bottom of playfield
-	if(Y > ((tilesMaxY-1) * 8))
+	if(Y >= ((tilesMaxY-1) * 8))
 		if(_mapY < (_scale[3] + _scale[1]) - tilesMaxY ) {
 			_mapY++;
 			redraw = true;

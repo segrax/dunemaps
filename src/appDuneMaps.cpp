@@ -8,7 +8,7 @@
 //---------------------------------------------------------------------------
 
 #include "appDuneMaps.h"
-#include "..\..\src\dialogDuneMaps.h"
+#include "..\..\src\frameDuneMaps.h"
 #include "stdafx.h"
 
 IMPLEMENT_APP(cDuneMapsApp)
@@ -18,7 +18,7 @@ bool cDuneMapsApp::OnInit() {
 	g_DuneEngine->resourcesGet()->resourcePrepare();
 	g_DuneEngine->scenarioLoad(eHouse_Atreides, 1);
 
-	cDialogDuneMaps* dialog = new cDialogDuneMaps(0);
+	cFrameDuneMaps* dialog = new cFrameDuneMaps(0);
 
 	SetTopWindow(dialog);
 	dialog->Show(true);		
@@ -32,4 +32,9 @@ int cDuneMapsApp::OnExit() {
 	g_DuneEngine = 0;
 
 	return 0;
+}
+
+wxBitmap SDL_To_Bitmap(SDL_Surface *surface) {
+
+	return wxBitmap((const char*)surface->pixels, surface->w, surface->h ,surface->format->BitsPerPixel);
 }
