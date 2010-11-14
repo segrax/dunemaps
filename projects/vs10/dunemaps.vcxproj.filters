@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files\dune">
+      <UniqueIdentifier>{dc2b0866-dec3-4153-b705-64f0666db2cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\dune\engine">
+      <UniqueIdentifier>{02bcc155-d96c-49d2-ac52-4b3e680d7fb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\dune\engine\objects">
+      <UniqueIdentifier>{cf7543c6-bc3c-4d2c-bee4-2e7a312f0bab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\eastwood">
+      <UniqueIdentifier>{e62df296-ab2b-4c41-8dd5-5ee6e2418c47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\dune\graphics">
+      <UniqueIdentifier>{e7889acc-ce17-452c-ae91-d9a4aeac3f4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\dune\graphics\scale">
+      <UniqueIdentifier>{4e68c1e9-e86f-4f89-8b19-4215a935b779}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\appDuneMaps.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dialogDuneMaps.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\panelSurface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\dune.cpp">
+      <Filter>Source Files\dune</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\map.cpp">
+      <Filter>Source Files\dune</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\minimap.cpp">
+      <Filter>Source Files\dune</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\resourceExe.cpp">
+      <Filter>Source Files\dune</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\resources.cpp">
+      <Filter>Source Files\dune</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\screenPlayfield.cpp">
+      <Filter>Source Files\dune</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\graphics\surface.cpp">
+      <Filter>Source Files\dune\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\graphics\scale\scale2x.c">
+      <Filter>Source Files\dune\graphics\scale</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\graphics\scale\scale3x.c">
+      <Filter>Source Files\dune\graphics\scale</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\graphics\scale\scalebit.c">
+      <Filter>Source Files\dune\graphics\scale</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\engine\house.cpp">
+      <Filter>Source Files\dune\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\engine\mapGenerator.cpp">
+      <Filter>Source Files\dune\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\engine\scenario.cpp">
+      <Filter>Source Files\dune\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\engine\objects\mapCell.cpp">
+      <Filter>Source Files\dune\engine\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\engine\objects\object.cpp">
+      <Filter>Source Files\dune\engine\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\engine\objects\structure.cpp">
+      <Filter>Source Files\dune\engine\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\engine\objects\unit.cpp">
+      <Filter>Source Files\dune\engine\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\eastwood\CpsFile.cpp">
+      <Filter>Source Files\eastwood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\eastwood\Decode.cpp">
+      <Filter>Source Files\eastwood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\eastwood\Exception.cpp">
+      <Filter>Source Files\eastwood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\eastwood\Font.cpp">
+      <Filter>Source Files\eastwood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\eastwood\IcnFile.cpp">
+      <Filter>Source Files\eastwood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\eastwood\IniFile.cpp">
+      <Filter>Source Files\eastwood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\eastwood\PakFile.cpp">
+      <Filter>Source Files\eastwood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\eastwood\PalFile.cpp">
+      <Filter>Source Files\eastwood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\eastwood\ShpFile.cpp">
+      <Filter>Source Files\eastwood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\eastwood\StringFile.cpp">
+      <Filter>Source Files\eastwood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dune\eastwood\WsaFile.cpp">
+      <Filter>Source Files\eastwood</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\appDuneMaps.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dialogDuneMaps.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\panelSurface.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\types.h">
+      <Filter>Source Files\dune</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\dune.hpp">
+      <Filter>Source Files\dune</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\map.h">
+      <Filter>Source Files\dune</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\minimap.h">
+      <Filter>Source Files\dune</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\resourceExe.h">
+      <Filter>Source Files\dune</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\resources.h">
+      <Filter>Source Files\dune</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\screenPlayfield.h">
+      <Filter>Source Files\dune</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\stdafx.h">
+      <Filter>Source Files\dune</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\graphics\surface.h">
+      <Filter>Source Files\dune\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\graphics\scale\scale2x.h">
+      <Filter>Source Files\dune\graphics\scale</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\graphics\scale\scale3x.h">
+      <Filter>Source Files\dune\graphics\scale</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\graphics\scale\scalebit.h">
+      <Filter>Source Files\dune\graphics\scale</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\engine\scenario.h">
+      <Filter>Source Files\dune\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\engine\house.h">
+      <Filter>Source Files\dune\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\engine\mapGenerator.h">
+      <Filter>Source Files\dune\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\engine\objects\mapCell.h">
+      <Filter>Source Files\dune\engine\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\engine\objects\object.h">
+      <Filter>Source Files\dune\engine\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\engine\objects\structure.h">
+      <Filter>Source Files\dune\engine\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\engine\objects\unit.h">
+      <Filter>Source Files\dune\engine\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\eastwood\CpsFile.h">
+      <Filter>Source Files\eastwood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\eastwood\Decode.h">
+      <Filter>Source Files\eastwood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\eastwood\Exception.h">
+      <Filter>Source Files\eastwood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\eastwood\Font.h">
+      <Filter>Source Files\eastwood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\eastwood\IcnFile.h">
+      <Filter>Source Files\eastwood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\eastwood\IniFile.h">
+      <Filter>Source Files\eastwood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\eastwood\Log.h">
+      <Filter>Source Files\eastwood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\eastwood\PakFile.h">
+      <Filter>Source Files\eastwood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\eastwood\PalFile.h">
+      <Filter>Source Files\eastwood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\eastwood\ShpFile.h">
+      <Filter>Source Files\eastwood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\eastwood\stdafx.h">
+      <Filter>Source Files\eastwood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\eastwood\StringFile.h">
+      <Filter>Source Files\eastwood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\eastwood\WsaFile.h">
+      <Filter>Source Files\eastwood</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
