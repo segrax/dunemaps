@@ -139,6 +139,17 @@ void cScreenPlayfield::draw( cVideoSurface *pSurface ) {
 	pSurface->surfacePut( _surfaceLandscape, 0, 0 );
 	pSurface->surfacePut( _surfaceUnits, 0, 0 );
 
+	cStructure *structure = g_DuneEngine->mPlaceStructureGet();
+
+	if(structure) {
+		
+		word mapIndex = g_DuneEngine->scenarioGet()->mapGet()->posXYtoIndex( _mapX + _mouseX, _mapY + _mouseY );
+
+		//draw();
+		drawTileSquares( pSurface, mapIndex, structure );
+
+	}
+
 	if(!(*_mapCell)->hasStructure())
 		return;
 
@@ -184,6 +195,49 @@ void cScreenPlayfield::drawTileSquares( cVideoSurface *pSurface ) {
 	// Calcualte the screen X/Y of the top-left of the structure
 	X = g_DuneEngine->scenarioGet()->mapGet()->posXFromIndex( mapIndex ) - _mapX;
 	Y = g_DuneEngine->scenarioGet()->mapGet()->posYFromIndex( mapIndex ) - _mapY;
+
+	// Draw the rectangle to the surface
+	pSurface->surfacePut( _surfaceTileHighlight, (X << 4),(Y << 4)  );
+}
+
+void cScreenPlayfield::drawTileSquares( cVideoSurface *pSurface, word pMapIndex, cStructure *pStructure ) {
+	cStructure  *structure  = 0;
+	word		 width		= 1, height = 1;
+	word		 X, Y;
+
+	cMapCell **mapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( pMapIndex );
+	
+	// Get top-left
+	if((*mapCell)->objectGet())
+		mapCell = ((cStructure*) (*mapCell)->objectGet())->mapCellGet();
+
+	if( (*mapCell)->mapIndexGet() != 0xFFFF ) 
+		pMapIndex = (*mapCell)->mapIndexGet();
+
+	// Get the number of tiles and the layout
+	size_t   foundationTiles	= g_DuneEngine->resourcesGet()->foundationSizeGet( pStructure->dataGet()->FoundationSize );
+	word	*foundationLayout	= g_DuneEngine->resourcesGet()->foundationMapModGet( pStructure->dataGet()->FoundationSize );
+	
+	for( size_t count = 0; count < foundationTiles; ++count ) {
+		
+		// Down but not across
+		if( (*foundationLayout & 0xC0) && !(*foundationLayout & 0x03))
+			height++;
+
+		// Across but not down
+		if( (!(*foundationLayout & 0xC0) && *foundationLayout & 0x03))
+			width++;
+
+		// Next foundation position
+		foundationLayout++;
+	}
+
+	// Draw a rectangle
+	drawTileSquare( width * 16, height * 16 );
+
+	// Calcualte the screen X/Y of the top-left of the structure
+	X = g_DuneEngine->scenarioGet()->mapGet()->posXFromIndex( pMapIndex ) - _mapX;
+	Y = g_DuneEngine->scenarioGet()->mapGet()->posYFromIndex( pMapIndex ) - _mapY;
 
 	// Draw the rectangle to the surface
 	pSurface->surfacePut( _surfaceTileHighlight, (X << 4),(Y << 4)  );
@@ -271,7 +325,7 @@ void cScreenPlayfield::buttonReleaseRight(size_t pX, size_t pY ) {
 
 }
 
-bool cScreenPlayfield::mouseMove(size_t X, size_t Y) {
+bool cScreenPlayfield::scrollCheck(size_t X, size_t Y) {
 	word		 tilesMaxY = g_DuneEngine->screenTilesMaxY();
 	word		 tilesMaxX = g_DuneEngine->screenTilesMaxX();
 	bool		 redraw = false;
@@ -311,6 +365,17 @@ bool cScreenPlayfield::mouseMove(size_t X, size_t Y) {
 	// If we have to redraw the screen now, the minimaps frame position will need updating
 	//if(redrawGet())
 	//	((cMinimap*) g_DuneEngine->screenGet()->sidebarGet()->minimapGet())->positionUpdate();
+
+	return redraw;
+}
+
+bool cScreenPlayfield::mouseMove(size_t X, size_t Y) {
+	bool redraw = false;
+
+	redraw = scrollCheck(X, Y);
+
+	_mouseX = X / 16;
+	_mouseY = Y / 16;
 
 	return redraw;
 }

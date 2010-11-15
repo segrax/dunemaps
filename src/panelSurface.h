@@ -46,6 +46,7 @@ class cPanelSurface : public wxPanel
 		wxCoord						 mMouseX, mMouseY;
 		wxTimer						*mTimer;
 		bool						 mMouseIgnore;
+		bool						 mModePlacement;
 
 	public:
 		cPanelSurface(wxWindow *parent, wxWindowID id = 1, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize);
@@ -79,6 +80,10 @@ class cPanelSurface : public wxPanel
 		void OnInputTimer(wxTimerEvent& event);
 
 		void CreateGUIControls();
+
+public:
+	inline void placementSet( bool pValue ) { mModePlacement = pValue; }
+
 };
 
 #endif

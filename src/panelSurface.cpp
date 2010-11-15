@@ -46,6 +46,7 @@ cPanelSurface::cPanelSurface(wxWindow *parent, wxWindowID id, const wxPoint &pos
 	mTimer = 0;
 
 	mMouseIgnore = false;
+	mModePlacement = false;
 
 	CreateGUIControls();
 }
@@ -63,8 +64,8 @@ void cPanelSurface::CreateGUIControls() {
 	//Add the custom code before or after the blocks
 	////GUI Items Creation Start
 
-	SetSize(8,8,320,334);
-	Center();
+	//SetSize(8,8,320,334);
+	//Center();
 	
 	////GUI Items Creation End
 
@@ -117,12 +118,19 @@ void cPanelSurface::OnMouse(wxMouseEvent& event) {
 	if( mMouseX == 0 || mMouseY == 0 )
 		mMouseIgnore = true;
 
-	// Left Mouse
-	if( event.LeftDown() ) {
+	if( mModePlacement ) {
 
-		// Select the unit, structure or map piece under the cursor
-		g_DuneEngine->screenPlayfieldGet()->buttonPressLeft( mMouseX, mMouseY );
-		this->Refresh(false);
+
+
+	} else {
+
+		// Left Mouse
+		if( event.LeftDown() ) {
+
+			// Select the unit, structure or map piece under the cursor
+			g_DuneEngine->screenPlayfieldGet()->buttonPressLeft( mMouseX, mMouseY );
+			this->Refresh(false);
+		}
 	}
 
 }

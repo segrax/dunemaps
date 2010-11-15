@@ -278,5 +278,7 @@ public:
 	inline byte						 mapTileColorGet( word pTile )		{ return *(_Exe->mapTileColorGet() + (pTile << 1)); }
 
 	inline byte						 angleAdjustGet( size_t pIndex )	{ return  _angleAdjust[ pIndex & 0xFF ] & 0x07; }
+
+	PakFile							*pakGet( string pPakName );
 };
 

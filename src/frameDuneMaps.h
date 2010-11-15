@@ -26,17 +26,20 @@
 //Header Include Start and Header Include End.
 //wxDev-C++ designer will remove them. Add custom headers after the block.
 ////Header Include Start
-#include <wx/toolbar.h>
 #include <wx/menu.h>
+#include <wx/toolbar.h>
 ////Header Include End
 
 class cPanelSurface;
+class cHouse;
+enum eHouse;
 
 class cFrameDuneMaps : public wxFrame
 {
 	private:
 		DECLARE_EVENT_TABLE();
-		
+		eHouse				mHouse;
+
 	public:
 		cFrameDuneMaps(wxWindow *parent, wxWindowID id = 1, const wxString &title = wxT("Dune Maps"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize );
 		virtual ~cFrameDuneMaps();
@@ -46,15 +49,16 @@ class cFrameDuneMaps : public wxFrame
 		void Mnuloadscenario1002Click(wxCommandEvent& event);
 		void Mnufile1001Click(wxCommandEvent& event);
 		void WxToolBar1Tool(wxCommandEvent& event);
+		void MnuLoadPak_ScenClick(wxCommandEvent& event);
 		void WxToolBar2Tool(wxCommandEvent& event);
 	private:
 		//Do not add custom control declarations between 
 		//GUI Control Declaration Start and GUI Control Declaration End.
 		//wxDev-C++ will remove them. Add custom code after the block.
 		////GUI Control Declaration Start
+		wxMenuBar *WxMenuBar1;
 		wxToolBar *WxToolBar2;
 		wxToolBar *WxToolBar1;
-		wxMenuBar *WxMenuBar1;
 		////GUI Control Declaration End
 		
 		cPanelSurface		*mTileView;
@@ -70,6 +74,8 @@ class cFrameDuneMaps : public wxFrame
 			ID_MNU_FILE_1001 = 1001,
 			ID_MNU_NEWSCENARIO_1005 = 1005,
 			ID_MNU_LOADSCENARIO_1002 = 1002,
+			ID_MNU_LOADSCENFROMPAK = 1010,
+			ID_MNU_SCEN = 4000,
 			ID_MNU_QUIT_1006 = 1006,
 			
 			////GUI Enum Control ID End
@@ -79,6 +85,7 @@ class cFrameDuneMaps : public wxFrame
 			ID_WXTOOLBAR1_End = 3019,
 			ID_WXTOOLBAR2 = 3020,
 			ID_WXTOOLBAR2_End = 3039,
+			ID_MNU_SCEN_End = 4100,
 		};
 	 
 	private:
@@ -88,6 +95,7 @@ class cFrameDuneMaps : public wxFrame
 
 		void loadToolbarStructures();
 		void loadToolbarUnits();
+		void loadScenariosFromPak();
 
 };
 

@@ -9,6 +9,7 @@ private:
 	size_t				 _width, _height;
 	word				 _mapX,		 _mapY;							// New Map X-Y		(Top-Left of the playfield)
 	word				 _landscapeX,_landscapeY;					// Currently drawn '_surfaceLandscape' Map X-Y (Top-Left of the playfield)
+	word				 _mouseX, _mouseY;
 
 	bool				 _redraw;
 
@@ -20,6 +21,9 @@ private:
 	void				 drawObjects();								// Draw units to '_surfaceUnits'
 	void				 drawTileSquares(cVideoSurface *pSurface);							// 
 	void				 drawTileSquare( word pMapX, word pMapY );	//
+	void				 drawTileSquares( cVideoSurface *pSurface, word pMapIndex, cStructure *pStructure );
+
+	bool				 scrollCheck(size_t X, size_t Y);
 
 public:
 

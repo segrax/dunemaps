@@ -13,6 +13,12 @@
 #include "appDuneMaps.h"
 
 #include "stdafx.h"
+#include "dune\engine\objects\object.h"
+#include "dune\engine\objects\structure.h"
+#include "dune\engine\objects\unit.h"
+#include "eastwood\PakFile.h"
+
+#include <algorithm>
 
 //Do not add custom headers
 //wxDev-C++ designer will remove them
@@ -31,17 +37,19 @@ BEGIN_EVENT_TABLE(cFrameDuneMaps,wxFrame)
 	
 	EVT_CLOSE(cFrameDuneMaps::OnClose)
 	EVT_SIZE(cFrameDuneMaps::OnSize)
+	EVT_MENU(ID_MNU_NEWSCENARIO_1005, cFrameDuneMaps::Mnunewscenario1005Click)
+	EVT_MENU(ID_MNU_QUIT_1006, cFrameDuneMaps::Mnuquit1006Click)
 	EVT_TOOL_RANGE(ID_WXTOOLBAR2,ID_WXTOOLBAR2_End, cFrameDuneMaps::WxToolBar2Tool)
 	EVT_TOOL_RANGE(ID_WXTOOLBAR1,ID_WXTOOLBAR1_End, cFrameDuneMaps::WxToolBar1Tool)
-	EVT_MENU(ID_MNU_NEWSCENARIO_1005, cFrameDuneMaps::Mnunewscenario1005Click)
-	EVT_MENU(ID_MNU_LOADSCENARIO_1002, cFrameDuneMaps::Mnuloadscenario1002Click)
-	EVT_MENU(ID_MNU_QUIT_1006, cFrameDuneMaps::Mnuquit1006Click)
+	EVT_MENU_RANGE(ID_MNU_SCEN, ID_MNU_SCEN_End, cFrameDuneMaps::MnuLoadPak_ScenClick)
+
 END_EVENT_TABLE()
 ////Event Table End
 
 cFrameDuneMaps::cFrameDuneMaps(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size)
 : wxFrame(parent, id, title, position, size)
 {
+	mHouse = eHouse_Atreides;
 	CreateGUIControls();
 }
 
@@ -57,23 +65,29 @@ void cFrameDuneMaps::CreateGUIControls()
 	//Add the custom code before or after the blocks
 	////GUI Items Creation Start
 
+	WxToolBar1 = new wxToolBar(this, ID_WXTOOLBAR1, wxPoint(0, 0), wxSize(732, 28));
+
 	WxMenuBar1 = new wxMenuBar();
 	wxMenu *ID_MNU_FILE_1001_Mnu_Obj = new wxMenu(0);
 	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_NEWSCENARIO_1005, wxT("&New Scenario"), wxT(""), wxITEM_NORMAL);
 	ID_MNU_FILE_1001_Mnu_Obj->AppendSeparator();
-	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_LOADSCENARIO_1002, wxT("&Load Scenario"), wxT(""), wxITEM_NORMAL);
-	ID_MNU_FILE_1001_Mnu_Obj->AppendSeparator();
+	
+	wxMenu *ID_MNU_LOADSCENARIO_1002_Mnu_Obj = new wxMenu(0);
+	
+	wxMenu *ID_MNU_LOADSCENFROMPAK_Mnu_Obj = new wxMenu(0);
+	ID_MNU_LOADSCENFROMPAK_Mnu_Obj->Append(ID_MNU_SCEN, wxT("SCEN"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_LOADSCENARIO_1002_Mnu_Obj->Append(ID_MNU_LOADSCENFROMPAK, wxT("From Pak"), ID_MNU_LOADSCENFROMPAK_Mnu_Obj);
+	ID_MNU_LOADSCENARIO_1002_Mnu_Obj->AppendSeparator();
+	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_LOADSCENARIO_1002, wxT("&Load Scenario"), ID_MNU_LOADSCENARIO_1002_Mnu_Obj);
 	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_QUIT_1006, wxT("Quit"), wxT(""), wxITEM_NORMAL);
 	WxMenuBar1->Append(ID_MNU_FILE_1001_Mnu_Obj, wxT("&File"));
 	SetMenuBar(WxMenuBar1);
-
-	WxToolBar1 = new wxToolBar(this, ID_WXTOOLBAR1, wxPoint(0, 0), wxSize(732, 28));
 
 	WxToolBar1->Realize();
 	SetToolBar(WxToolBar1);
 	SetTitle(wxT("Dune Maps"));
 	SetIcon(wxNullIcon);
-	SetSize(8,8,755,477);
+	SetSize(8,8,748,477);
 	
 	////GUI Items Creation End
 
@@ -92,6 +106,27 @@ void cFrameDuneMaps::CreateGUIControls()
 
 	loadToolbarStructures();
 	loadToolbarUnits();
+	loadScenariosFromPak();
+}
+
+void cFrameDuneMaps::loadScenariosFromPak() {
+
+	wxMenuItem *mnuItemPak = FindItemInMenuBar( ID_MNU_LOADSCENFROMPAK );
+	wxMenu *mnuPakScenarios = mnuItemPak->GetSubMenu();
+
+	PakFile *pak = g_DuneEngine->resourcesGet()->pakGet("SCENARIO.PAK");
+
+	int count = pak->getNumFiles();
+
+	for( int i = 0; i < count; ++i ) {
+	
+		string name = pak->getFileName( i );
+
+		std::transform( name.begin(), name.end(), name.begin(), tolower );
+
+		if( name.find("scen") != string::npos )
+			mnuPakScenarios->Insert(0, ID_MNU_SCEN, name );
+	}
 
 }
 
@@ -182,6 +217,9 @@ void cFrameDuneMaps::Mnuquit1006Click(wxCommandEvent& event)
 void cFrameDuneMaps::WxToolBar1Tool(wxCommandEvent& event) {
 	int structID = event.GetId() - ID_WXTOOLBAR1;
 
+	cHouse *house = g_DuneEngine->houseGet( mHouse );
+
+	g_DuneEngine->mPlaceStructureSet( new cStructure( house, structID, 0) );
 
 }
 
@@ -191,5 +229,14 @@ void cFrameDuneMaps::WxToolBar1Tool(wxCommandEvent& event) {
 void cFrameDuneMaps::WxToolBar2Tool(wxCommandEvent& event) {
 	int unitID = event.GetId() - ID_WXTOOLBAR2;
 
+	cHouse *house = g_DuneEngine->houseGet( mHouse );
 
+}
+
+/*
+ * MnuLoadPak_ScenClick
+ */
+void cFrameDuneMaps::MnuLoadPak_ScenClick(wxCommandEvent& event)
+{
+	// insert your code here
 }

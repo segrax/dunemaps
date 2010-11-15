@@ -14,6 +14,9 @@ cDune::cDune( string pDataPath ) {
 	_screenPlayfield = 0;
 
 	_scenario = 0;
+
+	mPlaceStructure = 0;
+	mPlaceUnit = 0;
 }
 
 cDune::~cDune() {

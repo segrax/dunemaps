@@ -825,3 +825,15 @@ void cResources::IniSectionClose(string pSection ) {
 	_IniHandles.erase( keyIT );
 }
 
+PakFile	*cResources::pakGet( string pPakName ) {
+	map< string, PakFile*>::iterator	pakIT;
+
+	// Iterate over each PAK looking for 'filename'
+	for( pakIT = _Paks.begin(); pakIT != _Paks.end(); ++pakIT ) {
+
+		if( pakIT->first.compare( pPakName ) == 0 )
+			return pakIT->second;
+	}
+
+	return 0;
+}
