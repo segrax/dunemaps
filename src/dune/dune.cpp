@@ -47,6 +47,7 @@ void cDune::houseMapPrepare() {
 }
 
 void cDune::scenarioLoad( eHouse pHouse, size_t pScenNumber ) {
+	houseReset();
 	_missionHouse = pHouse;
 
 	delete _scenario;
@@ -56,4 +57,22 @@ void cDune::scenarioLoad( eHouse pHouse, size_t pScenNumber ) {
 
 	delete _screenPlayfield;
 	_screenPlayfield = new cScreenPlayfield();
+}
+
+void cDune::scenarioLoad( string pFilename ) {
+	houseReset();
+	delete _scenario;
+
+	_scenario = new cScenario( );
+	_scenario->scenarioLoad( pFilename );
+
+	delete _screenPlayfield;
+	_screenPlayfield = new cScreenPlayfield();
+}
+
+void cDune::houseReset() {
+	map< eHouse, cHouse* >::iterator	 houseIT;
+
+	for( houseIT = _houses.begin(); houseIT != _houses.end(); ++houseIT )
+		houseIT->second->reset( );
 }

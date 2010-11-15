@@ -301,7 +301,8 @@ void cScreenPlayfield::buttonClear() {
 
 void cScreenPlayfield::buttonPressLeft( size_t pX, size_t pY ) {
 	// Deactive the current map cell
-	(*_mapCell)->objectDeActivate();
+	if((*_mapCell))
+		(*_mapCell)->objectDeActivate();
 	
 	// Convert screen X/Y into Tiles position
 	pX >>= 4;
@@ -311,7 +312,8 @@ void cScreenPlayfield::buttonPressLeft( size_t pX, size_t pY ) {
 	_mapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( _mapX + pX, _mapY + pY );
 
 	// Activate the map cell
-	(*_mapCell)->objectActivate();	
+	if((*_mapCell))
+		(*_mapCell)->objectActivate();	
 }
 
 void cScreenPlayfield::buttonPressRight( size_t pX, size_t pY ) {

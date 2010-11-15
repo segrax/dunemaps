@@ -837,3 +837,45 @@ PakFile	*cResources::pakGet( string pPakName ) {
 
 	return 0;
 }
+
+size_t cResources::aiModeFind( string pName ) {
+	
+	dword *move = (dword*) _Exe->movementNames( );
+	
+	move += 0x6;
+	for( size_t i = 0; i < 0x5; ++i) {
+		string tmp;
+		
+		tmp.append( _Exe->stringGet( (size_t) *move ));
+		++move;
+
+		if(tmp == pName)
+			return i;
+	}
+
+	return 0;
+}
+
+size_t cResources::movementNamesGet( string pName ) {
+	
+	dword *move = (dword*) _Exe->movementNames( );
+	
+	for( size_t i = 0; i < 0x6; ++i) {
+		string tmp;
+
+		tmp.append( _Exe->stringGet( (size_t) *move ));
+		++move;
+
+		// HACK: Original scripts have mis-spelling
+		if(tmp == "Tracked" && pName == "Track")
+			return i;
+		if(tmp == "Wheeled" && pName == "Wheel")
+			return i;
+		//
+
+		if(tmp == pName)
+			return i;
+	}
+
+	return 0;
+}

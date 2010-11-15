@@ -3,6 +3,7 @@
 #include "objects/unit.h"
 #include "objects/structure.h"
 #include "house.h"
+#include "team.h"
 
 cHouse::cHouse(  eHouse pHouse )  {
 	
@@ -10,6 +11,7 @@ cHouse::cHouse(  eHouse pHouse )  {
 	_houseData	= g_DuneEngine->resourcesGet()->houseGet( pHouse );
 
 	_palette	= 0;
+	_credits	=	_creditQuota = _maxUnits = 0;
 
 	palletePrep();
 }
@@ -68,15 +70,31 @@ cStructure *cHouse::structureCreate(word pType, word pHealthPercent, word pMapIn
 	return created;
 }
 
+cTeam *cHouse::teamCreate( size_t pAiMode, size_t pMovementType, word arg_6, word arg_8 ) {
+	cTeam *team = new cTeam( this, pAiMode, pMovementType, arg_6, arg_8 );
+
+	_teams.push_back( team );
+
+	return team;
+}
+
 void cHouse::reset() {
 	multimap< size_t, cUnit* >::iterator		unitIT;
 	multimap< size_t, cStructure* >::iterator	structIT;
+	vector< cTeam* >::iterator					teamIT;
 
 	for( unitIT = _units.begin(); unitIT != _units.end(); ++unitIT ) 
 		delete unitIT->second;
 
 	for( structIT = _structures.begin(); structIT != _structures.end(); ++structIT ) 
 		delete structIT->second;
+
+	for( teamIT = _teams.begin(); teamIT != _teams.end(); ++teamIT )
+		delete (*teamIT);
+
+	_units.clear();
+	_structures.clear();
+	_teams.clear();
 }
 
 void cHouse::mapPrepare() {

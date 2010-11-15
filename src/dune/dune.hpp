@@ -23,6 +23,8 @@ public:
 					 cDune( string pDataPath );
 					~cDune();
 
+	inline void				 missionHouseSet( eHouse pHouse ) { _missionHouse = pHouse; }
+
 	inline cStructure*		 mPlaceStructureGet() { return mPlaceStructure; }
 	inline void		 mPlaceStructureSet( cStructure *pStructure ) { mPlaceStructure = pStructure; }
 	
@@ -33,8 +35,10 @@ public:
 	
 	cHouse			*houseGet( eHouse pHouse );
 	void			 houseMapPrepare();
+	void			 houseReset();
 
 	void			 scenarioLoad( eHouse pHouse, size_t pScenNumber );
+	void			 scenarioLoad( string pFilename );
 
 	inline eHouse			 missionHouseGet()  { return _missionHouse; }
 

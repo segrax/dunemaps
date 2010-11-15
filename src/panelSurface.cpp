@@ -83,6 +83,9 @@ void cPanelSurface::OnPaint(wxPaintEvent& event) {
 
 	size_t width = this->GetSize().GetWidth();
 	size_t height = this->GetSize().GetHeight();
+	
+	g_DuneEngine->screenPlayfieldGet()->widthSet( width );
+	g_DuneEngine->screenPlayfieldGet()->heightSet( height );
 
 	cVideoSurface surface(width, height);
 

@@ -18,6 +18,8 @@ struct sGameVersions {
 	size_t	offUnitAngleFrameAdjust;			// Unit-gfx Angle Frame adjustment
 	size_t  offUnitFrameAdjust;					// Unit-gfx frame adjust
 	size_t	offUnitSiegeTurretFrameAdjust;
+
+	size_t	offMovementNames;
 };
 
 struct sExeHouseData {
@@ -198,6 +200,8 @@ public:
 	byte					*mapTileColorGet();
 	byte					*mapScalesGet();
 	
+	byte					*movementNames();
+
 	byte					*unitAngleFrameAdjustGet();
 	byte					*unitFrameAdjustGet();
 	byte					*UnitSiegeTurretFrameGet();

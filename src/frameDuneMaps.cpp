@@ -239,7 +239,13 @@ void cFrameDuneMaps::WxToolBar2Tool(wxCommandEvent& event) {
  * MnuLoadPak_ScenClick
  */
 void cFrameDuneMaps::MnuLoadPak_ScenClick(wxCommandEvent& event) {
-	int scenID = event.GetId();
+	int scenID = event.GetId() - ID_MNU_SCEN;
 
-	
+	wxMenuItem *item = WxMenuBar1->FindItem( event.GetId() );
+
+	string filename = item->GetText();
+
+	g_DuneEngine->scenarioLoad( filename );
+	Refresh();
+
 }

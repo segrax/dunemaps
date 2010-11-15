@@ -11,8 +11,10 @@ private:
 	size_t						 _mapSeed, _mapScale, _mapTactical, _mapCursor;
 	string						 _mapField, _mapBloom, _mapSpecial;
 
-	bool						 missionLoadIni(  size_t pScenNumber );
+	void						 scenarioMapPrepare();
+	bool						 scenarioBegin(  size_t pScenNumber );
 	
+
 	void						 unitsLoad();
 	void						 structuresLoad();
 
@@ -21,6 +23,9 @@ public:
 								~cScenario();																// Destructor
 
 	void						 missionLoad( size_t pScenNumber );
+	void						 scenarioLoad( string pFilename );
+	void						 teamsLoad();
+	void						 houseLoad();
 
 	inline cMap					*mapGet()			{ return _map; }
 	inline cMapGenerator		*mapGeneratorGet()	{ return _mapGenerator; }

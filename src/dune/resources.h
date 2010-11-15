@@ -203,6 +203,9 @@ public:
 									 cResources( string pPath );
 									~cResources();
 
+	size_t							 aiModeFind( string pName ) ;
+	size_t							 movementNamesGet( string pName );
+
 	SDL_Surface						*CpsGet( string fileName ) ;
 
 	string							*fileRead( string pFileName);

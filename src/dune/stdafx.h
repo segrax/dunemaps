@@ -27,7 +27,7 @@ enum eHouse {
 	eHouse_Mercenaries,
 	eHouse_Sardaukar,
 
-	eHouse_End			= 0xFFFF,
+	eHouse_End
 };
 
 struct sMapPoint {

@@ -40,7 +40,10 @@ void cScenario::missionLoad( size_t pScenNumber ) {
 	if( pScenNumber < 1 )
 		pScenNumber = 1;
 
-	missionLoadIni( pScenNumber );
+	scenarioBegin( pScenNumber );
+}
+
+void cScenario::scenarioMapPrepare() {
 
 	vector<string> fields = splitStr( _mapField );
 	vector<string> blooms = splitStr( _mapBloom );
@@ -56,13 +59,14 @@ void cScenario::missionLoad( size_t pScenNumber ) {
 	_map->mapLoad();
 
 	// Load the prebuilt units
+	teamsLoad();
 	unitsLoad();
 	structuresLoad();
-
+	
 	g_DuneEngine->houseMapPrepare();
 }
 
-bool cScenario::missionLoadIni( size_t pScenNumber ) {
+bool cScenario::scenarioBegin( size_t pScenNumber ) {
 	sHouseData		*houseData;
 	stringstream	 missionScenarioIni;
 
@@ -73,8 +77,16 @@ bool cScenario::missionLoadIni( size_t pScenNumber ) {
 	missionScenarioIni << setfill('0') << setw(3) << pScenNumber;
 	missionScenarioIni << ".INI";
 
+	scenarioLoad( missionScenarioIni.str() );
+
+	return true;
+}
+
+void cScenario::scenarioLoad( string pFilename ) {
+	
 	// Load the ini into the resource manager
-	g_DuneEngine->resourcesGet()->IniLoad( missionScenarioIni.str() );
+	g_DuneEngine->resourcesGet()->IniLoad( pFilename );
+
 
 	// Read the map details
 	_mapScale	= g_DuneEngine->resourcesGet()->IniNumGet("BASIC", "MapScale", 0);
@@ -90,7 +102,9 @@ bool cScenario::missionLoadIni( size_t pScenNumber ) {
 	_mapGenerator = new cMapGenerator( );
 	_map		  = new cMap( );
 
-	return true;
+	houseLoad();
+
+	scenarioMapPrepare();
 }
 
 void cScenario::structuresLoad() {
@@ -135,6 +149,8 @@ void cScenario::structuresLoad() {
 		if(House)
 			structure = House->structureCreate( type, healthPercent, mapIndex );
 	}
+
+	g_DuneEngine->resourcesGet()->IniSectionClose("STRUCTURES");
 }
 
 void cScenario::unitsLoad() {
@@ -175,4 +191,59 @@ void cScenario::unitsLoad() {
 	}
 
 	g_DuneEngine->resourcesGet()->IniSectionClose("UNITS");
+}
+
+void cScenario::houseLoad() {
+	
+	for( size_t house = eHouse_Harkonnen; house != eHouse_End; ++house ) {
+		
+		sHouseData *houseData = g_DuneEngine->resourcesGet()->houseGet( (eHouse) house );
+		
+		cHouse *House = g_DuneEngine->houseGet( (eHouse ) house );
+		
+		House->creditQuotaSet( g_DuneEngine->resourcesGet()->IniNumGet( houseData->houseName, "Quota", 0 ) );
+		House->creditSet( g_DuneEngine->resourcesGet()->IniNumGet( houseData->houseName, "Credits", 0 ) );
+		
+		string brain = g_DuneEngine->resourcesGet()->IniStringGet( houseData->houseName, "Brain", "" );
+		size_t maxUnits = g_DuneEngine->resourcesGet()->IniNumGet( houseData->houseName, "MaxUnit", 0 );
+
+		if(brain == "Human")
+			g_DuneEngine->missionHouseSet( (eHouse) house );
+	}
+
+}
+
+void cScenario::teamsLoad() {
+	string		   tmp;
+	vector<string> teamDetails;
+
+	// Load the STRUCTURES Section
+	g_DuneEngine->resourcesGet()->IniSectionOpen("TEAMS");
+
+	for(;;) {
+		tmp = g_DuneEngine->resourcesGet()->IniSectionNext("TEAMS");
+	
+		tmp = g_DuneEngine->resourcesGet()->IniStringGet("TEAMS", tmp, "");
+		
+		// No more lines?
+		if(!tmp.size())
+			break;
+
+		teamDetails = splitStr( tmp );
+		if(!teamDetails.size())
+			break;
+
+		eHouse	house = (eHouse) g_DuneEngine->resourcesGet()->houseFind( teamDetails[0].c_str() );
+		size_t	aiMode = g_DuneEngine->resourcesGet()->aiModeFind( teamDetails[1].c_str() );
+		size_t	movementType = g_DuneEngine->resourcesGet()->movementNamesGet( teamDetails[2] );
+		size_t	unk1 = atoi( teamDetails[3].c_str() );
+		size_t  unitsMax	 = atoi( teamDetails[4].c_str() );
+
+		cHouse *House = g_DuneEngine->houseGet( house ) ;
+
+		cTeam *team = House->teamCreate( aiMode, movementType, unk1, unitsMax );
+		
+	}
+
+	g_DuneEngine->resourcesGet()->IniSectionClose("TEAMS");
 }
