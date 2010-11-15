@@ -114,6 +114,8 @@ void cFrameDuneMaps::loadScenariosFromPak() {
 	wxMenuItem *mnuItemPak = FindItemInMenuBar( ID_MNU_LOADSCENFROMPAK );
 	wxMenu *mnuPakScenarios = mnuItemPak->GetSubMenu();
 
+	mnuPakScenarios->Delete(ID_MNU_SCEN);
+
 	PakFile *pak = g_DuneEngine->resourcesGet()->pakGet("SCENARIO.PAK");
 
 	int count = pak->getNumFiles();
@@ -125,7 +127,7 @@ void cFrameDuneMaps::loadScenariosFromPak() {
 		std::transform( name.begin(), name.end(), name.begin(), tolower );
 
 		if( name.find("scen") != string::npos )
-			mnuPakScenarios->Insert(0, ID_MNU_SCEN, name );
+			mnuPakScenarios->Insert(mnuPakScenarios->GetMenuItemCount(), ID_MNU_SCEN + i, name );
 	}
 
 }
@@ -236,7 +238,8 @@ void cFrameDuneMaps::WxToolBar2Tool(wxCommandEvent& event) {
 /*
  * MnuLoadPak_ScenClick
  */
-void cFrameDuneMaps::MnuLoadPak_ScenClick(wxCommandEvent& event)
-{
-	// insert your code here
+void cFrameDuneMaps::MnuLoadPak_ScenClick(wxCommandEvent& event) {
+	int scenID = event.GetId();
+
+	
 }
