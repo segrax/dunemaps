@@ -82,8 +82,9 @@ class cPanelSurface : public wxPanel
 		void CreateGUIControls();
 
 public:
-	inline void placementSet( bool pValue ) { mModePlacement = pValue; }
 
+	inline void			placementSet( bool pValue ) { mModePlacement = pValue; }
+	void				playfieldSizeUpdate( size_t pScale = 0, size_t pWidth = 0, size_t pHeight = 0  );
 };
 
 #endif

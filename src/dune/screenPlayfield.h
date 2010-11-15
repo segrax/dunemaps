@@ -49,11 +49,9 @@ public:
 	inline word			 mapXGet()							{ return _mapX; }
 	inline word			 mapYGet()							{ return _mapY; }
 
-	inline void			 widthSet( size_t pVal ) {	if(_width != pVal)
-														_redraw = true;
+	inline void			 widthSet( size_t pVal ) {_redraw = true;
 													_width = pVal; }
 
-	inline void			 heightSet( size_t pVal ) { if(_height != pVal)
-														_redraw = true;
+	inline void			 heightSet( size_t pVal ) { _redraw = true;
 													_height = pVal; }
 };

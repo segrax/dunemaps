@@ -83,9 +83,6 @@ void cPanelSurface::OnPaint(wxPaintEvent& event) {
 
 	size_t width = this->GetSize().GetWidth();
 	size_t height = this->GetSize().GetHeight();
-	
-	g_DuneEngine->screenPlayfieldGet()->widthSet( width );
-	g_DuneEngine->screenPlayfieldGet()->heightSet( height );
 
 	cVideoSurface surface(width, height);
 
@@ -99,15 +96,30 @@ void cPanelSurface::OnSize(wxSizeEvent& event) {
 	size_t width = this->GetSize().GetWidth();
 	size_t height = this->GetSize().GetHeight();
 
-	g_DuneEngine->screenPlayfieldGet()->widthSet( width );
-	g_DuneEngine->screenPlayfieldGet()->heightSet( height );
-
-	g_DuneEngine->screenTilesMaxXSet( width / mScale);
-	g_DuneEngine->screenTilesMaxYSet( height / mScale);
+	playfieldSizeUpdate( mScale, width, height );
 }
 
 void cPanelSurface::OnMouse(wxMouseEvent& event) {
 	mMouseIgnore = false;
+	int scroll = event.GetWheelRotation();
+
+	if( scroll != 0 ) {
+
+		if( scroll > 0 ) {
+			if( mScale < 4 )
+				playfieldSizeUpdate( mScale + 1 );
+			else
+				playfieldSizeUpdate( 1 );
+
+		} else {
+
+			if( mScale >= 2 )
+				playfieldSizeUpdate( mScale - 1 );
+			else
+				playfieldSizeUpdate( 4 );
+		}
+
+	}
 
 	// Click outside of tile viewer?
 	if(event.GetX() < 0 || event.GetY() < 0 || event.GetX() >= this->GetSize().GetWidth() || event.GetY() >= this->GetSize().GetHeight()) {
@@ -118,12 +130,11 @@ void cPanelSurface::OnMouse(wxMouseEvent& event) {
 	
 	mMouseX = event.GetX() / mScale;
 	mMouseY = event.GetY() / mScale;
+
 	if( mMouseX == 0 || mMouseY == 0 )
 		mMouseIgnore = true;
 
 	if( mModePlacement ) {
-
-
 
 	} else {
 
@@ -144,4 +155,25 @@ void cPanelSurface::OnInputTimer(wxTimerEvent& event) {
 		// Check for movement along the edge of the tile viewer
 		if( g_DuneEngine->screenPlayfieldGet()->mouseMove( mMouseX, mMouseY ) )
 			this->Refresh(false);
+}
+
+void cPanelSurface::playfieldSizeUpdate( size_t pScale, size_t pWidth, size_t pHeight ) {
+	if(!pScale)
+		pScale = mScale;
+
+	if( !pWidth )
+		pWidth = this->GetSize().GetWidth();
+
+	if( !pHeight )
+		pHeight = this->GetSize().GetHeight();
+
+	mScale = pScale;
+
+	g_DuneEngine->screenPlayfieldGet()->widthSet( pWidth );
+	g_DuneEngine->screenPlayfieldGet()->heightSet( pHeight );
+
+	g_DuneEngine->screenTilesMaxXSet( pWidth / mScale);
+	g_DuneEngine->screenTilesMaxYSet( pHeight / mScale);
+
+	Refresh(false);
 }

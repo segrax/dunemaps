@@ -62,11 +62,17 @@ void cScreenPlayfield::drawLandscape() {
 	// Loop for each tile of the visible playfield
 	for( word Y = 0; Y < tilesMaxY; ++Y, mapIndex += 0x40 ) {
 
+		if( _mapY + Y > 63 )
+			break;
+
 		// Get pointer to tiles
 		mapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( mapIndex );
 		
 		for( word X = 0; X < tilesMaxX; ++X ) {
 			
+			if( _mapX + X > 63 )
+				break;
+
 			// FIXME: Error out here?
 			if( !mapCell )
 				break;
@@ -103,11 +109,16 @@ void cScreenPlayfield::drawObjects() {
 	_surfaceUnits->clear( 0xFF );
 
 	for( word Y = 0; Y < tilesMaxY; ++Y, mapIndex += 0x40 ) {
+		if( _mapY + Y > 63 )
+				break;
 
 		// Get pointer to tiles
 		mapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( mapIndex );
 
 		for( word X = 0; X < tilesMaxX; ++X, ++mapCell ) {
+			
+			if( _mapX + X > 63 )
+				break;
 
 			// Draw unit?
 			if( !(*mapCell)->hasUnit() )
@@ -301,8 +312,7 @@ void cScreenPlayfield::buttonClear() {
 
 void cScreenPlayfield::buttonPressLeft( size_t pX, size_t pY ) {
 	// Deactive the current map cell
-	if((*_mapCell))
-		(*_mapCell)->objectDeActivate();
+	(*_mapCell)->objectDeActivate();
 	
 	// Convert screen X/Y into Tiles position
 	pX >>= 4;
@@ -312,8 +322,7 @@ void cScreenPlayfield::buttonPressLeft( size_t pX, size_t pY ) {
 	_mapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( _mapX + pX, _mapY + pY );
 
 	// Activate the map cell
-	if((*_mapCell))
-		(*_mapCell)->objectActivate();	
+	(*_mapCell)->objectActivate();	
 }
 
 void cScreenPlayfield::buttonPressRight( size_t pX, size_t pY ) {
@@ -352,14 +361,14 @@ bool cScreenPlayfield::scrollCheck(size_t X, size_t Y) {
 
 	// Right of playfield
 	if(X >= ((tilesMaxX-1) * 8))
-		if(_mapX < (_scale[2] + _scale[0]) - tilesMaxX) {
+		if(_mapX < (_scale[2] + _scale[0]) - (tilesMaxX-1)) {
 			_mapX++;
 			redraw = true;
 		}
 
 	// Bottom of playfield
 	if(Y >= ((tilesMaxY-1) * 8))
-		if(_mapY < (_scale[3] + _scale[1]) - tilesMaxY ) {
+		if(_mapY < (_scale[3] + _scale[1]) - (tilesMaxY-1) ) {
 			_mapY++;
 			redraw = true;
 		}

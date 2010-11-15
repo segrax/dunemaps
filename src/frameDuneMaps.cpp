@@ -135,7 +135,7 @@ void cFrameDuneMaps::loadScenariosFromPak() {
 void cFrameDuneMaps::loadToolbarUnits() {
 	cVideoSurface surface(32, 24);
 
-	for( int id = 0; id < 19; ++id ) {
+	for( int id = 0; id < 18; ++id ) {
 		
 		sUnitData *unitData = g_DuneEngine->resourcesGet()->unitGet( id );
 		SDL_Surface *shp = g_DuneEngine->resourcesGet()->shpGet( unitData->sidebarIconID );
@@ -239,13 +239,11 @@ void cFrameDuneMaps::WxToolBar2Tool(wxCommandEvent& event) {
  * MnuLoadPak_ScenClick
  */
 void cFrameDuneMaps::MnuLoadPak_ScenClick(wxCommandEvent& event) {
-	int scenID = event.GetId() - ID_MNU_SCEN;
-
 	wxMenuItem *item = WxMenuBar1->FindItem( event.GetId() );
 
 	string filename = item->GetText();
 
 	g_DuneEngine->scenarioLoad( filename );
-	Refresh();
 
+	mTileView->playfieldSizeUpdate();
 }
