@@ -38,7 +38,17 @@ BEGIN_EVENT_TABLE(cFrameDuneMaps,wxFrame)
 	EVT_CLOSE(cFrameDuneMaps::OnClose)
 	EVT_SIZE(cFrameDuneMaps::OnSize)
 	EVT_MENU(ID_MNU_NEWSCENARIO_1005, cFrameDuneMaps::Mnunewscenario1005Click)
+	EVT_MENU(ID_MNU_FROMINI_7000, cFrameDuneMaps::Mnuloadscenario1002Click)
 	EVT_MENU(ID_MNU_QUIT_1006, cFrameDuneMaps::Mnuquit1006Click)
+	EVT_MENU(ID_MNU_HARKONNEN_4006, cFrameDuneMaps::MnuHouseChange)
+	EVT_MENU(ID_MNU_ATREIDES_4007, cFrameDuneMaps::MnuHouseChange)
+	EVT_MENU(ID_MNU_ORDOS_4009, cFrameDuneMaps::MnuHouseChange)
+	EVT_MENU(ID_MNU_MERCENARIES_4012, cFrameDuneMaps::MnuHouseChange)
+	EVT_MENU(ID_MNU_SARDAUKA_4013, cFrameDuneMaps::MnuHouseChange)
+	EVT_MENU(ID_MNU_FREMEN_4011, cFrameDuneMaps::MnuHouseChange)
+	EVT_MENU(ID_MNU_BASICS_4003, cFrameDuneMaps::Mnubasics4003Click)
+	EVT_MENU(ID_MNU_TEAMS_4014, cFrameDuneMaps::Mnuteams4014Click)
+	EVT_MENU(ID_MNU_REINFORCEMENTS_4015, cFrameDuneMaps::Mnureinforcements4015Click)
 	EVT_TOOL_RANGE(ID_WXTOOLBAR2,ID_WXTOOLBAR2_End, cFrameDuneMaps::WxToolBar2Tool)
 	EVT_TOOL_RANGE(ID_WXTOOLBAR1,ID_WXTOOLBAR1_End, cFrameDuneMaps::WxToolBar1Tool)
 	EVT_MENU_RANGE(ID_MNU_SCEN, ID_MNU_SCEN_End, cFrameDuneMaps::MnuLoadPak_ScenClick)
@@ -49,7 +59,7 @@ END_EVENT_TABLE()
 cFrameDuneMaps::cFrameDuneMaps(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size)
 : wxFrame(parent, id, title, position, size)
 {
-	mHouse = eHouse_Atreides;
+	mHouse = eHouse_Harkonnen;
 	CreateGUIControls();
 }
 
@@ -73,21 +83,37 @@ void cFrameDuneMaps::CreateGUIControls()
 	ID_MNU_FILE_1001_Mnu_Obj->AppendSeparator();
 	
 	wxMenu *ID_MNU_LOADSCENARIO_1002_Mnu_Obj = new wxMenu(0);
+	ID_MNU_LOADSCENARIO_1002_Mnu_Obj->Append(ID_MNU_FROMINI_7000, wxT("From Ini"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_LOADSCENARIO_1002_Mnu_Obj->AppendSeparator();
 	
 	wxMenu *ID_MNU_LOADSCENFROMPAK_Mnu_Obj = new wxMenu(0);
 	ID_MNU_LOADSCENFROMPAK_Mnu_Obj->Append(ID_MNU_SCEN, wxT("SCEN"), wxT(""), wxITEM_NORMAL);
 	ID_MNU_LOADSCENARIO_1002_Mnu_Obj->Append(ID_MNU_LOADSCENFROMPAK, wxT("From Pak"), ID_MNU_LOADSCENFROMPAK_Mnu_Obj);
-	ID_MNU_LOADSCENARIO_1002_Mnu_Obj->AppendSeparator();
 	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_LOADSCENARIO_1002, wxT("&Load Scenario"), ID_MNU_LOADSCENARIO_1002_Mnu_Obj);
 	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_QUIT_1006, wxT("Quit"), wxT(""), wxITEM_NORMAL);
 	WxMenuBar1->Append(ID_MNU_FILE_1001_Mnu_Obj, wxT("&File"));
+	
+	wxMenu *ID_MNU_HOUSE_4005_Mnu_Obj = new wxMenu(0);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_HARKONNEN_4006, wxT("Harkonnen"), wxT(""), wxITEM_RADIO);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_ATREIDES_4007, wxT("Atreides"), wxT(""), wxITEM_RADIO);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_ORDOS_4009, wxT("Ordos"), wxT(""), wxITEM_RADIO);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_MERCENARIES_4012, wxT("Mercenaries"), wxT(""), wxITEM_RADIO);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_SARDAUKA_4013, wxT("Sardauka"), wxT(""), wxITEM_RADIO);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_FREMEN_4011, wxT("Fremen"), wxT(""), wxITEM_RADIO);
+	WxMenuBar1->Append(ID_MNU_HOUSE_4005_Mnu_Obj, wxT("&House"));
+	
+	wxMenu *ID_MNU_SCENARIO_4001_Mnu_Obj = new wxMenu(0);
+	ID_MNU_SCENARIO_4001_Mnu_Obj->Append(ID_MNU_BASICS_4003, wxT("Basics"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_SCENARIO_4001_Mnu_Obj->Append(ID_MNU_TEAMS_4014, wxT("Teams"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_SCENARIO_4001_Mnu_Obj->Append(ID_MNU_REINFORCEMENTS_4015, wxT("Reinforcements"), wxT(""), wxITEM_NORMAL);
+	WxMenuBar1->Append(ID_MNU_SCENARIO_4001_Mnu_Obj, wxT("&Scenario"));
 	SetMenuBar(WxMenuBar1);
 
 	WxToolBar1->Realize();
 	SetToolBar(WxToolBar1);
 	SetTitle(wxT("Dune Maps"));
 	SetIcon(wxNullIcon);
-	SetSize(8,8,758,477);
+	SetSize(8,8,748,477);
 	
 	////GUI Items Creation End
 
@@ -127,7 +153,7 @@ void cFrameDuneMaps::loadScenariosFromPak() {
 		std::transform( name.begin(), name.end(), name.begin(), tolower );
 
 		if( name.find("scen") != string::npos )
-			mnuPakScenarios->Insert(mnuPakScenarios->GetMenuItemCount(), ID_MNU_SCEN + i, name );
+			mnuPakScenarios->Insert(mnuPakScenarios->GetMenuItemCount(), ID_MNU_SCEN + 1, name );
 	}
 
 }
@@ -257,4 +283,38 @@ void cFrameDuneMaps::MnuLoadPak_ScenClick(wxCommandEvent& event) {
 	g_DuneEngine->scenarioLoad( filename );
 
 	mTileView->playfieldSizeUpdate();
+}
+
+/*
+ * MnuHouseChange
+ */
+void cFrameDuneMaps::MnuHouseChange(wxCommandEvent& event) {
+	int houseID = event.GetId() - ID_MNU_HARKONNEN_4006;
+
+	mHouse = (eHouse) houseID;
+
+	wxMenuItem *menuItem = WxMenuBar1->FindItem( ID_MNU_HARKONNEN_4006 + houseID );
+
+	menuItem->Check();
+}
+
+/*
+ * Mnuteams4014Click
+ */
+void cFrameDuneMaps::Mnuteams4014Click(wxCommandEvent& event) {
+	// insert your code here
+}
+
+/*
+ * Mnureinforcements4015Click
+ */
+void cFrameDuneMaps::Mnureinforcements4015Click(wxCommandEvent& event) {
+	// insert your code here
+}
+
+/*
+ * Mnubasics4003Click
+ */
+void cFrameDuneMaps::Mnubasics4003Click(wxCommandEvent& event) {
+	// insert your code here
 }

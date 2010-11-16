@@ -51,6 +51,11 @@ class cFrameDuneMaps : public wxFrame
 		void WxToolBar1Tool(wxCommandEvent& event);
 		void MnuLoadPak_ScenClick(wxCommandEvent& event);
 		void WxToolBar2Tool(wxCommandEvent& event);
+		void Mnufromini4002Click(wxCommandEvent& event);
+		void MnuHouseChange(wxCommandEvent& event);
+		void Mnuteams4014Click(wxCommandEvent& event);
+		void Mnureinforcements4015Click(wxCommandEvent& event);
+		void Mnubasics4003Click(wxCommandEvent& event);
 	private:
 		//Do not add custom control declarations between 
 		//GUI Control Declaration Start and GUI Control Declaration End.
@@ -74,9 +79,21 @@ class cFrameDuneMaps : public wxFrame
 			ID_MNU_FILE_1001 = 1001,
 			ID_MNU_NEWSCENARIO_1005 = 1005,
 			ID_MNU_LOADSCENARIO_1002 = 1002,
+			ID_MNU_FROMINI_7000 = 7000,
 			ID_MNU_LOADSCENFROMPAK = 1010,
-			ID_MNU_SCEN = 4000,
+			ID_MNU_SCEN = 6000,
 			ID_MNU_QUIT_1006 = 1006,
+			ID_MNU_HOUSE_4005 = 4005,
+			ID_MNU_HARKONNEN_4006 = 4006,
+			ID_MNU_ATREIDES_4007 = 4007,
+			ID_MNU_ORDOS_4009 = 4009,
+			ID_MNU_MERCENARIES_4012 = 4012,
+			ID_MNU_SARDAUKA_4013 = 4013,
+			ID_MNU_FREMEN_4011 = 4011,
+			ID_MNU_SCENARIO_4001 = 4001,
+			ID_MNU_BASICS_4003 = 4003,
+			ID_MNU_TEAMS_4014 = 4014,
+			ID_MNU_REINFORCEMENTS_4015 = 4015,
 			
 			////GUI Enum Control ID End
 			ID_DUMMY_VALUE_, //don't remove this value unless you have other enum values
@@ -85,7 +102,7 @@ class cFrameDuneMaps : public wxFrame
 			ID_WXTOOLBAR1_End = 3019,
 			ID_WXTOOLBAR2 = 3020,
 			ID_WXTOOLBAR2_End = 3039,
-			ID_MNU_SCEN_End = 4100,
+			ID_MNU_SCEN_End = 6100,
 		};
 	 
 	private:
