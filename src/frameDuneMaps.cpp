@@ -146,6 +146,7 @@ void cFrameDuneMaps::loadScenariosFromPak() {
 
 	int count = pak->getNumFiles();
 
+	// Loop the entries in the PAK, and add any beginning with 'scen' to the pak load menu
 	for( int i = 0; i < count; ++i ) {
 	
 		string name = pak->getFileName( i );
@@ -153,7 +154,7 @@ void cFrameDuneMaps::loadScenariosFromPak() {
 		std::transform( name.begin(), name.end(), name.begin(), tolower );
 
 		if( name.find("scen") != string::npos )
-			mnuPakScenarios->Insert(mnuPakScenarios->GetMenuItemCount(), ID_MNU_SCEN + 1, name );
+			mnuPakScenarios->Insert(mnuPakScenarios->GetMenuItemCount(), ID_MNU_SCEN + i, name );
 	}
 
 }
