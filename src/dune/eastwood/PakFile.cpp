@@ -20,29 +20,27 @@ void PakFile::readIndex()
 {
     char name[256];
 
-    while(1) {
-        // pak-files are always little endian encoded
-        PakFileEntry fileEntry = { readU32LE(*_stream), 0, "" };
+    uint32_t offset = readU32LE(*_stream);
 
-        _stream->getline(name, 256, 0);
-        fileEntry.fileName = name;
+    while(offset) {
+        uint32_t start = offset,
+                 size;
 
-		std::transform( fileEntry.fileName.begin(), fileEntry.fileName.end(), fileEntry.fileName.begin(), ::tolower );
+		_stream->getline(name, 256, 0);
 
         LOG_INFO("PakFile", "Found file %s", name);
 
-        if(_fileEntry.size() > 0)
-            _fileEntry.back().endOffset = fileEntry.startOffset - 1;
+		offset = readU32LE(*_stream);
+        size = (offset != 0) ? offset : getStreamSize(*_stream);
 
-        _fileEntry.push_back(fileEntry);
-        if(_stream->peek() == 0x0)
-        {
-			 _stream->get();
-			 if(_stream->eof() ||  _stream->peek() == 0x0) {
-	            _fileEntry.back().endOffset = getStreamSize(*_stream) - 1;
-		        break;
-				}
-        }
+		PakFileEntry file;
+		file.startOffset = start;
+		file.fileName = name;
+		file.endOffset = size - 1;
+
+		std::transform( file.fileName.begin(), file.fileName.end(), file.fileName.begin(), ::tolower );
+
+        _fileEntry.push_back(file);
     }
 }
 

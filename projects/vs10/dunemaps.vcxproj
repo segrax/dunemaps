@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\appDuneMaps.cpp" />
+    <ClCompile Include="..\..\src\dune\engine\team.cpp" />
     <ClCompile Include="..\..\src\frameDuneMaps.cpp" />
     <ClCompile Include="..\..\src\dune\dune.cpp" />
     <ClCompile Include="..\..\src\dune\eastwood\CpsFile.cpp" />
@@ -48,10 +49,10 @@
     <ClCompile Include="..\..\src\dune\resources.cpp" />
     <ClCompile Include="..\..\src\dune\screenPlayfield.cpp" />
     <ClCompile Include="..\..\src\panelSurface.cpp" />
-    <ClCompile Include="..\..\src\toolbarButtonObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\appDuneMaps.h" />
+    <ClInclude Include="..\..\src\dune\engine\team.h" />
     <ClInclude Include="..\..\src\frameDuneMaps.h" />
     <ClInclude Include="..\..\src\dune\dune.hpp" />
     <ClInclude Include="..\..\src\dune\eastwood\CpsFile.h" />
@@ -86,7 +87,6 @@
     <ClInclude Include="..\..\src\dune\stdafx.h" />
     <ClInclude Include="..\..\src\dune\types.h" />
     <ClInclude Include="..\..\src\panelSurface.h" />
-    <ClInclude Include="..\..\src\toolbarButtonObject.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{45F20872-01DA-4697-9509-C7DFDCE0E5E4}</ProjectGuid>
@@ -130,6 +130,11 @@
       <AdditionalDependencies>wxbase29ud.lib;wxmsw29ud_richtext.lib;wxmsw29ud_adv.lib;wxmsw29ud_core.lib;wxmsw29ud_html.lib;wxpngd.lib;wxzlibd.lib;opengl32.lib;glu32.lib;sdl.lib;sdlmain.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ProgramDatabaseFile>$(TargetDir)\$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
+    <CustomBuildStep>
+      <Command>cd ..\..
+rev.cmd</Command>
+      <Outputs>rev.h</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

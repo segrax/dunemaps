@@ -19,6 +19,7 @@
 #include "eastwood\PakFile.h"
 
 #include <algorithm>
+#include "../rev.h"
 
 //Do not add custom headers
 //wxDev-C++ designer will remove them
@@ -61,6 +62,14 @@ cFrameDuneMaps::cFrameDuneMaps(wxWindow *parent, wxWindowID id, const wxString &
 {
 	mHouse = eHouse_Harkonnen;
 	CreateGUIControls();
+
+	string windowTitle = "Dune Maps (SVN:";
+	windowTitle.append( SVNREV );
+	windowTitle.append( " - " );
+	windowTitle.append( SVNDATE );
+	windowTitle.append( ")");
+
+	SetTitle( windowTitle );
 }
 
 cFrameDuneMaps::~cFrameDuneMaps()

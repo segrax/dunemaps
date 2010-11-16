@@ -122,8 +122,8 @@
     <ClCompile Include="..\..\src\frameDuneMaps.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\toolbarButtonObject.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\src\dune\engine\team.cpp">
+      <Filter>Source Files\dune\engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -232,8 +232,8 @@
     <ClInclude Include="..\..\src\frameDuneMaps.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\toolbarButtonObject.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="..\..\src\dune\engine\team.h">
+      <Filter>Source Files\dune\engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
