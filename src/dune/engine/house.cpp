@@ -101,8 +101,8 @@ void cHouse::mapPrepare() {
 	multimap< size_t, cUnit* >::iterator		unitIT;
 	multimap< size_t, cStructure* >::iterator	structIT;
 
-	for( unitIT = _units.begin(); unitIT != _units.end(); ++unitIT ) 
-		;
+	//for( unitIT = _units.begin(); unitIT != _units.end(); ++unitIT ) 
+	//	;
 
 	for( structIT = _structures.begin(); structIT != _structures.end(); ++structIT ) {
 		structIT->second->frameChange(2);

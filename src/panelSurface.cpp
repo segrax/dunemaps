@@ -143,7 +143,7 @@ void cPanelSurface::OnMouse(wxMouseEvent& event) {
 
 			// Select the unit, structure or map piece under the cursor
 			g_DuneEngine->screenPlayfieldGet()->buttonPressLeft( mMouseX, mMouseY );
-			this->Refresh(false);
+			Refresh(false);
 		}
 	}
 
@@ -154,7 +154,7 @@ void cPanelSurface::OnInputTimer(wxTimerEvent& event) {
 	if(!mMouseIgnore)
 		// Check for movement along the edge of the tile viewer
 		if( g_DuneEngine->screenPlayfieldGet()->mouseMove( mMouseX, mMouseY ) )
-			this->Refresh(false);
+			Refresh(false);
 }
 
 void cPanelSurface::playfieldSizeUpdate( size_t pScale, size_t pWidth, size_t pHeight ) {

@@ -18,6 +18,10 @@ cStructure::cStructure(  cHouse *pHouse, word pType, word pMapIndex ) : cObject(
 	if(mapIndexGet() == 0xFFFF)
 		return;
 
+	_frame = _frames - 1;
+	if((short int)_frame < 0)
+		_frame=  0;
+
 	mapTilesSetup( false );
 }
 
@@ -69,10 +73,18 @@ void cStructure::mapTilesSetup( bool pClear ) {
 		mapCell += *foundation;
 		
 		++foundation;
-		if( !pClear )
-			(*mapCell)->tileSetCurrent( this, (*_tileIDs)[tileCount] );
-		else
-			(*mapCell)->tileSetCurrent( 0 );
+
+		if( typeGet() != 1) {
+
+			if( !pClear )
+				(*mapCell)->tileSetCurrent( this, (*_tileIDs)[tileCount] );
+			else
+				(*mapCell)->tileSetCurrent( 0 );
+
+		} else {
+			(*mapCell)->tileSetCurrent( this, g_DuneEngine->resourcesGet()->tileConcrete() );
+		}
+
 	}	
 
 }

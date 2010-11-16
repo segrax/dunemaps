@@ -156,9 +156,7 @@ void cScreenPlayfield::draw( cVideoSurface *pSurface ) {
 		
 		word mapIndex = g_DuneEngine->scenarioGet()->mapGet()->posXYtoIndex( _mapX + _mouseX, _mapY + _mouseY );
 
-		//draw();
 		drawTileSquares( pSurface, mapIndex, structure );
-
 	}
 
 	if(!(*_mapCell)->hasStructure())
@@ -311,15 +309,27 @@ void cScreenPlayfield::buttonClear() {
 }
 
 void cScreenPlayfield::buttonPressLeft( size_t pX, size_t pY ) {
+	cStructure *structure = g_DuneEngine->mPlaceStructureGet();
+
 	// Deactive the current map cell
 	(*_mapCell)->objectDeActivate();
-	
+
 	// Convert screen X/Y into Tiles position
 	pX >>= 4;
 	pY >>= 4;
 
 	// Get the map cell for the position we have clicked
 	_mapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( _mapX + pX, _mapY + pY );
+
+	if( structure ) {
+
+		// Add to the house
+		structure->houseGet()->structureCreate( structure->typeGet(), 256, (*_mapCell)->mapIndexGet() );
+
+		delete structure;
+		g_DuneEngine->mPlaceStructureSet(0);
+		_redraw = true;
+	}
 
 	// Activate the map cell
 	(*_mapCell)->objectActivate();	
@@ -384,6 +394,11 @@ bool cScreenPlayfield::mouseMove(size_t X, size_t Y) {
 	bool redraw = false;
 
 	redraw = scrollCheck(X, Y);
+
+	// If the mouse has moved, and we're placing...
+	if(g_DuneEngine->mPlaceStructureGet())
+		if( _mouseX != X / 16 || _mouseY != Y / 16 )
+			redraw = true;
 
 	_mouseX = X / 16;
 	_mouseY = Y / 16;

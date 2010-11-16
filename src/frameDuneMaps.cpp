@@ -87,7 +87,7 @@ void cFrameDuneMaps::CreateGUIControls()
 	SetToolBar(WxToolBar1);
 	SetTitle(wxT("Dune Maps"));
 	SetIcon(wxNullIcon);
-	SetSize(8,8,748,477);
+	SetSize(8,8,758,477);
 	
 	////GUI Items Creation End
 
@@ -101,7 +101,7 @@ void cFrameDuneMaps::CreateGUIControls()
 	SetMinSize( wxSize(400, 300) );
 
 	
-	WxToolBar2 = new wxToolBar(this, ID_WXTOOLBAR2, wxPoint(0, 460), wxSize(732, 28), wxTB_BOTTOM);
+	WxToolBar2 = new wxToolBar(this, ID_WXTOOLBAR2, wxPoint(0, 460), wxSize(404, 28), wxTB_BOTTOM);
 	WxToolBar2->Realize();
 
 	loadToolbarStructures();
@@ -142,7 +142,7 @@ void cFrameDuneMaps::loadToolbarUnits() {
 
 		surface.surfacePut( shp, 0, 0 );
 		
-		WxToolBar2->AddTool(ID_WXTOOLBAR2 + id, wxT(""), SDL_To_Bitmap(surface.scaleTo(1)), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT("") );
+		WxToolBar2->AddTool(ID_WXTOOLBAR2 + id, wxT(""), SDL_To_Bitmap(surface.scaleTo(1)), wxNullBitmap, wxITEM_NORMAL, unitData->Name, wxT("") );
 	}
 
 	WxToolBar2->Realize();
@@ -159,7 +159,7 @@ void cFrameDuneMaps::loadToolbarStructures() {
 
 		surface.surfacePut( shp, 0, 0 );
 		
-		WxToolBar1->AddTool(ID_WXTOOLBAR1 + id, wxT(""), SDL_To_Bitmap(surface.scaleTo(1)), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT("") );
+		WxToolBar1->AddTool(ID_WXTOOLBAR1 + id, wxT(""), SDL_To_Bitmap(surface.scaleTo(1)), wxNullBitmap, wxITEM_NORMAL, buildingData->Name, wxT("") );
 	}
 
 	WxToolBar1->Realize();
@@ -220,6 +220,11 @@ void cFrameDuneMaps::WxToolBar1Tool(wxCommandEvent& event) {
 	int structID = event.GetId() - ID_WXTOOLBAR1;
 
 	cHouse *house = g_DuneEngine->houseGet( mHouse );
+	cStructure *structure = g_DuneEngine->mPlaceStructureGet();
+
+	// Delete any structure attempting to be placed
+	if(structure)
+		delete structure;
 
 	g_DuneEngine->mPlaceStructureSet( new cStructure( house, structID, 0) );
 
