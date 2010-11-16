@@ -15,7 +15,8 @@ cUnit::cUnit(  cHouse *pHouse, word pType, word pMapIndex, byte pAngle, word pAc
 	_UnitData = g_DuneEngine->resourcesGet()->unitGet( _objectType );
 
 	// Put the unit in the mapcell
-	(*mapCellGet())->objectEnter( this );
+	if(pMapIndex)
+		(*mapCellGet())->objectEnter( this );
 
 	angleSet(pAngle, false, &_angleBase);
 	angleSet(pAngle, false, &_angleTop);

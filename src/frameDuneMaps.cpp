@@ -220,13 +220,13 @@ void cFrameDuneMaps::WxToolBar1Tool(wxCommandEvent& event) {
 	int structID = event.GetId() - ID_WXTOOLBAR1;
 
 	cHouse *house = g_DuneEngine->houseGet( mHouse );
-	cStructure *structure = g_DuneEngine->mPlaceStructureGet();
+	cObject *object = g_DuneEngine->mPlaceObjectGet();
 
 	// Delete any structure attempting to be placed
-	if(structure)
-		delete structure;
+	if(object)
+		delete object;
 
-	g_DuneEngine->mPlaceStructureSet( new cStructure( house, structID, 0) );
+	g_DuneEngine->mPlaceObjectSet( new cStructure( house, structID, 0) );
 
 }
 
@@ -237,7 +237,13 @@ void cFrameDuneMaps::WxToolBar2Tool(wxCommandEvent& event) {
 	int unitID = event.GetId() - ID_WXTOOLBAR2;
 
 	cHouse *house = g_DuneEngine->houseGet( mHouse );
+	cObject *object = g_DuneEngine->mPlaceObjectGet();
 
+	// Delete any unit attempting to be placed
+	if(object)
+		delete object;
+
+	g_DuneEngine->mPlaceObjectSet( new cUnit( house, unitID, 0, 0, 0 ) );
 }
 
 /*

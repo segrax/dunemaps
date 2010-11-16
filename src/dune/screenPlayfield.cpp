@@ -150,15 +150,25 @@ void cScreenPlayfield::draw( cVideoSurface *pSurface ) {
 	pSurface->surfacePut( _surfaceLandscape, 0, 0 );
 	pSurface->surfacePut( _surfaceUnits, 0, 0 );
 
-	cStructure *structure = g_DuneEngine->mPlaceStructureGet();
+	cObject *object = g_DuneEngine->mPlaceObjectGet();
 
-	if(structure) {
+	// Draw the rectangle for an object thats about to be placed
+	if(object) {
 		
 		word mapIndex = g_DuneEngine->scenarioGet()->mapGet()->posXYtoIndex( _mapX + _mouseX, _mapY + _mouseY );
 
-		drawTileSquares( pSurface, mapIndex, structure );
+		if( typeid(*object) == typeid( cStructure ) )
+			drawTileSquares( pSurface, mapIndex, (cStructure*) object );
+
+		else {
+			drawTileSquare( 16, 16 );
+
+			// Draw the rectangle to the surface
+			pSurface->surfacePut( _surfaceTileHighlight, _mouseX * 16, _mouseY * 16  );
+		}
 	}
 
+	// Is a structure selected? draw the rectangle on it
 	if(!(*_mapCell)->hasStructure())
 		return;
 
@@ -309,7 +319,7 @@ void cScreenPlayfield::buttonClear() {
 }
 
 void cScreenPlayfield::buttonPressLeft( size_t pX, size_t pY ) {
-	cStructure *structure = g_DuneEngine->mPlaceStructureGet();
+	cObject		*object =  g_DuneEngine->mPlaceObjectGet();
 
 	// Deactive the current map cell
 	(*_mapCell)->objectDeActivate();
@@ -321,13 +331,17 @@ void cScreenPlayfield::buttonPressLeft( size_t pX, size_t pY ) {
 	// Get the map cell for the position we have clicked
 	_mapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( _mapX + pX, _mapY + pY );
 
-	if( structure ) {
+	if( object ) {
+		if( typeid(*object) == typeid( cStructure ) ) {
+			// Add to the house
+			object->houseGet()->structureCreate( object->typeGet(), 256, (*_mapCell)->mapIndexGet() );
+		} else {
 
-		// Add to the house
-		structure->houseGet()->structureCreate( structure->typeGet(), 256, (*_mapCell)->mapIndexGet() );
+			object->houseGet()->unitCreate( object->typeGet(), 256, (*_mapCell)->mapIndexGet(), 64, g_DuneEngine->resourcesGet()->actionFind( "Area Guard" ));
+		}
 
-		delete structure;
-		g_DuneEngine->mPlaceStructureSet(0);
+		delete object;
+		g_DuneEngine->mPlaceObjectSet(0);
 		_redraw = true;
 	}
 
@@ -396,7 +410,7 @@ bool cScreenPlayfield::mouseMove(size_t X, size_t Y) {
 	redraw = scrollCheck(X, Y);
 
 	// If the mouse has moved, and we're placing...
-	if(g_DuneEngine->mPlaceStructureGet())
+	if(g_DuneEngine->mPlaceObjectGet())
 		if( _mouseX != X / 16 || _mouseY != Y / 16 )
 			redraw = true;
 

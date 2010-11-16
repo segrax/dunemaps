@@ -4,6 +4,7 @@ class cHouse;
 class cScreenPlayfield;
 class cStructure;
 class cUnit;
+class cObject;
 
 class cDune {
 
@@ -16,8 +17,7 @@ class cDune {
 	map< eHouse, cHouse* >	 _houses;
 
 	eHouse					 _missionHouse;
-	cStructure				*mPlaceStructure;
-	cUnit					*mPlaceUnit;
+	cObject					*mPlaceObject;
 
 public:
 					 cDune( string pDataPath );
@@ -25,11 +25,8 @@ public:
 
 	inline void				 missionHouseSet( eHouse pHouse ) { _missionHouse = pHouse; }
 
-	inline cStructure*		 mPlaceStructureGet() { return mPlaceStructure; }
-	inline void		 mPlaceStructureSet( cStructure *pStructure ) { mPlaceStructure = pStructure; }
-	
-	inline cUnit*		 mPlaceUnitGet() { return mPlaceUnit; }
-	inline void		 mPlaceUnitSet( cUnit *pUnit ) { mPlaceUnit = pUnit; }
+	inline cObject			*mPlaceObjectGet() { return mPlaceObject; }
+	inline void				 mPlaceObjectSet( cObject *pStructure ) { mPlaceObject = pStructure; }
 
 	bool			 execute();												// Main execution loop
 	

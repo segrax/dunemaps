@@ -15,8 +15,7 @@ cDune::cDune( string pDataPath ) {
 
 	_scenario = 0;
 
-	mPlaceStructure = 0;
-	mPlaceUnit = 0;
+	mPlaceObject = 0;
 }
 
 cDune::~cDune() {
