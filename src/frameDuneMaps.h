@@ -56,6 +56,7 @@ class cFrameDuneMaps : public wxFrame
 		void Mnuteams4014Click(wxCommandEvent& event);
 		void Mnureinforcements4015Click(wxCommandEvent& event);
 		void Mnubasics4003Click(wxCommandEvent& event);
+		void Mnuhouses4016Click(wxCommandEvent& event);
 	private:
 		//Do not add custom control declarations between 
 		//GUI Control Declaration Start and GUI Control Declaration End.
@@ -92,6 +93,7 @@ class cFrameDuneMaps : public wxFrame
 			ID_MNU_FREMEN_4011 = 4011,
 			ID_MNU_SCENARIO_4001 = 4001,
 			ID_MNU_BASICS_4003 = 4003,
+			ID_MNU_HOUSES_4016 = 4016,
 			ID_MNU_TEAMS_4014 = 4014,
 			ID_MNU_REINFORCEMENTS_4015 = 4015,
 			

@@ -26,6 +26,7 @@
 //Header Include Start and Header Include End.
 //wxDev-C++ designer will remove them. Add custom headers after the block.
 ////Header Include Start
+#include <wx/menu.h>
 ////Header Include End
 
 #include <wx/dcbuffer.h>
@@ -46,7 +47,6 @@ class cPanelSurface : public wxPanel
 		wxCoord						 mMouseX, mMouseY;
 		wxTimer						*mTimer;
 		bool						 mMouseIgnore;
-		bool						 mModePlacement;
 
 	public:
 		cPanelSurface(wxWindow *parent, wxWindowID id = 1, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize);
@@ -57,6 +57,7 @@ class cPanelSurface : public wxPanel
 		//GUI Control Declaration Start and GUI Control Declaration End.
 		//wxDev-C++ will remove them. Add custom code after the block.
 		////GUI Control Declaration Start
+		wxMenu *WxPopupMenu1;
 		////GUI Control Declaration End
 
 	private:
@@ -67,6 +68,8 @@ class cPanelSurface : public wxPanel
 		enum
 		{
 			////GUI Enum Control ID Start
+			ID_MNU_ADDBLOOM_1001 = 1001,
+			
 			////GUI Enum Control ID End
 			inputTimer,
 			ID_DUMMY_VALUE_ //don't remove this value unless you have other enum values
@@ -83,8 +86,9 @@ class cPanelSurface : public wxPanel
 
 public:
 
-	inline void			placementSet( bool pValue ) { mModePlacement = pValue; }
-	void				playfieldSizeUpdate( size_t pScale = 0, size_t pWidth = 0, size_t pHeight = 0  );
+		void cPanelSurfaceRightDown(wxMouseEvent& event);
+		void playfieldSizeUpdate( size_t pScale = 0, size_t pWidth = 0, size_t pHeight = 0  );
+		void Mnuaddbloom1001Click(wxCommandEvent& event);
 };
 
 #endif

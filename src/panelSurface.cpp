@@ -29,11 +29,12 @@ BEGIN_EVENT_TABLE(cPanelSurface,wxPanel)
 	////Manual Code End
 	
 	EVT_CLOSE(cPanelSurface::OnClose)
+	EVT_RIGHT_DOWN(cPanelSurface::cPanelSurfaceRightDown)
+	EVT_MENU(ID_MNU_ADDBLOOM_1001 , cPanelSurface::Mnuaddbloom1001Click)
 	EVT_PAINT(cPanelSurface::OnPaint)
 	EVT_SIZE(cPanelSurface::OnSize)
 	EVT_MOUSE_EVENTS(cPanelSurface::OnMouse) 
 	EVT_TIMER(inputTimer, cPanelSurface::OnInputTimer)
-
 
 END_EVENT_TABLE()
 ////Event Table End
@@ -46,7 +47,6 @@ cPanelSurface::cPanelSurface(wxWindow *parent, wxWindowID id, const wxPoint &pos
 	mTimer = 0;
 
 	mMouseIgnore = false;
-	mModePlacement = false;
 
 	CreateGUIControls();
 }
@@ -64,14 +64,15 @@ void cPanelSurface::CreateGUIControls() {
 	//Add the custom code before or after the blocks
 	////GUI Items Creation Start
 
-	//SetSize(8,8,320,334);
-	//Center();
+	WxPopupMenu1 = new wxMenu(wxT(""));WxPopupMenu1->Append(ID_MNU_ADDBLOOM_1001, wxT("Add Bloom"), wxT(""), wxITEM_NORMAL);
+
+	SetSize(8,8,320,334);
+	Center();
 	
 	////GUI Items Creation End
 
 	mTimer = new wxTimer(this, inputTimer);
 	mTimer->Start(100);	// Milliseconds
-
 }
 
 void cPanelSurface::OnClose(wxCloseEvent& event) {
@@ -134,17 +135,12 @@ void cPanelSurface::OnMouse(wxMouseEvent& event) {
 	if( mMouseX == 0 || mMouseY == 0 )
 		mMouseIgnore = true;
 
-	if( mModePlacement ) {
+	// Left Mouse
+	if( event.LeftDown() ) {
 
-	} else {
-
-		// Left Mouse
-		if( event.LeftDown() ) {
-
-			// Select the unit, structure or map piece under the cursor
-			g_DuneEngine->screenPlayfieldGet()->buttonPressLeft( mMouseX, mMouseY );
-			Refresh(false);
-		}
+		// Select the unit, structure or map piece under the cursor
+		g_DuneEngine->screenPlayfieldGet()->buttonPressLeft( mMouseX, mMouseY );
+		Refresh(false);
 	}
 
 }
@@ -176,4 +172,20 @@ void cPanelSurface::playfieldSizeUpdate( size_t pScale, size_t pWidth, size_t pH
 	g_DuneEngine->screenTilesMaxYSet( pHeight / mScale);
 
 	Refresh(false);
+}
+
+/*
+ * Mnuaddbloom1001Click
+ */
+void cPanelSurface::Mnuaddbloom1001Click(wxCommandEvent& event)
+{
+	// insert your code here
+}
+
+/*
+ * cPanelSurfaceRightDown
+ */
+void cPanelSurface::cPanelSurfaceRightDown(wxMouseEvent& event) {
+
+	this->PopupMenu( WxPopupMenu1 );
 }

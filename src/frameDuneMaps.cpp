@@ -48,6 +48,7 @@ BEGIN_EVENT_TABLE(cFrameDuneMaps,wxFrame)
 	EVT_MENU(ID_MNU_SARDAUKA_4013, cFrameDuneMaps::MnuHouseChange)
 	EVT_MENU(ID_MNU_FREMEN_4011, cFrameDuneMaps::MnuHouseChange)
 	EVT_MENU(ID_MNU_BASICS_4003, cFrameDuneMaps::Mnubasics4003Click)
+	EVT_MENU(ID_MNU_HOUSES_4016, cFrameDuneMaps::Mnuhouses4016Click)
 	EVT_MENU(ID_MNU_TEAMS_4014, cFrameDuneMaps::Mnuteams4014Click)
 	EVT_MENU(ID_MNU_REINFORCEMENTS_4015, cFrameDuneMaps::Mnureinforcements4015Click)
 	EVT_TOOL_RANGE(ID_WXTOOLBAR2,ID_WXTOOLBAR2_End, cFrameDuneMaps::WxToolBar2Tool)
@@ -70,6 +71,11 @@ cFrameDuneMaps::cFrameDuneMaps(wxWindow *parent, wxWindowID id, const wxString &
 	windowTitle.append( ")");
 
 	SetTitle( windowTitle );
+
+	// Prepare the tool bars and the PAK load menu
+	loadToolbarStructures();
+	loadToolbarUnits();
+	loadScenariosFromPak();
 }
 
 cFrameDuneMaps::~cFrameDuneMaps()
@@ -113,6 +119,7 @@ void cFrameDuneMaps::CreateGUIControls()
 	
 	wxMenu *ID_MNU_SCENARIO_4001_Mnu_Obj = new wxMenu(0);
 	ID_MNU_SCENARIO_4001_Mnu_Obj->Append(ID_MNU_BASICS_4003, wxT("Basics"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_SCENARIO_4001_Mnu_Obj->Append(ID_MNU_HOUSES_4016, wxT("Houses"), wxT(""), wxITEM_NORMAL);
 	ID_MNU_SCENARIO_4001_Mnu_Obj->Append(ID_MNU_TEAMS_4014, wxT("Teams"), wxT(""), wxITEM_NORMAL);
 	ID_MNU_SCENARIO_4001_Mnu_Obj->Append(ID_MNU_REINFORCEMENTS_4015, wxT("Reinforcements"), wxT(""), wxITEM_NORMAL);
 	WxMenuBar1->Append(ID_MNU_SCENARIO_4001_Mnu_Obj, wxT("&Scenario"));
@@ -135,13 +142,8 @@ void cFrameDuneMaps::CreateGUIControls()
 	
 	SetMinSize( wxSize(756, 550) );
 
-	
 	WxToolBar2 = new wxToolBar(this, ID_WXTOOLBAR2, wxPoint(0, 460), wxSize(404, 28), wxTB_BOTTOM);
 	WxToolBar2->Realize();
-
-	loadToolbarStructures();
-	loadToolbarUnits();
-	loadScenariosFromPak();
 }
 
 void cFrameDuneMaps::loadScenariosFromPak() {
@@ -326,5 +328,13 @@ void cFrameDuneMaps::Mnureinforcements4015Click(wxCommandEvent& event) {
  * Mnubasics4003Click
  */
 void cFrameDuneMaps::Mnubasics4003Click(wxCommandEvent& event) {
+	// insert your code here
+}
+
+/*
+ * Mnuhouses4016Click
+ */
+void cFrameDuneMaps::Mnuhouses4016Click(wxCommandEvent& event)
+{
 	// insert your code here
 }
