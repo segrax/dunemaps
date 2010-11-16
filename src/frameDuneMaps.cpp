@@ -98,7 +98,7 @@ void cFrameDuneMaps::CreateGUIControls()
 	mTileView->SetPosition( wxPoint( 12, 10 ) );
 	mTileView->SetSize( GetSize().GetWidth() - 40, GetSize().GetHeight() - 126 );
 	
-	SetMinSize( wxSize(400, 300) );
+	SetMinSize( wxSize(756, 550) );
 
 	
 	WxToolBar2 = new wxToolBar(this, ID_WXTOOLBAR2, wxPoint(0, 460), wxSize(404, 28), wxTB_BOTTOM);
