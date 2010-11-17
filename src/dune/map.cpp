@@ -42,13 +42,13 @@ void cMap::mapRetile(word pMapIndex, word pArg_2 ) {
 	word posX = posXFromIndex( pMapIndex );
 	word posY = posYFromIndex( pMapIndex );
 
-	word counter = -pArg_2;
+	short int counter = -pArg_2;
 
-	for( ; pArg_2 <= counter ; ++counter ) {
+	for( ; counter <= pArg_2  ; ++counter ) {
 
-		word counter2 = -pArg_2;
+		short int counter2 = -pArg_2;
 
-		for( ; pArg_2 <= counter2; ++counter2 ) {
+		for( ; counter2 <= pArg_2; ++counter2 ) {
 
 			word ax = posY + counter;
 			word ax2 = posX + counter2;
@@ -58,12 +58,12 @@ void cMap::mapRetile(word pMapIndex, word pArg_2 ) {
 			word var_C = sub_1D7E0( pMapIndex, mapIndex );
 
 			// 15B0
-			if( var_C >= pArg_2 ) {
+			if( var_C  >= pArg_2 ) {
 				if( var_C != pArg_2 )
 					continue;
 				
 				word ax = g_DuneEngine->scenarioGet()->mapGeneratorGet()->seedRandomGet();
-				if(ax == 1 )
+				if(!(ax & 1) )
 					continue;
 			}
 
@@ -78,6 +78,7 @@ void cMap::mapRetile(word pMapIndex, word pArg_2 ) {
 	}
 
 	// 15FB
+	sub_5700A( pMapIndex, 1 );
 }
 
 size_t cMap::mapColorGet( word pMapIndex ) {
