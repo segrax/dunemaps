@@ -62,15 +62,21 @@ void cScreenPlayfield::drawLandscape() {
 	// Loop for each tile of the visible playfield
 	for( word Y = 0; Y < tilesMaxY; ++Y, mapIndex += 0x40 ) {
 
-		if( _mapY + Y > 63 )
+		if( _mapY + Y < _scale[1] )
+			continue;
+
+		if( _mapY + Y >= (_scale[3] + _scale[1])  )
 			break;
 
 		// Get pointer to tiles
 		mapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( mapIndex );
 		
-		for( word X = 0; X < tilesMaxX; ++X ) {
-			
-			if( _mapX + X > 63 )
+		for( word X = 0; X < tilesMaxX; ++X, mapCell++ ) {
+
+			if( _mapX + X < _scale[0] )
+				continue;
+
+			if( _mapX + X >= (_scale[2] + _scale[0]) )
 				break;
 
 			// FIXME: Error out here?
@@ -86,8 +92,6 @@ void cScreenPlayfield::drawLandscape() {
 			
 			// Draw the tile
 			_surfaceLandscape->surfacePut( tile, (X << 4), (Y << 4) );
-			
-			mapCell++;
 		}
 	}
 

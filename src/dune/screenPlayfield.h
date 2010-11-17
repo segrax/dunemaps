@@ -44,7 +44,7 @@ public:
 	bool				 mapInScreen( word mapIndex );
 	bool				 mapInScreen( size_t pX, size_t pY);
 
-	inline void			 mapTacticalSet( word pX, word pY ) { _mapX = pX; _mapY = pY;  }		// Set playfield map location
+	inline void			 mapTacticalSet( short int pX, short int pY ) { if(pX < 0) pX = 0; if( pY < 0) pY = 0; _mapX = pX; _mapY = pY;  }		// Set playfield map location
 
 	inline word			 mapXGet()							{ return _mapX; }
 	inline word			 mapYGet()							{ return _mapY; }
@@ -54,4 +54,7 @@ public:
 
 	inline void			 heightSet( size_t pVal ) { _redraw = true;
 													_height = pVal; }
+
+	inline word			 *scaleGet() { return _scale; }
+
 };

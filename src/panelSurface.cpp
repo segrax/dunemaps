@@ -56,7 +56,10 @@ cPanelSurface::cPanelSurface(wxWindow *parent, wxWindowID id, const wxPoint &pos
 cPanelSurface::~cPanelSurface() {
 	mTimer->Stop();
 	Sleep(200);
+
 	delete mTimer;
+	delete WxPopupMenu1;
+
 }
 
 void cPanelSurface::CreateGUIControls() {
@@ -107,7 +110,7 @@ void cPanelSurface::OnMouse(wxMouseEvent& event) {
 	mMouseIgnore = false;
 	int scroll = event.GetWheelRotation();
 
-	if( scroll != 0 ) {
+	if( scroll ) {
 
 		if( scroll > 0 ) {
 			if( mScale < 4 )
@@ -147,6 +150,35 @@ void cPanelSurface::OnMouse(wxMouseEvent& event) {
 		Refresh(false);
 	}
 
+	if( scroll ) {
+		word *scale = g_DuneEngine->screenPlayfieldGet()->scaleGet();
+
+		word x = g_DuneEngine->screenPlayfieldGet()->mapXGet() + (mMouseX / 16);
+		word y = g_DuneEngine->screenPlayfieldGet()->mapYGet() + (mMouseY / 16);
+		
+		x -= g_DuneEngine->screenTilesMaxX() / 4;
+		y -= g_DuneEngine->screenTilesMaxY() / 4;
+		
+		if( x < scale[0] )
+			x = scale[0];
+
+		if( x + g_DuneEngine->screenTilesMaxX() > scale[0] + scale[2] )
+			x = scale[2] - (g_DuneEngine->screenTilesMaxX());
+
+		if( y < scale[1] )
+			y = scale[1];
+
+		if( y + g_DuneEngine->screenTilesMaxY() > scale[1] + scale[3] )
+			y = scale[3] - (g_DuneEngine->screenTilesMaxY());
+
+		if( x >= scale[0] && x <= scale[0] + scale[2] &&
+			y >= scale[1] && y <= scale[1] + scale[3] ) {
+				// Centre on mouse cursor
+				g_DuneEngine->screenPlayfieldGet()->mapTacticalSet( x , y );
+				Refresh(false);
+		}
+
+	}
 }
 
 void cPanelSurface::OnInputTimer(wxTimerEvent& event) {

@@ -9,6 +9,7 @@ cHouse::cHouse(  eHouse pHouse )  {
 	
 	_houseID	= pHouse;
 	_houseData	= g_DuneEngine->resourcesGet()->houseGet( pHouse );
+	_buildingsHave = 0;
 
 	_palette	= 0;
 	_credits	=	_creditQuota = _maxUnits = 0;

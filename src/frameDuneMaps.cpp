@@ -80,6 +80,8 @@ cFrameDuneMaps::cFrameDuneMaps(wxWindow *parent, wxWindowID id, const wxString &
 
 cFrameDuneMaps::~cFrameDuneMaps()
 {
+	delete WxToolBar2;
+	delete mTileView;
 } 
 
 void cFrameDuneMaps::CreateGUIControls()

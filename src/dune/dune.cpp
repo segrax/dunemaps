@@ -19,7 +19,12 @@ cDune::cDune( string pDataPath ) {
 }
 
 cDune::~cDune() {
+	map< eHouse, cHouse* >::iterator	 houseIT;
 
+	for( houseIT = _houses.begin(); houseIT != _houses.end(); ++houseIT )
+		delete houseIT->second;
+
+	delete mPlaceObject;
 	delete _resources;
 	delete _scenario;
 	delete _screenPlayfield;
