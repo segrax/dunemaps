@@ -32,6 +32,7 @@ BEGIN_EVENT_TABLE(cPanelSurface,wxPanel)
 	EVT_CLOSE(cPanelSurface::OnClose)
 	EVT_RIGHT_DOWN(cPanelSurface::cPanelSurfaceRightDown)
 	EVT_MENU(ID_MNU_ADDBLOOM_1001 , cPanelSurface::Mnuaddbloom1001Click)
+	EVT_MENU(ID_MNU_ADDSPICEFIELD_1002 , cPanelSurface::Mnuaddspicefield1002Click)
 	EVT_PAINT(cPanelSurface::OnPaint)
 	EVT_SIZE(cPanelSurface::OnSize)
 	EVT_MOUSE_EVENTS(cPanelSurface::OnMouse) 
@@ -65,7 +66,8 @@ void cPanelSurface::CreateGUIControls() {
 	//Add the custom code before or after the blocks
 	////GUI Items Creation Start
 
-	WxPopupMenu1 = new wxMenu(wxT(""));WxPopupMenu1->Append(ID_MNU_ADDBLOOM_1001, wxT("Add Bloom"), wxT(""), wxITEM_NORMAL);
+	WxPopupMenu1 = new wxMenu(wxT(""));WxPopupMenu1->Append(ID_MNU_ADDBLOOM_1001, wxT("Add Spice Bloom"), wxT(""), wxITEM_NORMAL);
+	WxPopupMenu1->Append(ID_MNU_ADDSPICEFIELD_1002, wxT("Add Spice Field"), wxT(""), wxITEM_NORMAL);
 
 	SetSize(8,8,320,334);
 	Center();
@@ -190,6 +192,25 @@ void cPanelSurface::Mnuaddbloom1001Click(wxCommandEvent& event) {
 	blooms.append( bloom.str() );
 
 	g_DuneEngine->scenarioGet()->mapBloomSet(blooms);
+	g_DuneEngine->scenarioGet()->mapLoad();
+
+	playfieldSizeUpdate();
+}
+
+/*
+ * Mnuaddspicefield1002Click
+ */
+void cPanelSurface::Mnuaddspicefield1002Click(wxCommandEvent& event) {
+	stringstream	field;
+	string			fields = g_DuneEngine->scenarioGet()->mapFieldGet();
+	
+	word			mapIndex = g_DuneEngine->scenarioGet()->mapGet()->posXYtoIndex( g_DuneEngine->screenPlayfieldGet()->mapXGet() + (mMouseX / 16), g_DuneEngine->screenPlayfieldGet()->mapYGet() + (mMouseY / 16) );
+
+	field << mapIndex;
+	fields.append(", ");
+	fields.append( field.str() );
+
+	g_DuneEngine->scenarioGet()->mapFieldSet( fields );
 	g_DuneEngine->scenarioGet()->mapLoad();
 
 	playfieldSizeUpdate();

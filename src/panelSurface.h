@@ -69,6 +69,7 @@ class cPanelSurface : public wxPanel
 		{
 			////GUI Enum Control ID Start
 			ID_MNU_ADDBLOOM_1001 = 1001,
+			ID_MNU_ADDSPICEFIELD_1002 = 1002,
 			
 			////GUI Enum Control ID End
 			inputTimer,
@@ -89,6 +90,7 @@ public:
 		void cPanelSurfaceRightDown(wxMouseEvent& event);
 		void playfieldSizeUpdate( size_t pScale = 0, size_t pWidth = 0, size_t pHeight = 0  );
 		void Mnuaddbloom1001Click(wxCommandEvent& event);
+		void Mnuaddspicefield1002Click(wxCommandEvent& event);
 };
 
 #endif
