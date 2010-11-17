@@ -15,8 +15,6 @@ private:
 	size_t				 _Seed,		_SeedRand;
 	byte				 _map[65 * 65];
 
-	vector<size_t>		 _Blooms;
-	vector<size_t>		 _Fields;
 	cMap				*_cMap;											// Ptr to main map
 
 	void				generateFinalise();								// Finish the map by converting to the 'icon.map' tile ids
@@ -28,13 +26,7 @@ private:
 
 public:
 						 cMapGenerator(  );
-	
-	void				 bloomsAdd( vector<string> &pBlooms );
-	void				 fieldsAdd( vector<string> &pFields );
 
-	void				 bloomAdd( size_t pMapPos );					// Add spice bloom
-	void				 fieldAdd( size_t pMapPos );					// Add spice field
-	
 	void				 generate( size_t pSeed );						// Generate the map based on 'pSeed'
 	
 	size_t				 seedRandomGet();								// Generate a ''random'' number from the seed, and update seed

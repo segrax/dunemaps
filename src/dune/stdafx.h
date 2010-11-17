@@ -33,6 +33,7 @@ enum eHouse {
 struct sMapPoint {
 	word		_X, _Y;
 
+	sMapPoint( word pX = 0, word pY = 0 ) { _X = pX; _Y = pY; }
 };
 
 inline word	readWord( const void *buffer ) {

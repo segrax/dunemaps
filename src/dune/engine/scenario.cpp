@@ -4,6 +4,8 @@
 #include "mapGenerator.h"
 #include "map.h"
 #include "..\screenPlayfield.h"
+#include "objects\object.h"
+#include "objects\mapCell.h"
 
 vector<string> splitStr( string pStr ) {
 	vector<string> res;
@@ -27,13 +29,15 @@ vector<string> splitStr( string pStr ) {
 }
 
 cScenario::cScenario(  )  {
-
+	_mapGenerator = 0;
+	_map = 0;
 }
 
 
 cScenario::~cScenario() {
 
 	delete _map;
+	delete _mapGenerator;
 }
 
 void cScenario::missionLoad( size_t pScenNumber ) {
@@ -45,18 +49,9 @@ void cScenario::missionLoad( size_t pScenNumber ) {
 
 void cScenario::scenarioMapPrepare() {
 
-	vector<string> fields = splitStr( _mapField );
-	vector<string> blooms = splitStr( _mapBloom );
+	_map		  = new cMap( );
 
-	// Add the spice fields/blooms
-	_mapGenerator->fieldsAdd( fields );
-	_mapGenerator->bloomsAdd( blooms );
-
-	// Genereate the map
-	_mapGenerator->generate( _mapSeed );
-
-	// Now create the map cells using the tileid array
-	_map->mapLoad();
+	mapLoad();
 
 	// Load the prebuilt units
 	teamsLoad();
@@ -64,6 +59,36 @@ void cScenario::scenarioMapPrepare() {
 	structuresLoad();
 	
 	g_DuneEngine->houseMapPrepare();
+}
+
+void cScenario::mapLoad() {
+	vector<string> fields = splitStr( _mapField );
+	vector<string> blooms = splitStr( _mapBloom );
+	vector<string>::iterator	it;
+
+	delete _mapGenerator;
+
+	_mapGenerator = new cMapGenerator( );
+
+	// Generate the map
+	_mapGenerator->generate( _mapSeed );
+
+	// Now create the map cells using the tileid array
+	_map->mapLoad();
+
+	// Add spice blooms
+	for( it = blooms.begin(); it != blooms.end(); ++it ) {
+		cMapCell **mapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( atoi((*it).c_str()) );
+
+		(*mapCell)->tileSetCurrent( 0, g_DuneEngine->resourcesGet()->tileBloom() );
+	}
+
+	// Add spice fields
+	for( it = fields.begin(); it != fields.end(); ++it ) {
+		cMapCell **mapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( atoi((*it).c_str()) );
+
+		_map->mapRetile( (*mapCell)->mapIndexGet(), 5 );
+	}
 }
 
 bool cScenario::scenarioBegin( size_t pScenNumber ) {
@@ -98,9 +123,6 @@ void cScenario::scenarioLoad( string pFilename ) {
 	
 	_mapCursor  = g_DuneEngine->resourcesGet()->IniNumGet("BASIC", "CursorPos", 0);
 	_mapTactical = g_DuneEngine->resourcesGet()->IniNumGet("BASIC", "TacticalPos", 0);
-	
-	_mapGenerator = new cMapGenerator( );
-	_map		  = new cMap( );
 
 	houseLoad();
 

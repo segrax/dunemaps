@@ -9,30 +9,6 @@ cMapGenerator::cMapGenerator(  )  {
 	_SeedRand = 98761234;
 }
 
-void cMapGenerator::bloomsAdd( vector<string> &pBlooms ) {
-	vector<string>::iterator	bloomIT;
-
-	for( bloomIT = pBlooms.begin(); bloomIT != pBlooms.end(); ++bloomIT )
-		_Blooms.push_back( atoi(bloomIT->c_str()) );
-
-}
-
-void cMapGenerator::fieldsAdd( vector<string> &pFields ) {
-	vector<string>::iterator	fieldIT;
-
-	for( fieldIT = pFields.begin(); fieldIT != pFields.end(); ++fieldIT )
-		_Fields.push_back( atoi(fieldIT->c_str()) );
-
-}
-
-void cMapGenerator::bloomAdd( size_t pMapPos ) {
-	_Blooms.push_back( pMapPos );
-}
-
-void cMapGenerator::fieldAdd( size_t pMapPos ) {
-	_Fields.push_back( pMapPos );
-}
-
 void cMapGenerator::generate( size_t pSeed ) {
 	byte terrain[0x111];
 
@@ -141,8 +117,6 @@ void cMapGenerator::generate( size_t pSeed ) {
 	generateSpiceAdd();
 	generateFinalise();
 	generateToTiles();
-
-
 }
 
 void cMapGenerator::generateTerrainAverage() {

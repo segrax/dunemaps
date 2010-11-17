@@ -10,8 +10,15 @@ public:
 
 	void						 mapLoad();												// Load the map from the generator
 	
+	void						 mapRetile( word pMapIndex, word pArg_2 );
+
+	word				 sub_1D7E0( word pMapIndex1, word pMapIndex2 );
 	size_t				 mapColorGet( word pMapIndex );
 	size_t				 mapTileColorGet( word pMapIndex );
+	word				 mapTileTypeGet( word pMapIndex );
+
+	word				 sub_57146( word pMapIndex );
+	word				 sub_5700A( word pMapIndex, short int pArg_2 );
 
 	inline cMapCell		**mapCellGet( word pMapIndex ) {
 		return  &_mapCells[ pMapIndex ];

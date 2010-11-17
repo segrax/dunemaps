@@ -8,8 +8,7 @@
 
 cMapCell::cMapCell(  word pMapIndex ) : cObject( 0, pMapIndex ) {
 
-	// Read our tile from the generator
-	_tileID = *g_DuneEngine->scenarioGet()->mapGeneratorGet()->mapGet( mapIndexGet() );
+	tileMapLoad();
 
 	// No temp (eg. structure tile)
 	_tileTempID = 0xFFFFFFFF;
@@ -22,6 +21,12 @@ cMapCell::~cMapCell() {
 
 }
 
+void cMapCell::tileMapLoad() {
+
+	// Read our tile from the generator
+	_tileID = *g_DuneEngine->scenarioGet()->mapGeneratorGet()->mapGet( mapIndexGet() );
+
+}
 void cMapCell::tileSetCurrent( cObject *pObject, size_t pTileTemp ) {
 
 	// Set a temporary tile, and its pointer

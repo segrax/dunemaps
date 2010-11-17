@@ -17,7 +17,8 @@
 //wxDev-C++ designer will remove them
 ////Header Include Start
 ////Header Include End
-
+#include "dune/engine/scenario.h"
+#include "dune/map.h"
 //----------------------------------------------------------------------------
 // cPanelSurface
 //----------------------------------------------------------------------------
@@ -129,6 +130,7 @@ void cPanelSurface::OnMouse(wxMouseEvent& event) {
 		return;
 	}
 	
+	// Get the Mouse X/Y, without scale
 	mMouseX = event.GetX() / mScale;
 	mMouseY = event.GetY() / mScale;
 
@@ -175,15 +177,26 @@ void cPanelSurface::playfieldSizeUpdate( size_t pScale, size_t pWidth, size_t pH
 }
 
 /*
- * Mnuaddbloom1001Click
+ * Mnuaddbloom1001Click : 
  */
-void cPanelSurface::Mnuaddbloom1001Click(wxCommandEvent& event)
-{
-	// insert your code here
+void cPanelSurface::Mnuaddbloom1001Click(wxCommandEvent& event) {
+	stringstream	bloom;
+	string			blooms = g_DuneEngine->scenarioGet()->mapBloomGet();
+	
+	word			mapIndex = g_DuneEngine->scenarioGet()->mapGet()->posXYtoIndex( g_DuneEngine->screenPlayfieldGet()->mapXGet() + (mMouseX / 16), g_DuneEngine->screenPlayfieldGet()->mapYGet() + (mMouseY / 16) );
+
+	bloom << mapIndex;
+	blooms.append(", ");
+	blooms.append( bloom.str() );
+
+	g_DuneEngine->scenarioGet()->mapBloomSet(blooms);
+	g_DuneEngine->scenarioGet()->mapLoad();
+
+	playfieldSizeUpdate();
 }
 
 /*
- * cPanelSurfaceRightDown
+ * cPanelSurfaceRightDown : Right Click on the panel, display the popup menu
  */
 void cPanelSurface::cPanelSurfaceRightDown(wxMouseEvent& event) {
 

@@ -16,6 +16,8 @@ public:
 	
 	bool			 isEmpty();															// Is the cell empty
 	
+	void			 tileMapLoad();
+
 	bool			 objectEnter( cObject	*pObject );									// 'object' enters this->object
 	cObject			*objectActivate();													// map-cell has been selected by player
 	void			 objectDeActivate();
@@ -28,6 +30,10 @@ public:
 			return _tileTempID;
 
 		return _tileID;
+	}
+	inline void		 tileSet( size_t pNewTile ) {
+
+		_tileID = pNewTile;
 	}
 
 };

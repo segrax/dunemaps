@@ -290,7 +290,7 @@ void cFrameDuneMaps::WxToolBar2Tool(wxCommandEvent& event) {
 void cFrameDuneMaps::MnuLoadPak_ScenClick(wxCommandEvent& event) {
 	wxMenuItem *item = WxMenuBar1->FindItem( event.GetId() );
 
-	string filename = item->GetText();
+	string filename = item->GetItemLabel();
 
 	g_DuneEngine->scenarioLoad( filename );
 
