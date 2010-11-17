@@ -16,6 +16,7 @@ private:
 	dword							 _credits,	_creditQuota, _maxUnits;
 
 	vector< cTeam* >				_teams;
+	string							_brain;
 
 public:
 					 cHouse(  eHouse pHouse );
@@ -33,6 +34,8 @@ public:
 
 	void					 buildingsHave( word pTypeIndex, bool pOn );
 	inline size_t			 buildingsHaveGet()		{ return _buildingsHave; }		// Get flag of building types that are built
+	
+	void					 brainSet( string pVal ) { _brain = pVal; }
 
 	inline eHouse			 houseIDGet()			{ return _houseID; }
 	inline SDL_Palette		*paletteGet()			{ return _palette; }

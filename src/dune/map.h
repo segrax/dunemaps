@@ -10,7 +10,7 @@ public:
 
 	void						 mapLoad();												// Load the map from the generator
 	
-	void						 mapRetile( word pMapIndex, word pArg_2 );
+	void						 mapRetile( word pMapIndex, short int pArg_2 );
 
 	word				 sub_1D7E0( word pMapIndex1, word pMapIndex2 );
 	size_t				 mapColorGet( word pMapIndex );

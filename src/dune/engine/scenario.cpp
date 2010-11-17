@@ -231,6 +231,9 @@ void cScenario::houseLoad() {
 
 		if(brain == "Human")
 			g_DuneEngine->missionHouseSet( (eHouse) house );
+
+		House->brainSet( brain );
+		House->maxUnitSet( maxUnits );
 	}
 
 }

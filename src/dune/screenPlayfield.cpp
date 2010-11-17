@@ -113,15 +113,22 @@ void cScreenPlayfield::drawObjects() {
 	_surfaceUnits->clear( 0xFF );
 
 	for( word Y = 0; Y < tilesMaxY; ++Y, mapIndex += 0x40 ) {
-		if( _mapY + Y > 63 )
-				break;
+
+		if( _mapY + Y < _scale[1] )
+			continue;
+
+		if( _mapY + Y >= (_scale[3] + _scale[1])  )
+			break;
 
 		// Get pointer to tiles
 		mapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( mapIndex );
 
 		for( word X = 0; X < tilesMaxX; ++X, ++mapCell ) {
 			
-			if( _mapX + X > 63 )
+			if( _mapX + X < _scale[0] )
+				continue;
+
+			if( _mapX + X >= (_scale[2] + _scale[0]) )
 				break;
 
 			// Draw unit?

@@ -34,7 +34,7 @@ void cMap::mapLoad() {
 			_mapCells[count]->tileMapLoad();
 }
 
-void cMap::mapRetile(word pMapIndex, word pArg_2 ) {
+void cMap::mapRetile(word pMapIndex, short int pArg_2 ) {
 	
 	if( !pArg_2 )
 		return;
@@ -55,7 +55,7 @@ void cMap::mapRetile(word pMapIndex, word pArg_2 ) {
 
 			word mapIndex = posXYtoIndex( ax2, ax );
 
-			word var_C = sub_1D7E0( pMapIndex, mapIndex );
+			short int var_C = sub_1D7E0( pMapIndex, mapIndex );
 
 			// 15B0
 			if( var_C  >= pArg_2 ) {
@@ -142,8 +142,8 @@ sMapPoint cMap::mapIndexToXY( word mapPos ) {
 }
 
 word cMap::sub_1D7E0( word pMapIndex1, word pMapIndex2 ) {
-	short int ax = pMapIndex2;
-	short int bx = pMapIndex1;
+	short int ax = pMapIndex1;
+	short int bx = pMapIndex2;
 	
 	ax &= 0x3F;
 	bx &= 0x3F;
@@ -152,11 +152,11 @@ word cMap::sub_1D7E0( word pMapIndex1, word pMapIndex2 ) {
 	if( ax < 0 )
 		ax = -ax;
 
-	bx = pMapIndex2;
-	short int dx = pMapIndex1;
+	bx = pMapIndex1;
+	short int dx = pMapIndex2;
 
-	bx >>= 6;
-	dx >>= 6;
+	bx = ((word) bx) >> 6;
+	dx = ((word) dx) >> 6;
 
 	bx -= dx;
 	if( bx < 0)
@@ -175,6 +175,9 @@ word cMap::sub_1D7E0( word pMapIndex1, word pMapIndex2 ) {
 }
 
 word cMap::mapTileTypeGet( word pMapIndex ) {
+	if( pMapIndex >= 0x1000 )
+		return 0;
+
 	if(_mapCells[ pMapIndex ] == 0 )
 		return 0;
 	
@@ -275,7 +278,7 @@ word cMap::sub_5700A( word pMapIndex, short int pArg_2 ) {
 
 word cMap::sub_57146( word pMapIndex ) {
 	short int word_45972[4] = { -0x40, 0x01, 0x40, -1 };
-	word di = pMapIndex;
+	short int di = pMapIndex;
 	word si = 0;
 
 	di &= 0xFFF;
