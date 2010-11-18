@@ -26,8 +26,8 @@
 //Header Include Start and Header Include End.
 //wxDev-C++ designer will remove them. Add custom headers after the block.
 ////Header Include Start
-#include <wx/radiobut.h>
 #include <wx/button.h>
+#include <wx/radiobut.h>
 #include <wx/textctrl.h>
 #include <wx/stattext.h>
 #include <wx/checklst.h>
@@ -61,17 +61,18 @@ class cDialogBasics : public wxDialog
 		//GUI Control Declaration Start and GUI Control Declaration End.
 		//wxDev-C++ will remove them. Add custom code after the block.
 		////GUI Control Declaration Start
+		wxButton *mButtonCancel;
+		wxButton *mButtonDone;
 		wxStaticText *WxStaticText4;
 		wxTextCtrl *mPictureBrief;
 		wxTextCtrl *mPictureWin;
 		wxTextCtrl *mPictureLose;
 		wxStaticText *WxStaticText2;
 		wxStaticText *WxStaticText1;
+		wxPanel *WxNoteBookPage2;
 		wxRadioButton *WxRadioButton2;
 		wxRadioButton *WxRadioButton1;
 		wxStaticBox *WxStaticBox4;
-		wxButton *mButtonCancel;
-		wxButton *mButtonDone;
 		wxTextCtrl *WxEdit1;
 		wxStaticText *Timeout;
 		wxStaticBox *WxStaticBox3;
@@ -79,7 +80,6 @@ class cDialogBasics : public wxDialog
 		wxStaticBox *WxStaticBox2;
 		wxCheckListBox *WxCheckListBox1;
 		wxStaticBox *WxStaticBox1;
-		wxPanel *WxNoteBookPage2;
 		wxPanel *WxNoteBookPage1;
 		wxNotebook *WxStaticText3;
 		////GUI Control Declaration End
@@ -92,17 +92,18 @@ class cDialogBasics : public wxDialog
 		enum
 		{
 			////GUI Enum Control ID Start
+			ID_MBUTTONCANCEL = 1015,
+			ID_MBUTTONDONE = 1014,
 			ID_WXSTATICTEXT4 = 1027,
 			ID_MPICTUREBRIEF = 1026,
 			ID_MPICTUREWIN = 1025,
 			ID_MPICTURELOSE = 1024,
 			ID_WXSTATICTEXT2 = 1023,
 			ID_WXSTATICTEXT1 = 1022,
+			ID_WXNOTEBOOKPAGE2 = 1003,
 			ID_WXRADIOBUTTON2 = 1020,
 			ID_WXRADIOBUTTON1 = 1019,
 			ID_WXSTATICBOX4 = 1017,
-			ID_MBUTTONCANCEL = 1015,
-			ID_MBUTTONDONE = 1014,
 			ID_WXEDIT1 = 1011,
 			ID_TIMEOUT = 1010,
 			ID_WXSTATICBOX3 = 1009,
@@ -110,7 +111,6 @@ class cDialogBasics : public wxDialog
 			ID_WXSTATICBOX2 = 1007,
 			ID_WXCHECKLISTBOX1 = 1006,
 			ID_WXSTATICBOX1 = 1005,
-			ID_WXNOTEBOOKPAGE2 = 1003,
 			ID_WXNOTEBOOKPAGE1 = 1002,
 			ID_WXSTATICTEXT3 = 1001,
 			////GUI Enum Control ID End

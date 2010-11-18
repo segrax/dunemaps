@@ -37,6 +37,7 @@
 ////Dialog Style End
 
 struct SDL_Surface;
+class cMapCell;
 
 class cPanelSurface : public wxPanel
 {
@@ -47,7 +48,7 @@ class cPanelSurface : public wxPanel
 		wxCoord						 mMouseX, mMouseY;
 		wxTimer						*mTimer;
 		bool						 mMouseIgnore;
-		
+		cMapCell					**mMapCell;
 		
 		void						 menuOrdersBuild();
 

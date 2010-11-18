@@ -52,6 +52,7 @@ cPanelSurface::cPanelSurface(wxWindow *parent, wxWindowID id, const wxPoint &pos
 	mScale = 2;
 	mMouseX = mMouseY = 0;
 	mTimer = 0;
+	mMapCell = 0;
 
 	mMouseIgnore = false;
 
@@ -151,8 +152,16 @@ void cPanelSurface::OnMouse(wxMouseEvent& event) {
 	mMouseX = event.GetX() / mScale;
 	mMouseY = event.GetY() / mScale;
 
+	//
 	if( mMouseX == 0 || mMouseY == 0 )
 		mMouseIgnore = true;
+
+	// Select the map-cell under the cursor
+	if(!mMouseIgnore) {
+		word mapIndex = g_DuneEngine->scenarioGet()->mapGet()->posXYtoIndex( g_DuneEngine->screenPlayfieldGet()->mapXGet() + (mMouseX / 16), g_DuneEngine->screenPlayfieldGet()->mapYGet() + (mMouseY / 16) );
+		mMapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( mapIndex );
+	} else
+		mMapCell = 0;
 
 	// Left Mouse
 	if( event.LeftDown() ) {
@@ -264,17 +273,15 @@ void cPanelSurface::Mnuaddspicefield1002Click(wxCommandEvent& event) {
  * cPanelSurfaceRightDown : Right Click on the panel, display the popup menu
  */
 void cPanelSurface::cPanelSurfaceRightDown(wxMouseEvent& event) {
+	
+	OnMouse( event );
 
-	word			mapIndex = g_DuneEngine->scenarioGet()->mapGet()->posXYtoIndex( g_DuneEngine->screenPlayfieldGet()->mapXGet() + (mMouseX / 16), g_DuneEngine->screenPlayfieldGet()->mapYGet() + (mMouseY / 16) );
-
-	cMapCell **mapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( mapIndex );
-
-	if(!(*mapCell)->hasUnit())
+	if(!(*mMapCell)->hasUnit())
 		PopupMenu( WxPopupMenu1 );
 	else {
 		menuOrdersReset();
 
-		cUnit *unit = (cUnit*) (*mapCell)->objectGet();
+		cUnit *unit = (cUnit*) (*mMapCell)->objectGet();
 
 		word actionID = unit->actionGet();
 
@@ -291,14 +298,10 @@ void cPanelSurface::cPanelSurfaceRightDown(wxMouseEvent& event) {
  */
 void cPanelSurface::Mnuunitrotate1003Click(wxCommandEvent& event) {
 
-	word mapIndex = g_DuneEngine->scenarioGet()->mapGet()->posXYtoIndex( g_DuneEngine->screenPlayfieldGet()->mapXGet() + (mMouseX / 16), g_DuneEngine->screenPlayfieldGet()->mapYGet() + (mMouseY / 16) );
-
-	cMapCell **mapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( mapIndex );
-
-	if(!(*mapCell)->hasUnit())
+	if(!(*mMapCell)->hasUnit())
 		return;
 
-	cUnit *unit = (cUnit*) (*mapCell)->objectGet();
+	cUnit *unit = (cUnit*) (*mMapCell)->objectGet();
 
 	cUnitAngle *angle = unit->angleBaseGet();
 
@@ -334,16 +337,13 @@ void cPanelSurface::menuOrdersBuild() {
 }
 
 void cPanelSurface::menuActionSet(wxCommandEvent& event) {
-	word mapIndex = g_DuneEngine->scenarioGet()->mapGet()->posXYtoIndex( g_DuneEngine->screenPlayfieldGet()->mapXGet() + (mMouseX / 16), g_DuneEngine->screenPlayfieldGet()->mapYGet() + (mMouseY / 16) );
 
-	cMapCell **mapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( mapIndex );
-
-	if(!(*mapCell)->hasUnit())
+	if(!(*mMapCell)->hasUnit())
 		return;
 
 	int actionID = event.GetId() - ID_MNU_ORDER_2000;
 
-	cUnit *unit = (cUnit*) (*mapCell)->objectGet();
+	cUnit *unit = (cUnit*) (*mMapCell)->objectGet();
 
 	unit->actionSet( actionID );
 }
