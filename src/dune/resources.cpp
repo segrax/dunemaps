@@ -10,6 +10,8 @@
 #include "eastwood/CpsFile.h"
 #include "eastwood/WsaFile.h"
 
+#include "graphics\tools.h"
+
 cResources::cResources( string pPath ) {
 	if( pPath.size() )
 		if( pPath.substr( pPath.size(), 1) != "\\" )
@@ -56,9 +58,6 @@ cResources::~cResources() {
 
 	for( pakIT = _Paks.begin(); pakIT != _Paks.end(); ++pakIT )
 		delete pakIT->second;
-
-	for( tileIT = _dataSHP.begin(); tileIT != _dataSHP.end(); ++tileIT )
-		SDL_FreeSurface( tileIT->second );
 
 	delete _Exe;
 	delete _fileIconICN;
@@ -697,8 +696,11 @@ void cResources::shpLoad( string pFileName ) {
 
 	for( word count = 0; count < shpFiles; ++count, ++count2) {
 		SDL_Surface *surface = _shp->getSurface( count );
-		_dataSHP.insert( pair< size_t, SDL_Surface* >( count2, surface ));
 
+		map< size_t, SDL_Surface* > surfaces;
+
+		surfaces.insert( make_pair( 0, surface ) );
+		_dataSHP.insert( make_pair( count2,surfaces) );
 	}
 
 	delete str;
@@ -706,16 +708,38 @@ void cResources::shpLoad( string pFileName ) {
 	_shp = 0;
 }
 
-SDL_Surface *cResources::shpGet( word pIndex ) {
-	map< word, SDL_Surface* >::iterator		 shapeIT;
-	SDL_Surface								*surface;
+SDL_Surface *cResources::shpGet( word pIndex, word pMode ) {
+	map< size_t, map< size_t, SDL_Surface*> >::iterator		 shapeIT;
+	map< size_t, SDL_Surface*>::iterator					 frameIT;
+	SDL_Surface											*surface;
 
 	shapeIT = _dataSHP.find( pIndex );
 
 	if(shapeIT == _dataSHP.end() )
 		return 0;
-	else
-		surface = shapeIT->second;
+
+	else {
+		
+		frameIT = shapeIT->second.find( pMode );
+		if( frameIT == shapeIT->second.end() ) {
+
+			frameIT = shapeIT->second.find( 0 );
+
+			if( frameIT == shapeIT->second.end() )
+				return 0;
+
+			if( pMode == 1)
+				surface = SDL_HorizontalInvert( frameIT->second );
+			else
+				surface = frameIT->second;
+
+			shapeIT->second.insert( make_pair( pMode, surface ) );
+
+			return surface;
+		}
+
+		surface = frameIT->second;
+	}
 
 	return surface;
 }

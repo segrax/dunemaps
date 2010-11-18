@@ -19,13 +19,17 @@
 ////Header Include End
 #include "dune/engine/scenario.h"
 #include "dune/map.h"
+#include "dune/engine/objects/object.h"
+#include "dune/engine/objects/mapCell.h"
+#include "dune/engine/objects/unit.h"
+
 //----------------------------------------------------------------------------
 // cPanelSurface
 //----------------------------------------------------------------------------
 //Add Custom Events only in the appropriate block.
 //Code added in other places will be removed by wxDev-C++
 ////Event Table Start
-BEGIN_EVENT_TABLE(cPanelSurface,wxPanel)
+BEGIN_EVENT_TABLE(cPanelSurface, wxPanel)
 	////Manual Code Start
 	////Manual Code End
 	
@@ -34,9 +38,11 @@ BEGIN_EVENT_TABLE(cPanelSurface,wxPanel)
 	EVT_RIGHT_DOWN(cPanelSurface::cPanelSurfaceRightDown)
 	EVT_PAINT(cPanelSurface::OnPaint)
 	EVT_MOUSE_EVENTS(cPanelSurface::OnMouse)
+	EVT_MENU(ID_MNU_UNITROTATE_1003 , cPanelSurface::Mnuunitrotate1003Click)
 	EVT_MENU(ID_MNU_ADDBLOOM_1001 , cPanelSurface::Mnuaddbloom1001Click)
 	EVT_MENU(ID_MNU_ADDSPICEFIELD_1002 , cPanelSurface::Mnuaddspicefield1002Click)
 	EVT_TIMER(inputTimer, cPanelSurface::OnInputTimer)
+	EVT_MENU_RANGE(ID_MNU_ORDER_2000, ID_MNU_ORDER_2000 + 14, cPanelSurface::menuActionSet)
 END_EVENT_TABLE()
 ////Event Table End
 
@@ -50,6 +56,8 @@ cPanelSurface::cPanelSurface(wxWindow *parent, wxWindowID id, const wxPoint &pos
 	mMouseIgnore = false;
 
 	CreateGUIControls();
+
+	menuOrdersBuild();
 }
 
 cPanelSurface::~cPanelSurface() {
@@ -67,6 +75,11 @@ void cPanelSurface::CreateGUIControls() {
 	//wxDev-C++ designer will remove them.
 	//Add the custom code before or after the blocks
 	////GUI Items Creation Start
+
+	mPopupObject = new wxMenu(wxT(""));mPopupObject->Append(ID_MNU_UNITROTATE_1003, wxT("Rotate"), wxT(""), wxITEM_NORMAL);
+	wxMenu *ID_MNU_STARTINGORDERS_1004_Obj = new wxMenu();
+	ID_MNU_STARTINGORDERS_1004_Obj->Append(ID_MNU_ORDER_2000, wxT("Order"), wxT(""), wxITEM_NORMAL);
+	mPopupObject->Append(ID_MNU_STARTINGORDERS_1004, wxT("Orders"), ID_MNU_STARTINGORDERS_1004_Obj);
 
 	WxPopupMenu1 = new wxMenu(wxT(""));WxPopupMenu1->Append(ID_MNU_ADDBLOOM_1001, wxT("Add Spice Bloom"), wxT(""), wxITEM_NORMAL);
 	WxPopupMenu1->Append(ID_MNU_ADDSPICEFIELD_1002, wxT("Add Spice Field"), wxT(""), wxITEM_NORMAL);
@@ -252,5 +265,85 @@ void cPanelSurface::Mnuaddspicefield1002Click(wxCommandEvent& event) {
  */
 void cPanelSurface::cPanelSurfaceRightDown(wxMouseEvent& event) {
 
-	this->PopupMenu( WxPopupMenu1 );
+	word			mapIndex = g_DuneEngine->scenarioGet()->mapGet()->posXYtoIndex( g_DuneEngine->screenPlayfieldGet()->mapXGet() + (mMouseX / 16), g_DuneEngine->screenPlayfieldGet()->mapYGet() + (mMouseY / 16) );
+
+	cMapCell **mapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( mapIndex );
+
+	if(!(*mapCell)->hasUnit())
+		PopupMenu( WxPopupMenu1 );
+	else {
+		menuOrdersReset();
+
+		cUnit *unit = (cUnit*) (*mapCell)->objectGet();
+
+		word actionID = unit->actionGet();
+
+		wxMenuItem		*item = mPopupObject->FindItem(ID_MNU_ORDER_2000 + actionID);
+		item->Check();
+
+		PopupMenu( mPopupObject );
+		
+	}
+}
+
+/*
+ * Mnuunitrotate1003Click
+ */
+void cPanelSurface::Mnuunitrotate1003Click(wxCommandEvent& event) {
+
+	word mapIndex = g_DuneEngine->scenarioGet()->mapGet()->posXYtoIndex( g_DuneEngine->screenPlayfieldGet()->mapXGet() + (mMouseX / 16), g_DuneEngine->screenPlayfieldGet()->mapYGet() + (mMouseY / 16) );
+
+	cMapCell **mapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( mapIndex );
+
+	if(!(*mapCell)->hasUnit())
+		return;
+
+	cUnit *unit = (cUnit*) (*mapCell)->objectGet();
+
+	cUnitAngle *angle = unit->angleBaseGet();
+
+	size_t newAngle = angle->_Current;
+	newAngle += 64;
+
+	angle->_Current = newAngle;
+
+	playfieldSizeUpdate();
+}
+
+void cPanelSurface::menuOrdersReset() {
+	
+	for( int i = 0; i < 14; ++i ) {
+
+		wxMenuItem		*item = mPopupObject->FindItem(ID_MNU_ORDER_2000 + i);
+		item->Check(false);
+	}
+}
+
+void cPanelSurface::menuOrdersBuild() {
+
+	wxMenuItem		*item = mPopupObject->FindItem(ID_MNU_ORDER_2000);
+
+	wxMenu			*menu = item->GetMenu();
+	menu->Remove( item );
+
+	for( int i = 0; i < 14; ++i ) {
+		sActionData *action = g_DuneEngine->resourcesGet()->actionGet(i);
+
+		menu->InsertCheckItem(i, ID_MNU_ORDER_2000 + i, action->Name );
+	}
+}
+
+void cPanelSurface::menuActionSet(wxCommandEvent& event) {
+	word mapIndex = g_DuneEngine->scenarioGet()->mapGet()->posXYtoIndex( g_DuneEngine->screenPlayfieldGet()->mapXGet() + (mMouseX / 16), g_DuneEngine->screenPlayfieldGet()->mapYGet() + (mMouseY / 16) );
+
+	cMapCell **mapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( mapIndex );
+
+	if(!(*mapCell)->hasUnit())
+		return;
+
+	int actionID = event.GetId() - ID_MNU_ORDER_2000;
+
+	cUnit *unit = (cUnit*) (*mapCell)->objectGet();
+
+	unit->actionSet( actionID );
 }

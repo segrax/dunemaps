@@ -47,16 +47,22 @@ class cPanelSurface : public wxPanel
 		wxCoord						 mMouseX, mMouseY;
 		wxTimer						*mTimer;
 		bool						 mMouseIgnore;
+		
+		
+		void						 menuOrdersBuild();
 
 	public:
 		cPanelSurface(wxWindow *parent, wxWindowID id = 1, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize);
 		virtual ~cPanelSurface();
 		
+		void menuOrdersReset();
+
 	private:
 		//Do not add custom control declarations between
 		//GUI Control Declaration Start and GUI Control Declaration End.
 		//wxDev-C++ will remove them. Add custom code after the block.
 		////GUI Control Declaration Start
+		wxMenu *mPopupObject;
 		wxMenu *WxPopupMenu1;
 		////GUI Control Declaration End
 
@@ -68,6 +74,10 @@ class cPanelSurface : public wxPanel
 		enum
 		{
 			////GUI Enum Control ID Start
+			ID_MNU_UNITROTATE_1003 = 1003,
+			ID_MNU_STARTINGORDERS_1004 = 1004,
+			ID_MNU_ORDER_2000 = 2000,
+			
 			ID_MNU_ADDBLOOM_1001 = 1001,
 			ID_MNU_ADDSPICEFIELD_1002 = 1002,
 			
@@ -91,6 +101,8 @@ public:
 		void playfieldSizeUpdate( size_t pScale = 0, size_t pWidth = 0, size_t pHeight = 0  );
 		void Mnuaddbloom1001Click(wxCommandEvent& event);
 		void Mnuaddspicefield1002Click(wxCommandEvent& event);
+		void Mnuunitrotate1003Click(wxCommandEvent& event);
+		void menuActionSet(wxCommandEvent& event);
 };
 
 #endif

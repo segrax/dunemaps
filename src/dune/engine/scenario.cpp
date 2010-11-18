@@ -122,6 +122,11 @@ void cScenario::scenarioLoad( string pFilename ) {
 	// Load the ini into the resource manager
 	g_DuneEngine->resourcesGet()->IniLoad( pFilename );
 
+	// Read the win/brief/lose pictures
+
+	_pictureLose	= g_DuneEngine->resourcesGet()->IniStringGet("BASIC", "LosePicture", "");
+	_pictureBrief	= g_DuneEngine->resourcesGet()->IniStringGet("BASIC", "BriefPicture", "");
+	_pictureWin		= g_DuneEngine->resourcesGet()->IniStringGet("BASIC", "WinPicture", "");
 
 	// Read the map details
 	_mapScale	= g_DuneEngine->resourcesGet()->IniNumGet("BASIC", "MapScale", 0);

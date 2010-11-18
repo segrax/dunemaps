@@ -170,7 +170,7 @@ private:
 	map< string, IniFile::KeyListHandle>			 _IniHandles;
 
 	map< word, SDL_Surface* >		 _Tiles;											// In-game tile images
-	map< word, SDL_Surface* >		 _dataSHP;											// In-game graphics
+	map< size_t, map< size_t, SDL_Surface*> >	 _dataSHP;											// In-game graphics
 
 
 	map< size_t, vector<size_t>*>	 _dataIconFrames;									// Loaded frames
@@ -264,7 +264,7 @@ public:
 	word							 unitDevastatorFrameGet( size_t pIndex, bool addOne );
 
 	SDL_Palette						*paletteGet() { return _palIBM; }
-	SDL_Surface						*shpGet( word pIndex );									// Don't free these surfaces
+	SDL_Surface						*shpGet( word pIndex, word pMode );
 
 	SDL_Surface						*wsaGet( string pFileName, size_t pFrame );
 

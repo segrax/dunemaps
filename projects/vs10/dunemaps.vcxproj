@@ -15,6 +15,7 @@
     <ClCompile Include="..\..\src\dialogBasics.cpp" />
     <ClCompile Include="..\..\src\dialogHouses.cpp" />
     <ClCompile Include="..\..\src\dune\engine\team.cpp" />
+    <ClCompile Include="..\..\src\dune\graphics\tools.cpp" />
     <ClCompile Include="..\..\src\frameDuneMaps.cpp" />
     <ClCompile Include="..\..\src\dune\dune.cpp" />
     <ClCompile Include="..\..\src\dune\eastwood\CpsFile.cpp" />
@@ -57,6 +58,7 @@
     <ClInclude Include="..\..\src\dialogBasics.h" />
     <ClInclude Include="..\..\src\dialogHouses.h" />
     <ClInclude Include="..\..\src\dune\engine\team.h" />
+    <ClInclude Include="..\..\src\dune\graphics\tools.h" />
     <ClInclude Include="..\..\src\frameDuneMaps.h" />
     <ClInclude Include="..\..\src\dune\dune.hpp" />
     <ClInclude Include="..\..\src\dune\eastwood\CpsFile.h" />

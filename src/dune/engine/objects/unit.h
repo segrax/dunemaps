@@ -30,6 +30,8 @@ private:
 
 	cUnitAngle				 _angleBase,	_angleTop;
 
+	word					 _actionCurrent;
+
 public:
 							 cUnit(  cHouse *pHouse, word pType, word pMapIndex, byte pAngle, word pAction );
 
@@ -39,6 +41,12 @@ public:
 	void					 drawTurret();
 
 	void					 angleSet( byte pAngle, bool pTurnTo, cUnitAngle *pAngles );
+	
+	cUnitAngle				*angleTopGet() { return &_angleTop; }
+	cUnitAngle				*angleBaseGet() { return &_angleBase; }
+
+	inline void				 actionSet( word pAction ) { _actionCurrent = pAction; }
+	inline word				 actionGet() { return _actionCurrent; }
 
 	bool					 objectEnter( cObject	*pObject );									// 'object' enters this->object
 	cObject					*objectActivate();													// map-cell has been selected by player

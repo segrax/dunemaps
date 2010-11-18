@@ -30,7 +30,7 @@ object frmNewForm_1: TfrmNewForm
   isAuimanagerAvailable = False
   PixelsPerInch = 96
   TextHeight = 15
-  object WxNotebook1: TWxNotebook
+  object WxStaticText3: TWxNotebook
     Left = 3
     Top = 4
     Width = 412
@@ -44,7 +44,7 @@ object frmNewForm_1: TfrmNewForm
       'EVT_UPDATE_UI:OnUpdateUI'
       'EVT_NOTEBOOK_PAGE_CHANGED:OnPageChanged'
       'EVT_NOTEBOOK_PAGE_CHANGING:OnPageChanging')
-    Wx_IDName = 'ID_WXNOTEBOOK1'
+    Wx_IDName = 'ID_WXSTATICTEXT3'
     Wx_IDValue = 1001
     Wx_Hidden = False
     Wx_NoteBookStyle = []
@@ -433,6 +433,213 @@ object frmNewForm_1: TfrmNewForm
       Wx_Hidden = False
       Wx_IDName = 'ID_WXNOTEBOOKPAGE2'
       Wx_IDValue = 1003
+      object WxStaticText1: TWxStaticText
+        Left = 15
+        Top = 50
+        Width = 25
+        Height = 19
+        Caption = 'Win'
+        TabOrder = 0
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT1'
+        Wx_IDValue = 1022
+        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText1'
+        Wx_PaneName = 'WxStaticText1_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
+      end
+      object WxStaticText2: TWxStaticText
+        Left = 15
+        Top = 75
+        Width = 28
+        Height = 19
+        Caption = 'Brief'
+        TabOrder = 1
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT2'
+        Wx_IDValue = 1023
+        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText1'
+        Wx_PaneName = 'WxStaticText1_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
+      end
+      object mPictureLose: TWxEdit
+        Left = 65
+        Top = 25
+        Width = 100
+        Height = 19
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        AutoSize = False
+        TabOrder = 2
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_MPICTURELOSE'
+        Wx_IDValue = 1024
+        Wx_MaxLength = 0
+        Wx_PaneCaption = 'WxEdit2'
+        Wx_PaneName = 'WxEdit2_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
+      end
+      object mPictureWin: TWxEdit
+        Left = 65
+        Top = 50
+        Width = 100
+        Height = 19
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        AutoSize = False
+        TabOrder = 3
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_MPICTUREWIN'
+        Wx_IDValue = 1025
+        Wx_MaxLength = 0
+        Wx_PaneCaption = 'WxEdit2'
+        Wx_PaneName = 'WxEdit2_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
+      end
+      object mPictureBrief: TWxEdit
+        Left = 65
+        Top = 75
+        Width = 100
+        Height = 19
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        AutoSize = False
+        TabOrder = 4
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxTextCtrl'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_EditStyle = []
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_MPICTUREBRIEF'
+        Wx_IDValue = 1026
+        Wx_MaxLength = 0
+        Wx_PaneCaption = 'WxEdit2'
+        Wx_PaneName = 'WxEdit2_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
+      end
+      object WxStaticText4: TWxStaticText
+        Left = 15
+        Top = 25
+        Width = 28
+        Height = 19
+        Caption = 'Lose'
+        TabOrder = 5
+        Wx_BGColor = clBlack
+        Wx_Class = 'wxStaticText'
+        Wx_ControlOrientation = wxControlVertical
+        Wx_FGColor = clBlack
+        Wx_GeneralStyle = []
+        Wx_Hidden = False
+        Wx_IDName = 'ID_WXSTATICTEXT4'
+        Wx_IDValue = 1027
+        Wx_LabelStyle = []
+        Wx_PaneCaption = 'WxStaticText1'
+        Wx_PaneName = 'WxStaticText1_Pane'
+        Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+        Wx_Aui_Dockable_Direction = []
+        Wx_Aui_Pane_Style = []
+        Wx_Aui_Pane_Buttons = []
+        Wx_BestSize_Height = 0
+        Wx_BestSize_Width = 0
+        Wx_MinSize_Height = 0
+        Wx_MinSize_Width = 0
+        Wx_MaxSize_Height = 0
+        Wx_MaxSize_Width = 0
+        Wx_Floating_Height = 0
+        Wx_Floating_Width = 0
+        Wx_Floating_X_Pos = 0
+        Wx_Floating_Y_Pos = 0
+      end
     end
   end
   object mButtonDone: TWxButton

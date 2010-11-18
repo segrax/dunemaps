@@ -61,6 +61,12 @@ class cDialogBasics : public wxDialog
 		//GUI Control Declaration Start and GUI Control Declaration End.
 		//wxDev-C++ will remove them. Add custom code after the block.
 		////GUI Control Declaration Start
+		wxStaticText *WxStaticText4;
+		wxTextCtrl *mPictureBrief;
+		wxTextCtrl *mPictureWin;
+		wxTextCtrl *mPictureLose;
+		wxStaticText *WxStaticText2;
+		wxStaticText *WxStaticText1;
 		wxRadioButton *WxRadioButton2;
 		wxRadioButton *WxRadioButton1;
 		wxStaticBox *WxStaticBox4;
@@ -75,7 +81,7 @@ class cDialogBasics : public wxDialog
 		wxStaticBox *WxStaticBox1;
 		wxPanel *WxNoteBookPage2;
 		wxPanel *WxNoteBookPage1;
-		wxNotebook *WxNotebook1;
+		wxNotebook *WxStaticText3;
 		////GUI Control Declaration End
 		
 	private:
@@ -86,6 +92,12 @@ class cDialogBasics : public wxDialog
 		enum
 		{
 			////GUI Enum Control ID Start
+			ID_WXSTATICTEXT4 = 1027,
+			ID_MPICTUREBRIEF = 1026,
+			ID_MPICTUREWIN = 1025,
+			ID_MPICTURELOSE = 1024,
+			ID_WXSTATICTEXT2 = 1023,
+			ID_WXSTATICTEXT1 = 1022,
 			ID_WXRADIOBUTTON2 = 1020,
 			ID_WXRADIOBUTTON1 = 1019,
 			ID_WXSTATICBOX4 = 1017,
@@ -100,7 +112,7 @@ class cDialogBasics : public wxDialog
 			ID_WXSTATICBOX1 = 1005,
 			ID_WXNOTEBOOKPAGE2 = 1003,
 			ID_WXNOTEBOOKPAGE1 = 1002,
-			ID_WXNOTEBOOK1 = 1001,
+			ID_WXSTATICTEXT3 = 1001,
 			////GUI Enum Control ID End
 			ID_DUMMY_VALUE_ //don't remove this value unless you have other enum values
 		};

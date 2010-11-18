@@ -14,6 +14,8 @@ cUnit::cUnit(  cHouse *pHouse, word pType, word pMapIndex, byte pAngle, word pAc
 	_objectType = pType;
 	_UnitData = g_DuneEngine->resourcesGet()->unitGet( _objectType );
 
+	_actionCurrent = pAction;
+
 	// Put the unit in the mapcell
 	if(pMapIndex)
 		(*mapCellGet())->objectEnter( this );
@@ -45,7 +47,7 @@ void cUnit::draw() {
 
 	// If this object is selected, draw the selected cursor
 	if(objectSelected()) {
-		SDL_Surface *surface = g_DuneEngine->resourcesGet()->shpGet( 6 );
+		SDL_Surface *surface = g_DuneEngine->resourcesGet()->shpGet( 6, 0 );
 		_surface->surfacePut( surface, _X, _Y );
 	}
 }
@@ -100,7 +102,7 @@ void cUnit::drawBase() {
 		break;
 	}
 
-	surface = g_DuneEngine->resourcesGet()->shpGet( _UnitData->UnitGfxID + frameAdd );
+	surface = g_DuneEngine->resourcesGet()->shpGet( _UnitData->UnitGfxID + frameAdd, flags & 1 );
 	SDL_SetColors(surface, _house->paletteGet()->colors, 0, _house->paletteGet()->ncolors);
 	
 	if(surface->w == 8) {
@@ -123,6 +125,7 @@ void cUnit::drawTurret() {
 		angle		= g_DuneEngine->resourcesGet()->angleAdjustGet( _angleBase._Current );
 
 	adjust = g_DuneEngine->resourcesGet()->unitAngleFrameAdjustGet( angle );
+	word flag  = *g_DuneEngine->resourcesGet()->unitAngleFrameFlagsGet( angle );
 
 	// This doesn't match the diassembly perfectly, not sure how the images where lined up... but this works for now
 	switch( _UnitData->turretGfxID ) {
@@ -148,7 +151,7 @@ void cUnit::drawTurret() {
 		default:;
 	}
 
-	SDL_Surface *surface = g_DuneEngine->resourcesGet()->shpGet( _UnitData->turretGfxID + *adjust );
+	SDL_Surface *surface = g_DuneEngine->resourcesGet()->shpGet( _UnitData->turretGfxID + *adjust, flag & 1 );
 	SDL_SetColors(surface, _house->paletteGet()->colors, 0, _house->paletteGet()->ncolors);
 	
 	if(surface->w == 0xa) {

@@ -64,6 +64,10 @@ void cDialogBasics::missionLoad() {
 
 	flagsSet( WxCheckListBox1, g_DuneEngine->scenarioGet()->mapLoseFlagsGet() );
 	flagsSet( WxCheckListBox2, g_DuneEngine->scenarioGet()->mapWinFlagsGet() );
+
+	mPictureLose->SetValue( g_DuneEngine->scenarioGet()->pictureLoseGet() );
+	mPictureWin->SetValue( g_DuneEngine->scenarioGet()->pictureWinGet() );
+	mPictureBrief->SetValue( g_DuneEngine->scenarioGet()->pictureBriefGet() );
 }
 
 byte cDialogBasics::flagsGet( wxCheckListBox *checkList ) {
@@ -95,13 +99,13 @@ void cDialogBasics::CreateGUIControls()
 	//Add the custom code before or after the blocks
 	////GUI Items Creation Start
 
-	WxNotebook1 = new wxNotebook(this, ID_WXNOTEBOOK1, wxPoint(3, 4), wxSize(412, 282), wxNB_DEFAULT);
+	WxStaticText3 = new wxNotebook(this, ID_WXSTATICTEXT3, wxPoint(3, 4), wxSize(412, 282), wxNB_DEFAULT);
 
-	WxNoteBookPage1 = new wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGE1, wxPoint(4, 26), wxSize(404, 252));
-	WxNotebook1->AddPage(WxNoteBookPage1, wxT("Mission"));
+	WxNoteBookPage1 = new wxPanel(WxStaticText3, ID_WXNOTEBOOKPAGE1, wxPoint(4, 26), wxSize(404, 252));
+	WxStaticText3->AddPage(WxNoteBookPage1, wxT("Mission"));
 
-	WxNoteBookPage2 = new wxPanel(WxNotebook1, ID_WXNOTEBOOKPAGE2, wxPoint(4, 26), wxSize(404, 252));
-	WxNotebook1->AddPage(WxNoteBookPage2, wxT("Pictures"));
+	WxNoteBookPage2 = new wxPanel(WxStaticText3, ID_WXNOTEBOOKPAGE2, wxPoint(4, 26), wxSize(404, 252));
+	WxStaticText3->AddPage(WxNoteBookPage2, wxT("Pictures"));
 
 	WxStaticBox1 = new wxStaticBox(WxNoteBookPage1, ID_WXSTATICBOX1, wxT("Lose Flags"), wxPoint(4, 130), wxSize(195, 104));
 
@@ -136,6 +140,18 @@ void cDialogBasics::CreateGUIControls()
 	WxRadioButton1 = new wxRadioButton(WxNoteBookPage1, ID_WXRADIOBUTTON1, wxT("Scale 0"), wxPoint(247, 50), wxSize(81, 12), 0, wxDefaultValidator, wxT("WxRadioButton1"));
 
 	WxRadioButton2 = new wxRadioButton(WxNoteBookPage1, ID_WXRADIOBUTTON2, wxT("Scale 1"), wxPoint(247, 71), wxSize(70, 17), 0, wxDefaultValidator, wxT("WxRadioButton2"));
+
+	WxStaticText1 = new wxStaticText(WxNoteBookPage2, ID_WXSTATICTEXT1, wxT("Win"), wxPoint(15, 50), wxDefaultSize, 0, wxT("WxStaticText1"));
+
+	WxStaticText2 = new wxStaticText(WxNoteBookPage2, ID_WXSTATICTEXT2, wxT("Brief"), wxPoint(15, 75), wxDefaultSize, 0, wxT("WxStaticText2"));
+
+	mPictureLose = new wxTextCtrl(WxNoteBookPage2, ID_MPICTURELOSE, wxT(""), wxPoint(65, 25), wxSize(100, 19), 0, wxDefaultValidator, wxT("mPictureLose"));
+
+	mPictureWin = new wxTextCtrl(WxNoteBookPage2, ID_MPICTUREWIN, wxT(""), wxPoint(65, 50), wxSize(100, 19), 0, wxDefaultValidator, wxT("mPictureWin"));
+
+	mPictureBrief = new wxTextCtrl(WxNoteBookPage2, ID_MPICTUREBRIEF, wxT(""), wxPoint(65, 75), wxSize(100, 19), 0, wxDefaultValidator, wxT("mPictureBrief"));
+
+	WxStaticText4 = new wxStaticText(WxNoteBookPage2, ID_WXSTATICTEXT4, wxT("Lose"), wxPoint(15, 25), wxDefaultSize, 0, wxT("WxStaticText4"));
 
 	SetTitle(wxT("DuneMaps - Scenario Basics"));
 	SetIcon(wxNullIcon);
@@ -173,6 +189,11 @@ void cDialogBasics::mButtonDoneClick(wxCommandEvent& event) {
 	g_DuneEngine->scenarioGet()->mapWinFlagsSet( flagsGet( WxCheckListBox2 ) );
 	
 	g_DuneEngine->screenPlayfieldGet()->scaleSet();
+
+	g_DuneEngine->scenarioGet()->pictureLoseSet( string( mPictureLose->GetValue() ) );
+	g_DuneEngine->scenarioGet()->pictureWinSet(  string( mPictureWin->GetValue() ) );
+	g_DuneEngine->scenarioGet()->pictureBriefSet( string( mPictureBrief->GetValue() ) );
+
 	Close();
 }
 

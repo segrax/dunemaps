@@ -10,6 +10,7 @@ private:
 	
 	size_t						 _mapSeed, _mapScale, _mapTactical, _mapTimeOut,  _mapCursor, _mapLoseFlags, _mapWinFlags;
 	string						 _mapField, _mapBloom, _mapSpecial;
+	string						 _pictureLose, _pictureBrief, _pictureWin;
 
 	void						 scenarioMapPrepare();
 	bool						 scenarioBegin(  size_t pScenNumber );
@@ -61,6 +62,19 @@ public:
 
 	inline size_t				 mapWinFlagsGet()					{ return _mapWinFlags; }
 	inline void					 mapWinFlagsSet( size_t pVal )	{ _mapWinFlags = pVal; }
+
+	inline string				 pictureLoseGet()					{ return _pictureLose; }
+	inline void					 pictureLoseSet( string pVal )		{ _pictureLose = pVal; }
+
+	inline string				 pictureBriefGet()					{ return _pictureBrief; }
+	inline void					 pictureBriefSet( string pVal )		{ _pictureBrief = pVal; }
+
+	inline string				 pictureWinGet()					{ return _pictureWin; }
+	inline void					 pictureWinSet( string pVal )		{ _pictureWin = pVal; }
+
+	
+	
+	
 
 	
 };

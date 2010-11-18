@@ -56,7 +56,6 @@ BEGIN_EVENT_TABLE(cFrameDuneMaps,wxFrame)
 	EVT_TOOL_RANGE(ID_WXTOOLBAR2,ID_WXTOOLBAR2_End, cFrameDuneMaps::WxToolBar2Tool)
 	EVT_TOOL_RANGE(ID_WXTOOLBAR1,ID_WXTOOLBAR1_End, cFrameDuneMaps::WxToolBar1Tool)
 	EVT_MENU_RANGE(ID_MNU_SCEN, ID_MNU_SCEN_End, cFrameDuneMaps::MnuLoadPak_ScenClick)
-
 END_EVENT_TABLE()
 ////Event Table End
 
@@ -180,7 +179,7 @@ void cFrameDuneMaps::loadToolbarUnits() {
 	for( int id = 0; id < 18; ++id ) {
 		
 		sUnitData *unitData = g_DuneEngine->resourcesGet()->unitGet( id );
-		SDL_Surface *shp = g_DuneEngine->resourcesGet()->shpGet( unitData->sidebarIconID );
+		SDL_Surface *shp = g_DuneEngine->resourcesGet()->shpGet( unitData->sidebarIconID, 0 );
 
 		surface.surfacePut( shp, 0, 0 );
 		
@@ -197,7 +196,7 @@ void cFrameDuneMaps::loadToolbarStructures() {
 	for( int id = 0; id < 19; ++id ) {
 		
 		sStructureData *buildingData = g_DuneEngine->resourcesGet()->structureGet( id );
-		SDL_Surface *shp = g_DuneEngine->resourcesGet()->shpGet( buildingData->sidebarIconID );
+		SDL_Surface *shp = g_DuneEngine->resourcesGet()->shpGet( buildingData->sidebarIconID, 0 );
 
 		surface.surfacePut( shp, 0, 0 );
 		

@@ -217,7 +217,9 @@ word cMap::mapTileTypeGet( word pMapIndex ) {
 }
 
 word cMap::sub_5700A( word pMapIndex, short int pArg_2 ) {
-	
+	if(pMapIndex > 0x1000)
+		return 0;
+
 	if( pArg_2 == 0 )
 		return 0;
 

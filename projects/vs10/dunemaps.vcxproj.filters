@@ -131,6 +131,9 @@
     <ClCompile Include="..\..\src\dialogBasics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\dune\graphics\tools.cpp">
+      <Filter>Source Files\dune\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\appDuneMaps.h">
@@ -246,6 +249,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\dialogBasics.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\graphics\tools.h">
+      <Filter>Source Files\dune\graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
