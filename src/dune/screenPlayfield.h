@@ -55,6 +55,7 @@ public:
 	inline void			 heightSet( size_t pVal ) { _redraw = true;
 													_height = pVal; }
 
+	void				 scaleSet();
 	inline word			 *scaleGet() { return _scale; }
 
 };

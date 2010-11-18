@@ -71,8 +71,6 @@ void cPanelSurface::CreateGUIControls() {
 	WxPopupMenu1 = new wxMenu(wxT(""));WxPopupMenu1->Append(ID_MNU_ADDBLOOM_1001, wxT("Add Spice Bloom"), wxT(""), wxITEM_NORMAL);
 	WxPopupMenu1->Append(ID_MNU_ADDSPICEFIELD_1002, wxT("Add Spice Field"), wxT(""), wxITEM_NORMAL);
 
-	SetTitle(wxT("New Dialog"));
-	SetIcon(wxNullIcon);
 	SetSize(8,8,320,334);
 	Center();
 	

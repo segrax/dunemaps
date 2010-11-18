@@ -18,7 +18,7 @@ cScreenPlayfield::cScreenPlayfield( ) {
 
 	_mapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( g_DuneEngine->scenarioGet()->mapCursorGet() );
 
-	_scale = g_DuneEngine->resourcesGet()->mapScaleGet( g_DuneEngine->scenarioGet()->mapScaleLevelGet() << 1);
+	scaleSet();
 
 	_surfaceLandscape = 0;
 	_surfaceUnits = 0;
@@ -35,6 +35,11 @@ cScreenPlayfield::~cScreenPlayfield() {
 	delete _surfaceLandscape;
 	delete _surfaceUnits;
 	delete _surfaceTileHighlight;
+}
+
+void cScreenPlayfield::scaleSet() {
+
+	_scale = g_DuneEngine->resourcesGet()->mapScaleGet( g_DuneEngine->scenarioGet()->mapScaleLevelGet() << 1);
 }
 
 void cScreenPlayfield::screenPrep() {

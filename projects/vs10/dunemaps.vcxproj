@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\appDuneMaps.cpp" />
+    <ClCompile Include="..\..\src\dialogBasics.cpp" />
     <ClCompile Include="..\..\src\dialogHouses.cpp" />
     <ClCompile Include="..\..\src\dune\engine\team.cpp" />
     <ClCompile Include="..\..\src\frameDuneMaps.cpp" />
@@ -53,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\appDuneMaps.h" />
+    <ClInclude Include="..\..\src\dialogBasics.h" />
     <ClInclude Include="..\..\src\dialogHouses.h" />
     <ClInclude Include="..\..\src\dune\engine\team.h" />
     <ClInclude Include="..\..\src\frameDuneMaps.h" />

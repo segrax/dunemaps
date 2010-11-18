@@ -8,7 +8,7 @@ private:
 	cMap						*_map;
 	cMapGenerator				*_mapGenerator;
 	
-	size_t						 _mapSeed, _mapScale, _mapTactical, _mapCursor;
+	size_t						 _mapSeed, _mapScale, _mapTactical, _mapTimeOut,  _mapCursor, _mapLoseFlags, _mapWinFlags;
 	string						 _mapField, _mapBloom, _mapSpecial;
 
 	void						 scenarioMapPrepare();
@@ -52,4 +52,15 @@ public:
 
 	inline string				 mapSpecialGet()					{ return _mapSpecial; }
 	inline void					 mapSpecialSet( string pVal )		{ _mapSpecial = pVal; }
+	
+	inline size_t				 mapTimeoutGet()					{ return _mapTimeOut; }
+	inline void					 mapTimeoutSet( size_t pVal )	{ _mapTimeOut = pVal; }
+	
+	inline size_t				 mapLoseFlagsGet()					{ return _mapLoseFlags; }
+	inline void					 mapLoseFlagsSet( size_t pVal )	{ _mapLoseFlags = pVal; }
+
+	inline size_t				 mapWinFlagsGet()					{ return _mapWinFlags; }
+	inline void					 mapWinFlagsSet( size_t pVal )	{ _mapWinFlags = pVal; }
+
+	
 };

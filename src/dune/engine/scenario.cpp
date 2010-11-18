@@ -31,6 +31,16 @@ vector<string> splitStr( string pStr ) {
 cScenario::cScenario(  )  {
 	_mapGenerator = 0;
 	_map = 0;
+
+	_mapTimeOut = 0;
+	_mapSeed = 0;
+	_mapScale = 0;
+	_mapTactical = 0;
+	_mapCursor = 0;
+
+	_mapLoseFlags = 0;
+	_mapWinFlags = 0;
+
 }
 
 
@@ -121,8 +131,13 @@ void cScenario::scenarioLoad( string pFilename ) {
 	_mapBloom	= g_DuneEngine->resourcesGet()->IniStringGet("MAP", "Bloom", "");
 	_mapSpecial	= g_DuneEngine->resourcesGet()->IniStringGet("MAP", "Special", "");
 	
+	_mapTimeOut = g_DuneEngine->resourcesGet()->IniNumGet("BASIC", "TimeOut", 0);
+
 	_mapCursor  = g_DuneEngine->resourcesGet()->IniNumGet("BASIC", "CursorPos", 0);
 	_mapTactical = g_DuneEngine->resourcesGet()->IniNumGet("BASIC", "TacticalPos", 0);
+
+	_mapLoseFlags	= g_DuneEngine->resourcesGet()->IniNumGet("BASIC", "LoseFlags", 0);
+	_mapWinFlags	= g_DuneEngine->resourcesGet()->IniNumGet("BASIC", "WinFlags", 0);
 
 	houseLoad();
 
