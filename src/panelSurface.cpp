@@ -30,9 +30,13 @@ BEGIN_EVENT_TABLE(cPanelSurface,wxPanel)
 	////Manual Code End
 	
 	EVT_CLOSE(cPanelSurface::OnClose)
+	EVT_SIZE(cPanelSurface::OnSize)
 	EVT_RIGHT_DOWN(cPanelSurface::cPanelSurfaceRightDown)
+	EVT_PAINT(cPanelSurface::OnPaint)
+	EVT_MOUSE_EVENTS(cPanelSurface::OnMouse)
 	EVT_MENU(ID_MNU_ADDBLOOM_1001 , cPanelSurface::Mnuaddbloom1001Click)
 	EVT_MENU(ID_MNU_ADDSPICEFIELD_1002 , cPanelSurface::Mnuaddspicefield1002Click)
+	EVT_TIMER(inputTimer, cPanelSurface::OnInputTimer)
 END_EVENT_TABLE()
 ////Event Table End
 
@@ -67,6 +71,8 @@ void cPanelSurface::CreateGUIControls() {
 	WxPopupMenu1 = new wxMenu(wxT(""));WxPopupMenu1->Append(ID_MNU_ADDBLOOM_1001, wxT("Add Spice Bloom"), wxT(""), wxITEM_NORMAL);
 	WxPopupMenu1->Append(ID_MNU_ADDSPICEFIELD_1002, wxT("Add Spice Field"), wxT(""), wxITEM_NORMAL);
 
+	SetTitle(wxT("New Dialog"));
+	SetIcon(wxNullIcon);
 	SetSize(8,8,320,334);
 	Center();
 	

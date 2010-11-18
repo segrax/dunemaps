@@ -41,6 +41,7 @@ BEGIN_EVENT_TABLE(cFrameDuneMaps,wxFrame)
 	EVT_SIZE(cFrameDuneMaps::OnSize)
 	EVT_MENU(ID_MNU_NEWSCENARIO_1005, cFrameDuneMaps::Mnunewscenario1005Click)
 	EVT_MENU(ID_MNU_FROMINI_7000, cFrameDuneMaps::Mnuloadscenario1002Click)
+	EVT_MENU(ID_MNU_SCEN, cFrameDuneMaps::MnuLoadPak_ScenClick)
 	EVT_MENU(ID_MNU_QUIT_1006, cFrameDuneMaps::Mnuquit1006Click)
 	EVT_MENU(ID_MNU_HARKONNEN_4006, cFrameDuneMaps::MnuHouseChange)
 	EVT_MENU(ID_MNU_ATREIDES_4007, cFrameDuneMaps::MnuHouseChange)
@@ -52,10 +53,8 @@ BEGIN_EVENT_TABLE(cFrameDuneMaps,wxFrame)
 	EVT_MENU(ID_MNU_HOUSES_4016, cFrameDuneMaps::Mnuhouses4016Click)
 	EVT_MENU(ID_MNU_TEAMS_4014, cFrameDuneMaps::Mnuteams4014Click)
 	EVT_MENU(ID_MNU_REINFORCEMENTS_4015, cFrameDuneMaps::Mnureinforcements4015Click)
-	EVT_TOOL_RANGE(ID_WXTOOLBAR2,ID_WXTOOLBAR2_End, cFrameDuneMaps::WxToolBar2Tool)
-	EVT_TOOL_RANGE(ID_WXTOOLBAR1,ID_WXTOOLBAR1_End, cFrameDuneMaps::WxToolBar1Tool)
-	EVT_MENU_RANGE(ID_MNU_SCEN, ID_MNU_SCEN_End, cFrameDuneMaps::MnuLoadPak_ScenClick)
-
+	EVT_TOOL(ID_WXTOOLBAR2,cFrameDuneMaps::WxToolBar2Tool)
+	EVT_TOOL(ID_WXTOOLBAR1,cFrameDuneMaps::WxToolBar1Tool)
 END_EVENT_TABLE()
 ////Event Table End
 
@@ -95,6 +94,8 @@ void cFrameDuneMaps::CreateGUIControls()
 
 	WxToolBar1 = new wxToolBar(this, ID_WXTOOLBAR1, wxPoint(0, 0), wxSize(732, 28));
 
+	WxToolBar2 = new wxToolBar(this, ID_WXTOOLBAR2, wxPoint(0, 28), wxSize(732, 28));
+
 	WxMenuBar1 = new wxMenuBar();
 	wxMenu *ID_MNU_FILE_1001_Mnu_Obj = new wxMenu(0);
 	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_NEWSCENARIO_1005, wxT("&New Scenario"), wxT(""), wxITEM_NORMAL);
@@ -112,12 +113,12 @@ void cFrameDuneMaps::CreateGUIControls()
 	WxMenuBar1->Append(ID_MNU_FILE_1001_Mnu_Obj, wxT("&File"));
 	
 	wxMenu *ID_MNU_HOUSE_4005_Mnu_Obj = new wxMenu(0);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_HARKONNEN_4006, wxT("Harkonnen"), wxT(""), wxITEM_RADIO);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_ATREIDES_4007, wxT("Atreides"), wxT(""), wxITEM_RADIO);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_ORDOS_4009, wxT("Ordos"), wxT(""), wxITEM_RADIO);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_MERCENARIES_4012, wxT("Mercenaries"), wxT(""), wxITEM_RADIO);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_SARDAUKA_4013, wxT("Sardauka"), wxT(""), wxITEM_RADIO);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_FREMEN_4011, wxT("Fremen"), wxT(""), wxITEM_RADIO);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_HARKONNEN_4006, wxT("Harkonnen"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_ATREIDES_4007, wxT("Atreides"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_ORDOS_4009, wxT("Ordos"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_MERCENARIES_4012, wxT("Mercenaries"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_SARDAUKA_4013, wxT("Sardauka"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_FREMEN_4011, wxT("Fremen"), wxT(""), wxITEM_NORMAL);
 	WxMenuBar1->Append(ID_MNU_HOUSE_4005_Mnu_Obj, wxT("&House"));
 	
 	wxMenu *ID_MNU_SCENARIO_4001_Mnu_Obj = new wxMenu(0);
@@ -128,6 +129,8 @@ void cFrameDuneMaps::CreateGUIControls()
 	WxMenuBar1->Append(ID_MNU_SCENARIO_4001_Mnu_Obj, wxT("&Scenario"));
 	SetMenuBar(WxMenuBar1);
 
+	WxToolBar2->Realize();
+	SetToolBar(WxToolBar2);
 	WxToolBar1->Realize();
 	SetToolBar(WxToolBar1);
 	SetTitle(wxT("Dune Maps"));

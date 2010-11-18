@@ -97,6 +97,8 @@ class cFrameDuneMaps : public wxFrame
 			ID_MNU_TEAMS_4014 = 4014,
 			ID_MNU_REINFORCEMENTS_4015 = 4015,
 			
+			ID_WXTOOLBAR2 = 1009,
+			ID_WXTOOLBAR1 = 1008,
 			////GUI Enum Control ID End
 			ID_DUMMY_VALUE_, //don't remove this value unless you have other enum values
 			ID_WXTOOLBAR,
