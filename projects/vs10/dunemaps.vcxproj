@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\appDuneMaps.cpp" />
+    <ClCompile Include="..\..\src\dialogHouses.cpp" />
     <ClCompile Include="..\..\src\dune\engine\team.cpp" />
     <ClCompile Include="..\..\src\frameDuneMaps.cpp" />
     <ClCompile Include="..\..\src\dune\dune.cpp" />
@@ -52,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\appDuneMaps.h" />
+    <ClInclude Include="..\..\src\dialogHouses.h" />
     <ClInclude Include="..\..\src\dune\engine\team.h" />
     <ClInclude Include="..\..\src\frameDuneMaps.h" />
     <ClInclude Include="..\..\src\dune\dune.hpp" />
@@ -115,7 +117,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)..\..\run</OutDir>
+    <OutDir>$(SolutionDir)..\..\run\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

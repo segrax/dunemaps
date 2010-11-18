@@ -11,6 +11,7 @@
 #include "frameDuneMaps.h"
 #include "panelSurface.h"
 #include "appDuneMaps.h"
+#include "dialogHouses.h"
 
 #include "stdafx.h"
 #include "dune\engine\objects\object.h"
@@ -336,7 +337,10 @@ void cFrameDuneMaps::Mnubasics4003Click(wxCommandEvent& event) {
 /*
  * Mnuhouses4016Click
  */
-void cFrameDuneMaps::Mnuhouses4016Click(wxCommandEvent& event)
-{
-	// insert your code here
+void cFrameDuneMaps::Mnuhouses4016Click(wxCommandEvent& event) {
+	cDialogHouses *Houses = new cDialogHouses(this);
+
+	Houses->ShowModal();
+
+	delete Houses;
 }

@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "engine/objects/object.h"
 #include "engine/house.h"
 #include "engine/scenario.h"
 #include "screenPlayfield.h"

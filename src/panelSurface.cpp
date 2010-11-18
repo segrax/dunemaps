@@ -33,11 +33,6 @@ BEGIN_EVENT_TABLE(cPanelSurface,wxPanel)
 	EVT_RIGHT_DOWN(cPanelSurface::cPanelSurfaceRightDown)
 	EVT_MENU(ID_MNU_ADDBLOOM_1001 , cPanelSurface::Mnuaddbloom1001Click)
 	EVT_MENU(ID_MNU_ADDSPICEFIELD_1002 , cPanelSurface::Mnuaddspicefield1002Click)
-	EVT_PAINT(cPanelSurface::OnPaint)
-	EVT_SIZE(cPanelSurface::OnSize)
-	EVT_MOUSE_EVENTS(cPanelSurface::OnMouse) 
-	EVT_TIMER(inputTimer, cPanelSurface::OnInputTimer)
-
 END_EVENT_TABLE()
 ////Event Table End
 
@@ -151,10 +146,10 @@ void cPanelSurface::OnMouse(wxMouseEvent& event) {
 	}
 
 	if( scroll ) {
-		word *scale = g_DuneEngine->screenPlayfieldGet()->scaleGet();
+		short int *scale = (short int*) g_DuneEngine->screenPlayfieldGet()->scaleGet();
 
-		word x = g_DuneEngine->screenPlayfieldGet()->mapXGet() + (mMouseX / 16);
-		word y = g_DuneEngine->screenPlayfieldGet()->mapYGet() + (mMouseY / 16);
+		short int x = g_DuneEngine->screenPlayfieldGet()->mapXGet() + (mMouseX / 16);
+		short int  y = g_DuneEngine->screenPlayfieldGet()->mapYGet() + (mMouseY / 16);
 		
 		x -= g_DuneEngine->screenTilesMaxX() / 4;
 		y -= g_DuneEngine->screenTilesMaxY() / 4;
