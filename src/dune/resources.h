@@ -206,6 +206,7 @@ public:
 	string							 aiModeGet( int pNum );
 	size_t							 aiModeFind( string pName ) ;
 	size_t							 movementNamesGet( string pName );
+	string							 movementNameGet( size_t pNumber );
 
 	SDL_Surface						*CpsGet( string fileName ) ;
 

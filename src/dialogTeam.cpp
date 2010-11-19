@@ -45,10 +45,10 @@ cDialogTeam::cDialogTeam(wxWindow *parent, wxWindowID id, const wxString &title,
 		mChoiceHouse->Insert( house->houseDataGet()->houseName, i );
 	}
 
-	for( int i = 0; i < 18; ++i ) {
-		sUnitData *data = g_DuneEngine->resourcesGet()->unitGet( i );
+	for( int i = 0; i < 6; ++i ) {
+		string movement = g_DuneEngine->resourcesGet()->movementNameGet(i);
 
-		mChoiceUnitType->Insert( data->Name, i );
+		mChoiceUnitType->Insert( movement, i );
 	}
 
 	for( int i = 0; i < 0x5; ++i) {

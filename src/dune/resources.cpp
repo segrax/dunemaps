@@ -910,10 +910,20 @@ size_t cResources::movementNamesGet( string pName ) {
 		if(tmp == "Wheeled" && pName == "Wheel")
 			return i;
 		//
-
 		if(tmp == pName)
 			return i;
 	}
 
 	return 0;
+}
+
+string cResources::movementNameGet( size_t pNumber ) {
+	dword *move = (dword*) _Exe->movementNames( );
+	
+	move += pNumber;
+
+	string tmp;
+
+	tmp.append( _Exe->stringGet( (size_t) *move ));
+	return tmp;
 }
