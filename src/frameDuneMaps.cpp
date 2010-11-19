@@ -50,12 +50,13 @@ BEGIN_EVENT_TABLE(cFrameDuneMaps,wxFrame)
 	EVT_MENU(ID_MNU_HARKONNEN_4006, cFrameDuneMaps::MnuHouseChange)
 	EVT_MENU(ID_MNU_ATREIDES_4007, cFrameDuneMaps::MnuHouseChange)
 	EVT_MENU(ID_MNU_ORDOS_4008, cFrameDuneMaps::MnuHouseChange)
-	EVT_MENU(ID_MNU_SARDAUKA_4009, cFrameDuneMaps::MnuHouseChange)
-	EVT_MENU(ID_MNU_MERCENARIES_4010, cFrameDuneMaps::MnuHouseChange)
-	EVT_MENU(ID_MNU_FREMEN_4011, cFrameDuneMaps::MnuHouseChange)
+	EVT_MENU(ID_MNU_FREMEN_4009, cFrameDuneMaps::MnuHouseChange)
+	EVT_MENU(ID_MNU_SARDAUKA_4010, cFrameDuneMaps::MnuHouseChange)
+	EVT_MENU(ID_MNU_MERCENARIES_4011, cFrameDuneMaps::MnuHouseChange)
 	EVT_MENU(ID_MNU_BASICS_4003, cFrameDuneMaps::Mnubasics4003Click)
 	EVT_MENU(ID_MNU_HOUSES_4016, cFrameDuneMaps::Mnuhouses4016Click)
 	EVT_MENU(ID_MNU_TEAMS_4014, cFrameDuneMaps::Mnuteams4014Click)
+	EVT_MENU(ID_MNU_REINFORCEMENTS_4015, cFrameDuneMaps::Mnureinforcements4015Click)
 	EVT_TOOL_RANGE(ID_WXTOOLBAR2,ID_WXTOOLBAR2_End, cFrameDuneMaps::WxToolBar2Tool)
 	EVT_TOOL_RANGE(ID_WXTOOLBAR1,ID_WXTOOLBAR1_End, cFrameDuneMaps::WxToolBar1Tool)
 	EVT_MENU_RANGE(ID_MNU_SCEN, ID_MNU_SCEN_End, cFrameDuneMaps::MnuLoadPak_ScenClick)
@@ -119,9 +120,9 @@ void cFrameDuneMaps::CreateGUIControls()
 	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_HARKONNEN_4006, wxT("Harkonnen"), wxT(""), wxITEM_RADIO);
 	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_ATREIDES_4007, wxT("Atreides"), wxT(""), wxITEM_RADIO);
 	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_ORDOS_4008, wxT("Ordos"), wxT(""), wxITEM_RADIO);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_SARDAUKA_4009, wxT("Sardauka"), wxT(""), wxITEM_RADIO);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_MERCENARIES_4010, wxT("Mercenaries"), wxT(""), wxITEM_RADIO);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_FREMEN_4011, wxT("Fremen"), wxT(""), wxITEM_RADIO);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_FREMEN_4009, wxT("Fremen"), wxT(""), wxITEM_RADIO);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_SARDAUKA_4010, wxT("Sardauka"), wxT(""), wxITEM_RADIO);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_MERCENARIES_4011, wxT("Mercenaries"), wxT(""), wxITEM_RADIO);
 	WxMenuBar1->Append(ID_MNU_HOUSE_4005_Mnu_Obj, wxT("&House"));
 	
 	wxMenu *ID_MNU_SCENARIO_4001_Mnu_Obj = new wxMenu(0);
