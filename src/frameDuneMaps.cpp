@@ -13,6 +13,7 @@
 #include "appDuneMaps.h"
 #include "dialogHouses.h"
 #include "dialogBasics.h"
+#include "dialogTeams.h"
 
 #include "stdafx.h"
 #include "dune\engine\objects\object.h"
@@ -317,14 +318,18 @@ void cFrameDuneMaps::MnuHouseChange(wxCommandEvent& event) {
  * Mnuteams4014Click
  */
 void cFrameDuneMaps::Mnuteams4014Click(wxCommandEvent& event) {
-	// insert your code here
+	cDialogTeams *Teams = new cDialogTeams(this);
+
+	Teams->ShowModal();
+
+	delete Teams;
 }
 
 /*
  * Mnureinforcements4015Click
  */
 void cFrameDuneMaps::Mnureinforcements4015Click(wxCommandEvent& event) {
-	// insert your code here
+	
 }
 
 /*

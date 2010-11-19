@@ -1,4 +1,4 @@
-object frmNewForm_2: TfrmNewForm
+object frmNewForm: TfrmNewForm
   Left = 8
   Top = 8
   AutoScroll = False
@@ -343,7 +343,7 @@ object frmNewForm_2: TfrmNewForm
     end
   end
   object mButtonDone: TWxButton
-    Left = 197
+    Left = 121
     Top = 133
     Width = 60
     Height = 22
@@ -381,7 +381,7 @@ object frmNewForm_2: TfrmNewForm
     Wx_Floating_Y_Pos = 0
   end
   object mButtonCancel: TWxButton
-    Left = 121
+    Left = 197
     Top = 133
     Width = 60
     Height = 22

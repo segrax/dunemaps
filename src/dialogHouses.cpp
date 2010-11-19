@@ -96,9 +96,9 @@ void cDialogHouses::CreateGUIControls()
 
 	WxStaticText3 = new wxStaticText(WxPanel1, ID_WXSTATICTEXT3, wxT("Max Units"), wxPoint(5, 67), wxDefaultSize, 0, wxT("WxStaticText3"));
 
-	mButtonDone = new wxButton(this, ID_MBUTTONDONE, wxT("Done"), wxPoint(197, 133), wxSize(60, 22), 0, wxDefaultValidator, wxT("mButtonDone"));
+	mButtonDone = new wxButton(this, ID_MBUTTONDONE, wxT("Done"), wxPoint(121, 133), wxSize(60, 22), 0, wxDefaultValidator, wxT("mButtonDone"));
 
-	mButtonCancel = new wxButton(this, ID_MBUTTONCANCEL, wxT("Cancel"), wxPoint(121, 133), wxSize(60, 22), 0, wxDefaultValidator, wxT("mButtonCancel"));
+	mButtonCancel = new wxButton(this, ID_MBUTTONCANCEL, wxT("Cancel"), wxPoint(197, 133), wxSize(60, 22), 0, wxDefaultValidator, wxT("mButtonCancel"));
 
 	SetTitle(wxT("DuneMaps - House Editor"));
 	SetIcon(wxNullIcon);

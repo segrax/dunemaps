@@ -278,17 +278,22 @@ void cScenario::teamsLoad() {
 		if(!teamDetails.size())
 			break;
 
-		eHouse	house = (eHouse) g_DuneEngine->resourcesGet()->houseFind( teamDetails[0].c_str() );
-		size_t	aiMode = g_DuneEngine->resourcesGet()->aiModeFind( teamDetails[1].c_str() );
-		size_t	movementType = g_DuneEngine->resourcesGet()->movementNamesGet( teamDetails[2] );
-		size_t	unk1 = atoi( teamDetails[3].c_str() );
-		size_t  unitsMax	 = atoi( teamDetails[4].c_str() );
-
-		cHouse *House = g_DuneEngine->houseGet( house ) ;
-
-		cTeam *team = House->teamCreate( aiMode, movementType, unk1, unitsMax );
+		teamCreate(teamDetails[0], teamDetails[1], teamDetails[2], teamDetails[3], teamDetails[4]);
 		
 	}
 
 	g_DuneEngine->resourcesGet()->IniSectionClose("TEAMS");
+}
+
+void cScenario::teamCreate(string pHouseName, string pAiMode, string pMovementType, string pUnitsMin, string pUnitsMax ) {
+	eHouse	house = (eHouse) g_DuneEngine->resourcesGet()->houseFind( pHouseName.c_str() );
+	size_t	aiMode = g_DuneEngine->resourcesGet()->aiModeFind( pAiMode.c_str() );
+	size_t	movementType = g_DuneEngine->resourcesGet()->movementNamesGet( pMovementType );
+	size_t	unk1 = atoi( pUnitsMin.c_str() );
+	size_t  unitsMax	 = atoi( pUnitsMax.c_str() );
+
+	cHouse *House = g_DuneEngine->houseGet( house ) ;
+
+	cTeam *team = House->teamCreate( aiMode, movementType, unk1, unitsMax );
+	
 }

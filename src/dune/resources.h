@@ -203,6 +203,7 @@ public:
 									 cResources( string pPath );
 									~cResources();
 
+	string							 aiModeGet( int pNum );
 	size_t							 aiModeFind( string pName ) ;
 	size_t							 movementNamesGet( string pName );
 

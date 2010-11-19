@@ -880,6 +880,20 @@ size_t cResources::aiModeFind( string pName ) {
 	return 0;
 }
 
+string cResources::aiModeGet( int pNum ) {
+	dword *move = (dword*) _Exe->movementNames( );
+	
+	move += 0x6;
+
+	move += pNum;
+
+	string tmp;
+		
+	tmp.append( _Exe->stringGet( (size_t) *move ));
+
+	return tmp;
+}
+
 size_t cResources::movementNamesGet( string pName ) {
 	
 	dword *move = (dword*) _Exe->movementNames( );

@@ -276,25 +276,28 @@ void cPanelSurface::cPanelSurfaceRightDown(wxMouseEvent& event) {
 	
 	OnMouse( event );
 
+	// No unit in selected cell, display the map menu
 	if(!(*mMapCell)->hasUnit())
 		PopupMenu( WxPopupMenu1 );
+
 	else {
+		// Reset orders menu
 		menuOrdersReset();
 
+		// Check the action thats in use by the unit
 		cUnit *unit = (cUnit*) (*mMapCell)->objectGet();
-
 		word actionID = unit->actionGet();
-
 		wxMenuItem		*item = mPopupObject->FindItem(ID_MNU_ORDER_2000 + actionID);
 		item->Check();
 
+		// Show the unit menu
 		PopupMenu( mPopupObject );
 		
 	}
 }
 
 /*
- * Mnuunitrotate1003Click
+ * Menu: Rotate unit
  */
 void cPanelSurface::Mnuunitrotate1003Click(wxCommandEvent& event) {
 
@@ -313,6 +316,7 @@ void cPanelSurface::Mnuunitrotate1003Click(wxCommandEvent& event) {
 	playfieldSizeUpdate();
 }
 
+// Menu: Uncheck all actions
 void cPanelSurface::menuOrdersReset() {
 	
 	for( int i = 0; i < 14; ++i ) {
@@ -322,6 +326,7 @@ void cPanelSurface::menuOrdersReset() {
 	}
 }
 
+// Menu: Build a list of actions
 void cPanelSurface::menuOrdersBuild() {
 
 	wxMenuItem		*item = mPopupObject->FindItem(ID_MNU_ORDER_2000);
@@ -336,6 +341,7 @@ void cPanelSurface::menuOrdersBuild() {
 	}
 }
 
+// Menu: Set an unit with a starting action
 void cPanelSurface::menuActionSet(wxCommandEvent& event) {
 
 	if(!(*mMapCell)->hasUnit())

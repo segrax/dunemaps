@@ -26,6 +26,8 @@ public:
 	void						 missionLoad( size_t pScenNumber );
 	void						 scenarioLoad( string pFilename );
 
+	void						 teamCreate(string pHouseName, string pAiMode, string pMovementType, string pUnitsMin, string pUnitsMax );
+
 	void						 mapLoad();
 	void						 teamsLoad();
 	void						 houseLoad();

@@ -79,10 +79,19 @@ cTeam *cHouse::teamCreate( size_t pAiMode, size_t pMovementType, word arg_6, wor
 	return team;
 }
 
+void cHouse::teamsClear() {
+	vector< cTeam* >::iterator					teamIT;
+		
+	for( teamIT = _teams.begin(); teamIT != _teams.end(); ++teamIT )
+		delete (*teamIT);
+
+	_teams.clear();
+}
+
 void cHouse::reset() {
 	multimap< size_t, cUnit* >::iterator		unitIT;
 	multimap< size_t, cStructure* >::iterator	structIT;
-	vector< cTeam* >::iterator					teamIT;
+
 
 	for( unitIT = _units.begin(); unitIT != _units.end(); ++unitIT ) 
 		delete unitIT->second;
@@ -90,12 +99,10 @@ void cHouse::reset() {
 	for( structIT = _structures.begin(); structIT != _structures.end(); ++structIT ) 
 		delete structIT->second;
 
-	for( teamIT = _teams.begin(); teamIT != _teams.end(); ++teamIT )
-		delete (*teamIT);
-
+	teamsClear();
 	_units.clear();
 	_structures.clear();
-	_teams.clear();
+
 }
 
 void cHouse::mapPrepare() {

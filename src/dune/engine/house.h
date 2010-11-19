@@ -31,7 +31,7 @@ public:
 	void			 reset();												// Reset the house 
 	void			 mapPrepare();											// Prepare units and structures at start of map
 	
-	
+	void			 teamsClear();
 	
 	
 	void					 buildingsHave( word pTypeIndex, bool pOn );
