@@ -99,8 +99,6 @@ void cFrameDuneMaps::CreateGUIControls()
 
 	WxToolBar1 = new wxToolBar(this, ID_WXTOOLBAR1, wxPoint(0, 0), wxSize(732, 28));
 
-	WxToolBar2 = new wxToolBar(this, ID_WXTOOLBAR2, wxPoint(0, 28), wxSize(732, 28));
-
 	WxMenuBar1 = new wxMenuBar();
 	wxMenu *ID_MNU_FILE_1001_Mnu_Obj = new wxMenu(0);
 	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_NEWSCENARIO_1005, wxT("&New Scenario"), wxT(""), wxITEM_NORMAL);
@@ -137,8 +135,6 @@ void cFrameDuneMaps::CreateGUIControls()
 
 	WxSaveFileDialog1 =  new wxFileDialog(this, wxT("Choose a file"), wxT(""), wxT(""), wxT("SCEN*.INI"), wxFD_SAVE);
 
-	WxToolBar2->Realize();
-	SetToolBar(WxToolBar2);
 	WxToolBar1->Realize();
 	SetToolBar(WxToolBar1);
 	SetTitle(wxT("Dune Maps"));
