@@ -4,7 +4,7 @@
 #include "mapCell.h"
 #include "../house.h"
 
-cStructure::cStructure(  cHouse *pHouse, word pType, word pMapIndex ) : cObject(pHouse, pMapIndex) {
+cStructure::cStructure(  cHouse *pHouse, word pType, word pMapIndex, word pHealthPercent ) : cObject(pHouse, pMapIndex, pHealthPercent ) {
 
 	_buildingItemIndex = 0;
 	_frame = _frames = 0;

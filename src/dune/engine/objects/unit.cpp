@@ -6,7 +6,7 @@
 #include "../house.h"
 #include "../../screenPlayfield.h"
 
-cUnit::cUnit(  cHouse *pHouse, word pType, word pMapIndex, byte pAngle, word pAction  ) : cObject(pHouse, pMapIndex) {
+cUnit::cUnit(  cHouse *pHouse, word pType, word pMapIndex, byte pAngle, word pAction, word pHealth  ) : cObject(pHouse, pMapIndex, pHealth) {
 
 	_surface = new cVideoSurface( 32, 32 );
 	_surface->colorKeySet( 0xFF );

@@ -26,7 +26,7 @@ private:
 	void				 frameLoad();
 
 public:
-						 cStructure(  cHouse *pHouse, word pType, word pMapIndex );
+						 cStructure(  cHouse *pHouse, word pType, word pMapIndex, word pHealth );
 						~cStructure();
 
 	void				 buildingItemSet( size_t pIndex );

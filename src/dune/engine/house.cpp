@@ -50,7 +50,7 @@ cUnit *cHouse::unitCreate(  word pType, word pHealthPercent, word pMapIndex, byt
 	if(!pUnitData)
 		return 0;
 	
-	created = new cUnit( this, pType, pMapIndex, pAngle, pAction );
+	created = new cUnit( this, pType, pMapIndex, pAngle, pAction, pHealthPercent );
 
 	_units.insert( pair< size_t, cUnit*> ( pType, created ) );
 
@@ -64,7 +64,7 @@ cStructure *cHouse::structureCreate(word pType, word pHealthPercent, word pMapIn
 	if(!pStructData)
 		return 0;
 	
-	created = new cStructure( this, pType, pMapIndex );
+	created = new cStructure( this, pType, pMapIndex, pHealthPercent );
 
 	_structures.insert( pair< size_t, cStructure*> ( pType, created ) );
 

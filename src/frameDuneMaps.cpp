@@ -21,6 +21,7 @@
 #include "dune\engine\objects\structure.h"
 #include "dune\engine\objects\unit.h"
 #include "eastwood\PakFile.h"
+#include "dune\engine\scenario.h"
 
 #include <algorithm>
 #include "../rev.h"
@@ -44,20 +45,21 @@ BEGIN_EVENT_TABLE(cFrameDuneMaps,wxFrame)
 	EVT_SIZE(cFrameDuneMaps::OnSize)
 	EVT_MENU(ID_MNU_NEWSCENARIO_1005, cFrameDuneMaps::Mnunewscenario1005Click)
 	EVT_MENU(ID_MNU_FROMINI_7000, cFrameDuneMaps::Mnuloadscenario1002Click)
+	EVT_MENU(ID_MNU_SAVESCENARIO_1007, cFrameDuneMaps::Mnusavescenario1007Click)
 	EVT_MENU(ID_MNU_QUIT_1006, cFrameDuneMaps::Mnuquit1006Click)
 	EVT_MENU(ID_MNU_HARKONNEN_4006, cFrameDuneMaps::MnuHouseChange)
 	EVT_MENU(ID_MNU_ATREIDES_4007, cFrameDuneMaps::MnuHouseChange)
-	EVT_MENU(ID_MNU_ORDOS_4009, cFrameDuneMaps::MnuHouseChange)
-	EVT_MENU(ID_MNU_MERCENARIES_4012, cFrameDuneMaps::MnuHouseChange)
-	EVT_MENU(ID_MNU_SARDAUKA_4013, cFrameDuneMaps::MnuHouseChange)
+	EVT_MENU(ID_MNU_ORDOS_4008, cFrameDuneMaps::MnuHouseChange)
+	EVT_MENU(ID_MNU_MERCENARIES_4009, cFrameDuneMaps::MnuHouseChange)
+	EVT_MENU(ID_MNU_SARDAUKA_4010, cFrameDuneMaps::MnuHouseChange)
 	EVT_MENU(ID_MNU_FREMEN_4011, cFrameDuneMaps::MnuHouseChange)
 	EVT_MENU(ID_MNU_BASICS_4003, cFrameDuneMaps::Mnubasics4003Click)
 	EVT_MENU(ID_MNU_HOUSES_4016, cFrameDuneMaps::Mnuhouses4016Click)
 	EVT_MENU(ID_MNU_TEAMS_4014, cFrameDuneMaps::Mnuteams4014Click)
-	EVT_MENU(ID_MNU_REINFORCEMENTS_4015, cFrameDuneMaps::Mnureinforcements4015Click)
 	EVT_TOOL_RANGE(ID_WXTOOLBAR2,ID_WXTOOLBAR2_End, cFrameDuneMaps::WxToolBar2Tool)
 	EVT_TOOL_RANGE(ID_WXTOOLBAR1,ID_WXTOOLBAR1_End, cFrameDuneMaps::WxToolBar1Tool)
 	EVT_MENU_RANGE(ID_MNU_SCEN, ID_MNU_SCEN_End, cFrameDuneMaps::MnuLoadPak_ScenClick)
+
 END_EVENT_TABLE()
 ////Event Table End
 
@@ -97,6 +99,8 @@ void cFrameDuneMaps::CreateGUIControls()
 
 	WxToolBar1 = new wxToolBar(this, ID_WXTOOLBAR1, wxPoint(0, 0), wxSize(732, 28));
 
+	WxToolBar2 = new wxToolBar(this, ID_WXTOOLBAR2, wxPoint(0, 28), wxSize(732, 28));
+
 	WxMenuBar1 = new wxMenuBar();
 	wxMenu *ID_MNU_FILE_1001_Mnu_Obj = new wxMenu(0);
 	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_NEWSCENARIO_1005, wxT("&New Scenario"), wxT(""), wxITEM_NORMAL);
@@ -110,15 +114,16 @@ void cFrameDuneMaps::CreateGUIControls()
 	ID_MNU_LOADSCENFROMPAK_Mnu_Obj->Append(ID_MNU_SCEN, wxT("SCEN"), wxT(""), wxITEM_NORMAL);
 	ID_MNU_LOADSCENARIO_1002_Mnu_Obj->Append(ID_MNU_LOADSCENFROMPAK, wxT("From Pak"), ID_MNU_LOADSCENFROMPAK_Mnu_Obj);
 	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_LOADSCENARIO_1002, wxT("&Load Scenario"), ID_MNU_LOADSCENARIO_1002_Mnu_Obj);
+	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_SAVESCENARIO_1007, wxT("&Save Scenario"), wxT(""), wxITEM_NORMAL);
 	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_QUIT_1006, wxT("Quit"), wxT(""), wxITEM_NORMAL);
 	WxMenuBar1->Append(ID_MNU_FILE_1001_Mnu_Obj, wxT("&File"));
 	
 	wxMenu *ID_MNU_HOUSE_4005_Mnu_Obj = new wxMenu(0);
 	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_HARKONNEN_4006, wxT("Harkonnen"), wxT(""), wxITEM_NORMAL);
 	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_ATREIDES_4007, wxT("Atreides"), wxT(""), wxITEM_NORMAL);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_ORDOS_4009, wxT("Ordos"), wxT(""), wxITEM_NORMAL);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_MERCENARIES_4012, wxT("Mercenaries"), wxT(""), wxITEM_NORMAL);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_SARDAUKA_4013, wxT("Sardauka"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_ORDOS_4008, wxT("Ordos"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_MERCENARIES_4009, wxT("Mercenaries"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_SARDAUKA_4010, wxT("Sardauka"), wxT(""), wxITEM_NORMAL);
 	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_FREMEN_4011, wxT("Fremen"), wxT(""), wxITEM_NORMAL);
 	WxMenuBar1->Append(ID_MNU_HOUSE_4005_Mnu_Obj, wxT("&House"));
 	
@@ -130,6 +135,10 @@ void cFrameDuneMaps::CreateGUIControls()
 	WxMenuBar1->Append(ID_MNU_SCENARIO_4001_Mnu_Obj, wxT("&Scenario"));
 	SetMenuBar(WxMenuBar1);
 
+	WxSaveFileDialog1 =  new wxFileDialog(this, wxT("Choose a file"), wxT(""), wxT(""), wxT("SCEN*.INI"), wxFD_SAVE);
+
+	WxToolBar2->Realize();
+	SetToolBar(WxToolBar2);
 	WxToolBar1->Realize();
 	SetToolBar(WxToolBar1);
 	SetTitle(wxT("Dune Maps"));
@@ -259,7 +268,7 @@ void cFrameDuneMaps::WxToolBar1Tool(wxCommandEvent& event) {
 	if(object)
 		delete object;
 
-	g_DuneEngine->mPlaceObjectSet( new cStructure( house, structID, 0) );
+	g_DuneEngine->mPlaceObjectSet( new cStructure( house, structID, 0, 256) );
 
 }
 
@@ -276,7 +285,7 @@ void cFrameDuneMaps::WxToolBar2Tool(wxCommandEvent& event) {
 	if(object)
 		delete object;
 
-	g_DuneEngine->mPlaceObjectSet( new cUnit( house, unitID, 0, 0, 0 ) );
+	g_DuneEngine->mPlaceObjectSet( new cUnit( house, unitID, 0, 0, 0, 256 ) );
 }
 
 /*
@@ -348,4 +357,16 @@ void cFrameDuneMaps::Mnuhouses4016Click(wxCommandEvent& event) {
 	Houses->ShowModal();
 
 	delete Houses;
+}
+
+/*
+ * Mnusavescenario1007Click
+ */
+void cFrameDuneMaps::Mnusavescenario1007Click(wxCommandEvent& event) {
+	WxSaveFileDialog1->SetTitle("Save Scenario");
+	WxSaveFileDialog1->ShowModal();
+
+	string filename = WxSaveFileDialog1->GetPath();
+
+	g_DuneEngine->scenarioGet()->scenarioSave( filename );
 }

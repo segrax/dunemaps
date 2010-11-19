@@ -46,6 +46,7 @@ public:
 
 	void						 missionLoad( size_t pScenNumber );
 	void						 scenarioLoad( string pFilename );
+	void						 scenarioSave( string pFile );
 
 	void						 reinforcementLoad( string pHouse, string pUnitType, string pDirection, string pTimer, bool pRepeat );
 

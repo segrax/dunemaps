@@ -4,9 +4,10 @@
 #include "../../map.h"
 #include "mapCell.h"
 
-cObject::cObject( cHouse *pHouse, word pX, word pY ) {
+cObject::cObject( cHouse *pHouse, word pX, word pY, word pHealth ) {
 	_mapIndex = g_DuneEngine->scenarioGet()->mapGet()->posXYtoIndex( pX, pY );
 
+	_health = pHealth;
 	_objectSelected = false;
 	_redraw = false;
 	_surface = 0;
@@ -16,9 +17,10 @@ cObject::cObject( cHouse *pHouse, word pX, word pY ) {
 	_frame = 0;
 }
 
-cObject::cObject( cHouse *pHouse, word pMapIndex) {
+cObject::cObject( cHouse *pHouse, word pMapIndex, word pHealth) {
 	_mapIndex = pMapIndex;
-
+	
+	_health = pHealth;
 	_objectSelected = false;
 	_redraw = false;
 	_surface = 0;

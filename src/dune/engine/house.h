@@ -50,4 +50,7 @@ public:
 	inline void				 maxUnitSet( word pVal)			 { _maxUnits = pVal; }
 
 	sHouseData				*houseDataGet() { return _houseData; }
+
+	multimap< size_t, cUnit* >		*unitsGet()		{ return &_units; }
+	multimap< size_t, cStructure*>	*structsGet()	{ return &_structures; }
 };

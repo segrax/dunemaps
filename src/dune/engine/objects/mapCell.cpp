@@ -6,7 +6,7 @@
 #include "mapCell.h"
 #include "../scenario.h"
 
-cMapCell::cMapCell(  word pMapIndex ) : cObject( 0, pMapIndex ) {
+cMapCell::cMapCell(  word pMapIndex ) : cObject( 0, pMapIndex, 0 ) {
 
 	tileMapLoad();
 

@@ -228,7 +228,7 @@ void IniFile::setStringValue(std::string section, std::string key, std::string v
 		int ValueStringStart;
 		int ValueStringLength;
 		if(value == "") {
-			completeLine = key + " = \"" + value + "\"" ;
+			completeLine = key + "=" + value + "" ;
 			KeyStringStart = 0;
 			KeyStringLength = key.size();
 			ValueStringStart = key.size()+4;
@@ -244,13 +244,13 @@ void IniFile::setStringValue(std::string section, std::string key, std::string v
 			}
 			
 			if(NonNormalCharFound == true) {
-				completeLine = key + " = \"" + value + "\"" ;
+				completeLine = key + "=" + value + "" ;
 				KeyStringStart = 0;
 				KeyStringLength = key.size();
 				ValueStringStart = key.size()+4;
 				ValueStringLength = value.size();			
 			} else {
-				completeLine = key + " = " + value;
+				completeLine = key + "=" + value;
 				KeyStringStart = 0;
 				KeyStringLength = key.size();
 				ValueStringStart = key.size()+3;
@@ -446,7 +446,7 @@ bool IniFile::SaveChangesTo(SDL_RWops *file) {
 		if(written != curEntry->CompleteLine.size())
 			throw(Exception(LOG_ERROR, "IniFile", SDL_GetError()));
 
-		if((written = SDL_RWwrite(file,"\n",1,1)) != 1)
+		if((written = SDL_RWwrite(file,"\r\n",2,1)) != 1)
 			error = true;
 		curEntry = curEntry->nextEntry;
 	}

@@ -12,10 +12,12 @@ protected:
 	word			 _X, _Y, _frame;													// Draw offset from top-left of tile
 	cHouse			*_house;
 	cVideoSurface	*_surface;															// Current final image
+	
+	word				 _health;
 
 public:
-					 cObject( cHouse *pHouse, word pX, word pY);
-					 cObject( cHouse *pHouse, word pMapIndex);
+					 cObject( cHouse *pHouse, word pX, word pY, word pHealth);
+					 cObject( cHouse *pHouse, word pMapIndex, word pHealth);
 					~cObject();
 
 	virtual void	 cycle();
@@ -39,4 +41,6 @@ public:
 
 	inline cVideoSurface	*surfaceGet()	{ return _surface; }
 	inline word				 typeGet()		{ return _objectType; }
+
+	inline word				 healthGet()	{ return _health; }
 };

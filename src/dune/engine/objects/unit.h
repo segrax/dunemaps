@@ -33,7 +33,7 @@ private:
 	word					 _actionCurrent;
 
 public:
-							 cUnit(  cHouse *pHouse, word pType, word pMapIndex, byte pAngle, word pAction );
+							 cUnit(  cHouse *pHouse, word pType, word pMapIndex, byte pAngle, word pAction, word pHealthPercent );
 
 	void					 cycle();
 	void					 draw();

@@ -26,6 +26,7 @@
 //Header Include Start and Header Include End.
 //wxDev-C++ designer will remove them. Add custom headers after the block.
 ////Header Include Start
+#include <wx/filedlg.h>
 #include <wx/menu.h>
 #include <wx/toolbar.h>
 ////Header Include End
@@ -57,10 +58,12 @@ class cFrameDuneMaps : public wxFrame
 		void Mnubasics4003Click(wxCommandEvent& event);
 		void Mnuhouses4016Click(wxCommandEvent& event);
 	private:
+		void Mnusavescenario1007Click(wxCommandEvent& event);
 		//Do not add custom control declarations between 
 		//GUI Control Declaration Start and GUI Control Declaration End.
 		//wxDev-C++ will remove them. Add custom code after the block.
 		////GUI Control Declaration Start
+		wxFileDialog *WxSaveFileDialog1;
 		wxMenuBar *WxMenuBar1;
 		wxToolBar *WxToolBar2;
 		wxToolBar *WxToolBar1;
@@ -82,13 +85,14 @@ class cFrameDuneMaps : public wxFrame
 			ID_MNU_FROMINI_7000 = 7000,
 			ID_MNU_LOADSCENFROMPAK = 1010,
 			ID_MNU_SCEN = 6000,
+			ID_MNU_SAVESCENARIO_1007 = 1007,
 			ID_MNU_QUIT_1006 = 1006,
 			ID_MNU_HOUSE_4005 = 4005,
 			ID_MNU_HARKONNEN_4006 = 4006,
 			ID_MNU_ATREIDES_4007 = 4007,
-			ID_MNU_ORDOS_4009 = 4009,
-			ID_MNU_MERCENARIES_4012 = 4012,
-			ID_MNU_SARDAUKA_4013 = 4013,
+			ID_MNU_ORDOS_4008 = 4008,
+			ID_MNU_MERCENARIES_4009 = 4009,
+			ID_MNU_SARDAUKA_4010 = 4010,
 			ID_MNU_FREMEN_4011 = 4011,
 			ID_MNU_SCENARIO_4001 = 4001,
 			ID_MNU_BASICS_4003 = 4003,

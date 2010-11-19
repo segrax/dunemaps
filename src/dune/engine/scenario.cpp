@@ -6,7 +6,10 @@
 #include "..\screenPlayfield.h"
 #include "objects\object.h"
 #include "objects\mapCell.h"
+#include "objects\structure.h"
+#include "objects\unit.h"
 #include "team.h"
+#include<fstream>
 
 vector<string> splitStr( string pStr ) {
 	vector<string> res;
@@ -363,4 +366,134 @@ void cScenario::teamsClear() {
 		delete (*teamIT);
 
 	mTeams.clear();
+}
+
+void cScenario::scenarioSave( string pFile ) {
+	ofstream	file( pFile, ios::out );
+
+	file.close();
+
+	unsigned char *buffer =  new unsigned char[1];
+
+	IniFile ini( buffer, 0 );
+	delete buffer;
+
+	// [BASIC] Section
+	ini.setStringValue("BASIC", "LosePicture", _pictureLose );
+	ini.setStringValue("BASIC", "WinPicture", _pictureWin );
+	ini.setStringValue("BASIC", "BriefPicture", _pictureBrief );
+	ini.setIntValue("BASIC", "TimeOut", _mapTimeOut );
+	ini.setIntValue("BASIC", "MapScale", _mapScale );
+	ini.setIntValue("BASIC", "CursorPos", mapCursorGet() );
+	ini.setIntValue("BASIC", "TacticalPos", mapTacticalGet() );
+	ini.setIntValue("BASIC", "LoseFlags", _mapLoseFlags  );
+	ini.setIntValue("BASIC", "WinFlags", _mapWinFlags  );
+
+	// [MAP] Section
+	ini.setStringValue("MAP", "Field", _mapField );
+	ini.setStringValue("MAP", "Bloom", _mapBloom );
+	ini.setIntValue("MAP", "Seed", _mapSeed );
+
+	// [HOUSENAME] Section
+	for( int i = eHouse_Harkonnen; i != eHouse_End; ++i ) {
+		cHouse *house = g_DuneEngine->houseGet( (eHouse) i );
+		string houseName = house->houseDataGet()->houseName;
+
+		if(house->maxUnitGet() == 0)
+			continue;
+
+		ini.setIntValue(houseName, "Quota", house->creditQuotaGet() );
+		ini.setIntValue(houseName, "Credits", house->creditGet() );
+		ini.setStringValue(houseName, "Brain", house->brainGet() );
+		ini.setIntValue(houseName, "MaxUnit", house->maxUnitGet() );
+	}
+
+	// [TEAMS] Section
+	vector< cTeam* >::iterator		teamIT;
+	int count = 1;
+
+	for(  teamIT = mTeams.begin(); teamIT != mTeams.end(); ++teamIT, ++count ) {
+
+		stringstream	output, counter;
+
+		output << (*teamIT)->houseGet()->houseDataGet()->houseName;
+		output << ",";
+		output << g_DuneEngine->resourcesGet()->aiModeGet((*teamIT)->aiModeGet());
+		output << ",";
+		output << g_DuneEngine->resourcesGet()->movementNameGet( (*teamIT)->movementTypeGet() );
+		output << ",";
+		output << (*teamIT)->unk1Get();
+		output << ",";
+		output << (*teamIT)->unitsMaxGet();
+
+		counter << count;
+
+		ini.setStringValue("TEAMS", counter.str(), output.str() );
+	}
+
+	multimap< size_t, cUnit* >::iterator	unitIT;
+	multimap< size_t, cStructure*>::iterator structIT;
+
+
+	// [UNITS] Section
+	int id = 0;
+	for( int i = eHouse_Harkonnen; i != eHouse_End; ++i ) {
+		cHouse *house = g_DuneEngine->houseGet( (eHouse) i );
+		string houseName = house->houseDataGet()->houseName;
+
+		multimap< size_t, cUnit* >		*units = house->unitsGet();
+		multimap< size_t, cStructure*>  *structs = house->structsGet();
+
+		for( structIT = structs->begin(); structIT != structs->end(); ++structIT ) {
+			stringstream output;
+			stringstream counter;
+
+			output << houseName;
+			output << ",";
+			output << structIT->second->dataGet()->Name;
+			if( structIT->second->dataGet()->typeIndex != 0 && structIT->second->dataGet()->typeIndex != 1 &&
+				structIT->second->dataGet()->typeIndex != 14 ) {
+				output << ",";
+				output << structIT->second->healthGet();
+				output << ",";
+				output << structIT->second->mapIndexGet();
+				counter << "ID";
+				counter << setw(3) << setfill('0') << id;
+				++id;
+
+			} else {
+				counter << "GEN";
+				counter << structIT->second->mapIndexGet();
+			}
+
+			ini.setStringValue("STRUCTURES", counter.str(), output.str() );
+		}
+
+		for( unitIT = units->begin(); unitIT != units->end(); ++unitIT ) {
+			stringstream output;
+			stringstream counter;
+
+			output << houseName;
+			output << ",";
+			output << unitIT->second->dataGet()->Name;
+			output << ",";
+			output << unitIT->second->healthGet();
+			output << ",";
+			output << unitIT->second->mapIndexGet();
+			output << ",";
+			output << (int) unitIT->second->angleBaseGet()->_Current;
+			output << ",";
+			output << g_DuneEngine->resourcesGet()->actionGet( unitIT->second->actionGet() )->Name;
+			
+			counter << "ID";
+			counter << setw(3) << setfill('0') << id;
+			++id;
+
+			ini.setStringValue("UNITS", counter.str(), output.str() );
+		}
+	}
+
+	// [REINFORCEMENTS] Section
+
+	ini.SaveChangesTo( pFile );
 }

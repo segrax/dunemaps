@@ -241,7 +241,8 @@ void cPanelSurface::Mnuaddbloom1001Click(wxCommandEvent& event) {
 	word			mapIndex = g_DuneEngine->scenarioGet()->mapGet()->posXYtoIndex( g_DuneEngine->screenPlayfieldGet()->mapXGet() + (mMouseX / 16), g_DuneEngine->screenPlayfieldGet()->mapYGet() + (mMouseY / 16) );
 
 	bloom << mapIndex;
-	blooms.append(", ");
+	if(blooms.size())
+		blooms.append(",");
 	blooms.append( bloom.str() );
 
 	g_DuneEngine->scenarioGet()->mapBloomSet(blooms);
@@ -260,7 +261,8 @@ void cPanelSurface::Mnuaddspicefield1002Click(wxCommandEvent& event) {
 	word			mapIndex = g_DuneEngine->scenarioGet()->mapGet()->posXYtoIndex( g_DuneEngine->screenPlayfieldGet()->mapXGet() + (mMouseX / 16), g_DuneEngine->screenPlayfieldGet()->mapYGet() + (mMouseY / 16) );
 
 	field << mapIndex;
-	fields.append(", ");
+	if(fields.size())
+		fields.append(",");
 	fields.append( field.str() );
 
 	g_DuneEngine->scenarioGet()->mapFieldSet( fields );
