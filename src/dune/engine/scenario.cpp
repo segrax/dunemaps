@@ -310,22 +310,38 @@ void cScenario::reinforcementsLoad() {
 		if(!reinforcementDetails.size())
 			break;
 
-		eHouse house = (eHouse) g_DuneEngine->resourcesGet()->houseFind( reinforcementDetails[0] );
-		int unitType = g_DuneEngine->resourcesGet()->unitFind( reinforcementDetails[1] );
-		int direction = g_DuneEngine->resourcesGet()->directionGet( reinforcementDetails[2] );
-		int time = atoi(reinforcementDetails[3].c_str());
+		bool repeat= false;
 
+		if( reinforcementDetails[3].find("+") != string::npos )
+			repeat = true;
 
-		sReinforcement reinforce;
-		reinforce.mHouse = house;
-		reinforce.mDirection = direction;
-		reinforce.mTime = time;
-		reinforce.mUnitType = unitType;
+		reinforcementLoad( reinforcementDetails[0], reinforcementDetails[1], reinforcementDetails[2], reinforcementDetails[3], repeat );
 
-		mReinforcements.push_back( reinforce );
 	}
 
 	g_DuneEngine->resourcesGet()->IniSectionClose("REINFORCEMENTS");
+}
+
+void cScenario::reinforcementsClear() {
+	mReinforcements.clear();
+}
+
+void cScenario::reinforcementLoad(string pHouse, string pUnitType, string pDirection, string pTimer, bool pRepeat ) {
+
+	eHouse house = (eHouse) g_DuneEngine->resourcesGet()->houseFind( pHouse );
+	int unitType = g_DuneEngine->resourcesGet()->unitFind(pUnitType );
+	int direction = g_DuneEngine->resourcesGet()->directionGet( pDirection );
+	int time = atoi(pTimer.c_str());
+
+	sReinforcement reinforce;
+	reinforce.mHouse = house;
+	reinforce.mDirection = direction;
+	reinforce.mTime = time;
+	reinforce.mUnitType = unitType;
+
+	reinforce.mRepeat = pRepeat;
+
+	mReinforcements.push_back( reinforce );
 }
 
 void cScenario::teamCreate(string pHouseName, string pAiMode, string pMovementType, string pUnitsMin, string pUnitsMax ) {

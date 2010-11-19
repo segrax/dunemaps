@@ -225,19 +225,10 @@ void cFrameDuneMaps::OnSize(wxSizeEvent& event) {
 }
 
 /*
- * Mnufile1001Click
- */
-void cFrameDuneMaps::Mnufile1001Click(wxCommandEvent& event)
-{
-	// insert your code here
-}
-
-/*
  * Mnuloadscenario1002Click
  */
-void cFrameDuneMaps::Mnuloadscenario1002Click(wxCommandEvent& event)
-{
-	// insert your code here
+void cFrameDuneMaps::Mnuloadscenario1002Click(wxCommandEvent& event) {
+
 }
 
 /*
@@ -251,9 +242,8 @@ void cFrameDuneMaps::Mnunewscenario1005Click(wxCommandEvent& event)
 /*
  * Mnuquit1006Click
  */
-void cFrameDuneMaps::Mnuquit1006Click(wxCommandEvent& event)
-{
-	// insert your code here
+void cFrameDuneMaps::Mnuquit1006Click(wxCommandEvent& event) {
+	Close();
 }
 
 /*

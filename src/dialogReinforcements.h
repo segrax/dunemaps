@@ -40,10 +40,12 @@ class cDialogReinforcements : public wxDialog
 	private:
 		DECLARE_EVENT_TABLE();
 		
+		void reinforcementsLoad();
 	public:
 		cDialogReinforcements(wxWindow *parent, wxWindowID id = 1, const wxString &title = wxT("DuneMaps - Reinforcements"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = cDialogReinforcements_STYLE);
 		virtual ~cDialogReinforcements();
 		void mButtonCancelClick(wxCommandEvent& event);
+		void WxListCtrl1ItemActivated(wxListEvent& event);
 		void mButtonDoneClick(wxCommandEvent& event);
 	
 	private:

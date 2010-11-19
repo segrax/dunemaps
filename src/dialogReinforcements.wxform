@@ -5,7 +5,7 @@ object frmNewForm: TfrmNewForm
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = 'DuneMaps - Reinforcements'
   ClientHeight = 239
-  ClientWidth = 377
+  ClientWidth = 458
   Color = clBtnFace
   OldCreateOrder = True
   PopupMenu = DesignerPopup.Owner
@@ -33,7 +33,7 @@ object frmNewForm: TfrmNewForm
   object WxListCtrl1: TWxListCtrl
     Left = 8
     Top = 5
-    Width = 364
+    Width = 442
     Height = 202
     Columns = <
       item
@@ -51,9 +51,14 @@ object frmNewForm: TfrmNewForm
       item
         Caption = 'Timer'
         Width = 60
+      end
+      item
+        Caption = 'Repeat'
+        Width = 60
       end>
     TabOrder = 0
     ViewStyle = vsReport
+    EVT_LIST_ITEM_ACTIVATED = 'WxListCtrl1ItemActivated'
     Wx_BGColor = clBlack
     Wx_Class = 'wxListCtrl'
     Wx_ControlOrientation = wxControlVertical
@@ -81,7 +86,7 @@ object frmNewForm: TfrmNewForm
     Wx_Floating_Y_Pos = 0
   end
   object mButtonCancel: TWxButton
-    Left = 196
+    Left = 240
     Top = 215
     Width = 69
     Height = 22
@@ -119,7 +124,7 @@ object frmNewForm: TfrmNewForm
     Wx_Floating_Y_Pos = 0
   end
   object mButtonDone: TWxButton
-    Left = 105
+    Left = 134
     Top = 215
     Width = 69
     Height = 22

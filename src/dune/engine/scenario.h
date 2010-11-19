@@ -9,6 +9,16 @@ struct sReinforcement {
 	size_t			 mUnitType;
 	size_t			 mDirection;
 	word			 mTime;
+
+	bool			 mRepeat;
+
+	sReinforcement() {
+		mHouse = eHouse_Harkonnen;
+		mUnitType = mDirection = 0;
+		mTime = 0;
+
+		mRepeat = false;
+	}
 };
 
 class cScenario {
@@ -37,13 +47,17 @@ public:
 	void						 missionLoad( size_t pScenNumber );
 	void						 scenarioLoad( string pFilename );
 
+	void						 reinforcementLoad( string pHouse, string pUnitType, string pDirection, string pTimer, bool pRepeat );
+
 	void						 teamCreate(string pHouseName, string pAiMode, string pMovementType, string pUnitsMin, string pUnitsMax );
 
 	void						 mapLoad();
 	void						 teamsLoad();
 	void						 teamsClear();
+
 	void						 houseLoad();
 	void						 reinforcementsLoad();
+	void						 reinforcementsClear();
 
 	inline cMap					*mapGet()			{ return _map; }
 	inline cMapGenerator		*mapGeneratorGet()	{ return _mapGenerator; }
@@ -87,6 +101,7 @@ public:
 	inline string				 pictureWinGet()					{ return _pictureWin; }
 	inline void					 pictureWinSet( string pVal )		{ _pictureWin = pVal; }
 
-	inline vector< cTeam* >		*teamsGet()		{ return &mTeams; }
+	inline vector<sReinforcement>	*reinforcementsGet() { return &mReinforcements; }
+	inline vector< cTeam* >			*teamsGet()			 { return &mTeams; }
 	
 };

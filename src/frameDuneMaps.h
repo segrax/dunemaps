@@ -47,7 +47,6 @@ class cFrameDuneMaps : public wxFrame
 		void Mnuquit1006Click(wxCommandEvent& event);
 		void Mnunewscenario1005Click(wxCommandEvent& event);
 		void Mnuloadscenario1002Click(wxCommandEvent& event);
-		void Mnufile1001Click(wxCommandEvent& event);
 		void WxToolBar1Tool(wxCommandEvent& event);
 		void MnuLoadPak_ScenClick(wxCommandEvent& event);
 		void WxToolBar2Tool(wxCommandEvent& event);
