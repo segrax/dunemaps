@@ -136,3 +136,13 @@ void cDialogTeam::mButtonCancelClick(wxCommandEvent& event) {
 	mCancel = true;
 	Close();
 }
+
+void cDialogTeam::teamSet( sTeam *pTeam ) {
+
+	mChoiceHouse->Select( mChoiceHouse->FindString( pTeam->mHouse ) );
+	mChoiceAI->Select( mChoiceAI->FindString( pTeam->mAIMode ) );
+	mChoiceUnitType->Select( mChoiceUnitType->FindString( pTeam->mUnitType ) );
+
+	mTextMaxUnits->SetValue( pTeam->mMaxUnits );
+	mTextMinUnits->SetValue( pTeam->mMinUnits );
+}

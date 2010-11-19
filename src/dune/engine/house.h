@@ -15,7 +15,6 @@ private:
 	
 	dword							 _credits,	_creditQuota, _maxUnits;
 
-	vector< cTeam* >				_teams;
 	string							_brain;
 
 public:
@@ -30,9 +29,6 @@ public:
 
 	void			 reset();												// Reset the house 
 	void			 mapPrepare();											// Prepare units and structures at start of map
-	
-	void			 teamsClear();
-	
 	
 	void					 buildingsHave( word pTypeIndex, bool pOn );
 	inline size_t			 buildingsHaveGet()		{ return _buildingsHave; }		// Get flag of building types that are built
@@ -54,5 +50,4 @@ public:
 	inline void				 maxUnitSet( word pVal)			 { _maxUnits = pVal; }
 
 	sHouseData				*houseDataGet() { return _houseData; }
-
 };

@@ -58,6 +58,7 @@ class cDialogTeam : public wxDialog
 		void mButtonCancelClick(wxCommandEvent& event);
 	
 		inline sTeam			*teamGet() { if(mCancel) return 0; return &mTeam; }
+		void				 teamSet( sTeam *pTeam );
 
 	private:
 		//Do not add custom control declarations between 

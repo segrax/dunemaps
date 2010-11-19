@@ -9,6 +9,8 @@ cTeam::cTeam( cHouse *pHouse, size_t pAiMode, size_t pMovementType, word arg_6, 
 	_house = pHouse;
 	_aiMode = pAiMode;
 
+	_movementType = pMovementType;
+
 	_unk1 = arg_6;
 	_unitsMax = arg_8;
 

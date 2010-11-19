@@ -2,6 +2,14 @@ class cMap;
 class cMapGenerator;
 class cUnit;
 class cHouse;
+class cTeam;
+
+struct sReinforcement {
+	eHouse			 mHouse;
+	size_t			 mUnitType;
+	size_t			 mDirection;
+	word			 mTime;
+};
 
 class cScenario {
 private:
@@ -19,6 +27,9 @@ private:
 	void						 unitsLoad();
 	void						 structuresLoad();
 
+	vector<sReinforcement>		 mReinforcements;
+	vector< cTeam* >			 mTeams;
+
 public:
 								 cScenario( );												// Constructor
 								~cScenario();																// Destructor
@@ -30,7 +41,9 @@ public:
 
 	void						 mapLoad();
 	void						 teamsLoad();
+	void						 teamsClear();
 	void						 houseLoad();
+	void						 reinforcementsLoad();
 
 	inline cMap					*mapGet()			{ return _map; }
 	inline cMapGenerator		*mapGeneratorGet()	{ return _mapGenerator; }
@@ -74,9 +87,6 @@ public:
 	inline string				 pictureWinGet()					{ return _pictureWin; }
 	inline void					 pictureWinSet( string pVal )		{ _pictureWin = pVal; }
 
-	
-	
-	
-
+	inline vector< cTeam* >		*teamsGet()		{ return &mTeams; }
 	
 };

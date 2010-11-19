@@ -12,6 +12,17 @@
 
 #include "graphics\tools.h"
 
+string mapDirections[8] = {
+	"North",
+	"East",
+	"South",
+	"West",
+	"Air",
+	"Visible",
+	"Enemybase",
+	"Homebase"
+};
+
 cResources::cResources( string pPath ) {
 	if( pPath.size() )
 		if( pPath.substr( pPath.size(), 1) != "\\" )
@@ -878,6 +889,23 @@ size_t cResources::aiModeFind( string pName ) {
 	}
 
 	return 0;
+}
+
+size_t cResources::directionGet( string pName ) {
+
+	for( size_t i = 0; i < 8; ++i )
+		if( mapDirections[i] == pName )
+			return i;
+
+	return 0;
+}
+
+string cResources::directionGet( size_t pNumber ) {
+
+	if( pNumber > 7 )
+		return "";
+
+	return mapDirections[pNumber];
 }
 
 string cResources::aiModeGet( int pNum ) {

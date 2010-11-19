@@ -6,6 +6,7 @@
 #include "..\screenPlayfield.h"
 #include "objects\object.h"
 #include "objects\mapCell.h"
+#include "team.h"
 
 vector<string> splitStr( string pStr ) {
 	vector<string> res;
@@ -46,6 +47,8 @@ cScenario::cScenario(  )  {
 
 cScenario::~cScenario() {
 
+	teamsClear();
+
 	delete _map;
 	delete _mapGenerator;
 }
@@ -67,7 +70,8 @@ void cScenario::scenarioMapPrepare() {
 	teamsLoad();
 	unitsLoad();
 	structuresLoad();
-	
+	reinforcementsLoad();
+
 	g_DuneEngine->houseMapPrepare();
 }
 
@@ -285,6 +289,45 @@ void cScenario::teamsLoad() {
 	g_DuneEngine->resourcesGet()->IniSectionClose("TEAMS");
 }
 
+void cScenario::reinforcementsLoad() {
+	vector<string>	reinforcementDetails;
+	string			tmp;
+
+	mReinforcements.clear();
+
+	// Load the REINFORCEMENT Section
+	g_DuneEngine->resourcesGet()->IniSectionOpen("REINFORCEMENTS");
+
+	for(;;) {
+		tmp = g_DuneEngine->resourcesGet()->IniSectionNext("REINFORCEMENTS");
+		tmp = g_DuneEngine->resourcesGet()->IniStringGet("REINFORCEMENTS", tmp, "");
+		
+		// No more lines?
+		if(!tmp.size())
+			break;
+
+		reinforcementDetails = splitStr( tmp );
+		if(!reinforcementDetails.size())
+			break;
+
+		eHouse house = (eHouse) g_DuneEngine->resourcesGet()->houseFind( reinforcementDetails[0] );
+		int unitType = g_DuneEngine->resourcesGet()->unitFind( reinforcementDetails[1] );
+		int direction = g_DuneEngine->resourcesGet()->directionGet( reinforcementDetails[2] );
+		int time = atoi(reinforcementDetails[3].c_str());
+
+
+		sReinforcement reinforce;
+		reinforce.mHouse = house;
+		reinforce.mDirection = direction;
+		reinforce.mTime = time;
+		reinforce.mUnitType = unitType;
+
+		mReinforcements.push_back( reinforce );
+	}
+
+	g_DuneEngine->resourcesGet()->IniSectionClose("REINFORCEMENTS");
+}
+
 void cScenario::teamCreate(string pHouseName, string pAiMode, string pMovementType, string pUnitsMin, string pUnitsMax ) {
 	eHouse	house = (eHouse) g_DuneEngine->resourcesGet()->houseFind( pHouseName.c_str() );
 	size_t	aiMode = g_DuneEngine->resourcesGet()->aiModeFind( pAiMode.c_str() );
@@ -294,6 +337,14 @@ void cScenario::teamCreate(string pHouseName, string pAiMode, string pMovementTy
 
 	cHouse *House = g_DuneEngine->houseGet( house ) ;
 
-	cTeam *team = House->teamCreate( aiMode, movementType, unk1, unitsMax );
-	
+	mTeams.push_back( new cTeam(House, aiMode, movementType, unk1, unitsMax ));
+}
+
+void cScenario::teamsClear() {
+	vector< cTeam* >::iterator					teamIT;
+		
+	for( teamIT = mTeams.begin(); teamIT != mTeams.end(); ++teamIT )
+		delete (*teamIT);
+
+	mTeams.clear();
 }

@@ -140,6 +140,9 @@
     <ClCompile Include="..\..\src\dialogTeam.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\dialogReinforcements.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\appDuneMaps.h">
@@ -263,6 +266,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\dialogTeam.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dialogReinforcements.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

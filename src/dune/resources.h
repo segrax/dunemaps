@@ -145,6 +145,8 @@ struct sActionData {
 	byte field_B;
 };
 
+extern string mapDirections[];
+
 class IniFile;
 class IcnFile;
 class PakFile;
@@ -205,6 +207,10 @@ public:
 
 	string							 aiModeGet( int pNum );
 	size_t							 aiModeFind( string pName ) ;
+
+	size_t							 directionGet( string pName );
+	string							 directionGet( size_t pNumber );
+
 	size_t							 movementNamesGet( string pName );
 	string							 movementNameGet( size_t pNumber );
 

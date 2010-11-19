@@ -24,8 +24,8 @@ enum eHouse {
 	eHouse_Atreides,
 	eHouse_Ordos,
 	eHouse_Fremen,
-	eHouse_Mercenaries,
 	eHouse_Sardaukar,
+	eHouse_Mercenaries,
 
 	eHouse_End
 };

@@ -14,6 +14,7 @@
 #include "dialogHouses.h"
 #include "dialogBasics.h"
 #include "dialogTeams.h"
+#include "dialogReinforcements.h"
 
 #include "stdafx.h"
 #include "dune\engine\objects\object.h"
@@ -329,7 +330,11 @@ void cFrameDuneMaps::Mnuteams4014Click(wxCommandEvent& event) {
  * Mnureinforcements4015Click
  */
 void cFrameDuneMaps::Mnureinforcements4015Click(wxCommandEvent& event) {
-	
+	cDialogReinforcements *Reinforcements = new cDialogReinforcements(this);
+
+	Reinforcements->ShowModal();
+
+	delete Reinforcements;
 }
 
 /*

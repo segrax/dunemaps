@@ -1,4 +1,4 @@
-object frmNewForm_2: TfrmNewForm
+object frmNewForm_1: TfrmNewForm
   Left = 8
   Top = 8
   AutoScroll = False
@@ -32,7 +32,7 @@ object frmNewForm_2: TfrmNewForm
   TextHeight = 15
   object WxListCtrl1: TWxListCtrl
     Left = 7
-    Top = 9
+    Top = 5
     Width = 449
     Height = 201
     Columns = <
@@ -58,6 +58,7 @@ object frmNewForm_2: TfrmNewForm
       end>
     TabOrder = 0
     ViewStyle = vsReport
+    EVT_LIST_ITEM_ACTIVATED = 'WxListCtrl1ItemActivated'
     EVT_LIST_COL_RIGHT_CLICK = 'WxListCtrl1RightClick'
     EVT_LIST_ITEM_RIGHT_CLICK = 'WxListCtrl1RightClick'
     Wx_BGColor = clBlack
@@ -67,7 +68,7 @@ object frmNewForm_2: TfrmNewForm
     Wx_GeneralStyle = []
     Wx_IDName = 'ID_WXLISTCTRL1'
     Wx_IDValue = 1001
-    Wx_ListviewStyle = [wxLC_EDIT_LABELS]
+    Wx_ListviewStyle = [wxLC_SINGLE_SEL]
     Wx_ListviewView = wxLC_REPORT
     Wx_PaneCaption = 'WxListCtrl1'
     Wx_PaneName = 'WxListCtrl1_Pane'
