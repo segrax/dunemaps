@@ -39,6 +39,9 @@
 ////Event Table Start
 BEGIN_EVENT_TABLE(cFrameDuneMaps,wxFrame)
 	////Manual Code Start
+	EVT_TOOL_RANGE(ID_WXTOOLBAR2,ID_WXTOOLBAR2_End, cFrameDuneMaps::WxToolBar2Tool)
+	EVT_TOOL_RANGE(ID_WXTOOLBAR1,ID_WXTOOLBAR1_End, cFrameDuneMaps::WxToolBar1Tool)
+	EVT_MENU_RANGE(ID_MNU_SCEN, ID_MNU_SCEN_End, cFrameDuneMaps::MnuLoadPak_ScenClick)
 	////Manual Code End
 	
 	EVT_CLOSE(cFrameDuneMaps::OnClose)
@@ -57,9 +60,6 @@ BEGIN_EVENT_TABLE(cFrameDuneMaps,wxFrame)
 	EVT_MENU(ID_MNU_HOUSES_4016, cFrameDuneMaps::Mnuhouses4016Click)
 	EVT_MENU(ID_MNU_TEAMS_4014, cFrameDuneMaps::Mnuteams4014Click)
 	EVT_MENU(ID_MNU_REINFORCEMENTS_4015, cFrameDuneMaps::Mnureinforcements4015Click)
-	EVT_TOOL_RANGE(ID_WXTOOLBAR2,ID_WXTOOLBAR2_End, cFrameDuneMaps::WxToolBar2Tool)
-	EVT_TOOL_RANGE(ID_WXTOOLBAR1,ID_WXTOOLBAR1_End, cFrameDuneMaps::WxToolBar1Tool)
-	EVT_MENU_RANGE(ID_MNU_SCEN, ID_MNU_SCEN_End, cFrameDuneMaps::MnuLoadPak_ScenClick)
 END_EVENT_TABLE()
 ////Event Table End
 
@@ -134,6 +134,8 @@ void cFrameDuneMaps::CreateGUIControls()
 	SetMenuBar(WxMenuBar1);
 
 	WxSaveFileDialog1 =  new wxFileDialog(this, wxT("Choose a file"), wxT(""), wxT(""), wxT("SCEN*.INI"), wxFD_SAVE);
+
+	WxOpenFileDialog1 =  new wxFileDialog(this, wxT("Choose a file"), wxT(""), wxT(""), wxT("SCEN*.INI"), wxFD_OPEN);
 
 	WxToolBar1->Realize();
 	SetToolBar(WxToolBar1);
@@ -233,7 +235,25 @@ void cFrameDuneMaps::OnSize(wxSizeEvent& event) {
  * Mnuloadscenario1002Click
  */
 void cFrameDuneMaps::Mnuloadscenario1002Click(wxCommandEvent& event) {
+	WxOpenFileDialog1->SetTitle("Load Scenario");
+	WxOpenFileDialog1->ShowModal();
 
+	string filename = WxOpenFileDialog1->GetPath();
+
+	g_DuneEngine->scenarioGet()->scenarioLoad( filename, true );
+	mTileView->playfieldSizeUpdate();
+}
+
+/*
+ * Mnusavescenario1007Click
+ */
+void cFrameDuneMaps::Mnusavescenario1007Click(wxCommandEvent& event) {
+	WxSaveFileDialog1->SetTitle("Save Scenario");
+	WxSaveFileDialog1->ShowModal();
+
+	string filename = WxSaveFileDialog1->GetPath();
+
+	g_DuneEngine->scenarioGet()->scenarioSave( filename );
 }
 
 /*
@@ -353,16 +373,4 @@ void cFrameDuneMaps::Mnuhouses4016Click(wxCommandEvent& event) {
 	Houses->ShowModal();
 
 	delete Houses;
-}
-
-/*
- * Mnusavescenario1007Click
- */
-void cFrameDuneMaps::Mnusavescenario1007Click(wxCommandEvent& event) {
-	WxSaveFileDialog1->SetTitle("Save Scenario");
-	WxSaveFileDialog1->ShowModal();
-
-	string filename = WxSaveFileDialog1->GetPath();
-
-	g_DuneEngine->scenarioGet()->scenarioSave( filename );
 }

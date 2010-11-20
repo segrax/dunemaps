@@ -69,7 +69,7 @@ void cDune::scenarioLoad( string pFilename ) {
 	delete _scenario;
 
 	_scenario = new cScenario( );
-	_scenario->scenarioLoad( pFilename );
+	_scenario->scenarioLoad( pFilename, false );
 
 	delete _screenPlayfield;
 	_screenPlayfield = new cScreenPlayfield();

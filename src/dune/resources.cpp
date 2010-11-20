@@ -105,13 +105,15 @@ void cResources::resourcePrepare() {
 	shpLoad();
 }
 
-byte *cResources::fileRead( string pFile, size_t	&pFileSize ) {
+byte *cResources::fileRead( string pFile, size_t	&pFileSize, bool pData ) {
 	stringstream	 filePathFinal;
 	ifstream		*fileStream;
 	byte			*fileBuffer = 0;
 
-	// Build the file path
-	filePathFinal << _DataPath;
+	if(pData)
+		// Build the file path
+		filePathFinal << _DataPath;
+	
 	filePathFinal << pFile;
 
 	// Attempt to open the file
@@ -466,7 +468,7 @@ void cResources::pakLoad() {
 		string filename = fileData->fileName;
 		delete fileData;
 
-		pakData = fileRead( filename, pakSize );
+		pakData = fileRead( filename, pakSize, true );
 		if(!pakData)
 			continue;
 
@@ -807,10 +809,18 @@ SDL_Surface *cResources::CpsGet( string fileName ) {
 	return surface;
 }
 
-void cResources::IniLoad( string fileName ) {
-	istream		*stream		= fileOpen( fileName );
-	byte		*ini		= fileRead( stream, _fileIniSize );
+void cResources::IniLoad( string fileName, bool pLocalFile ) {
 
+	istream		*stream;
+	byte		*ini;
+
+	if( pLocalFile ) {
+		ini = fileRead( fileName, _fileIniSize, false );
+
+	} else {
+		stream		= fileOpen( fileName );
+		ini			= fileRead( stream, _fileIniSize );
+	}
 	delete _ini;
 	_ini 		= new IniFile( ini, _fileIniSize );
 	

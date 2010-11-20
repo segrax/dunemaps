@@ -26,7 +26,7 @@ const sGameVersions gameVersions[] = {
 cResourceExe::cResourceExe( const char *pExe ) {
 	size_t fileSize = 0;
 
-	_bufferExe = g_DuneEngine->resourcesGet()->fileRead( pExe, fileSize );
+	_bufferExe = g_DuneEngine->resourcesGet()->fileRead( pExe, fileSize, true );
 	
 	if(_bufferExe)
 		versionCheck();

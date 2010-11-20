@@ -45,7 +45,7 @@ public:
 								~cScenario();																// Destructor
 
 	void						 missionLoad( size_t pScenNumber );
-	void						 scenarioLoad( string pFilename );
+	void						 scenarioLoad( string pFilename, bool pLocalFile );
 	void						 scenarioSave( string pFile );
 
 	void						 reinforcementLoad( string pHouse, string pUnitType, string pDirection, string pTimer, bool pRepeat );

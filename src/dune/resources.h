@@ -217,11 +217,11 @@ public:
 	SDL_Surface						*CpsGet( string fileName ) ;
 
 	string							*fileRead( string pFileName);
-	byte							*fileRead( string pFile, size_t	&pFileSize );		// Read from a file on disk
+	byte							*fileRead( string pFile, size_t	&pFileSize, bool pData );		// Read from a file on disk
 	byte							*fileRead( istream *pStream, size_t &pSize );		// Read from an istream
 	istream							*fileOpen( string pFilename );						
 	
-	void							 IniLoad( string fileName );						// Load an ini in
+	void							 IniLoad( string fileName, bool pLocalFile );		// Load an ini in
 
 	string							 IniStringGet( string pSection, string pVariable, string pDefault);
 	size_t							 IniNumGet( string pSection, string pVariable, size_t pDefault );

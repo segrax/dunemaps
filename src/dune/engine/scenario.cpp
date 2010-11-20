@@ -119,15 +119,15 @@ bool cScenario::scenarioBegin( size_t pScenNumber ) {
 	missionScenarioIni << setfill('0') << setw(3) << pScenNumber;
 	missionScenarioIni << ".INI";
 
-	scenarioLoad( missionScenarioIni.str() );
+	scenarioLoad( missionScenarioIni.str(), false );
 
 	return true;
 }
 
-void cScenario::scenarioLoad( string pFilename ) {
+void cScenario::scenarioLoad( string pFilename, bool pLocalFile ) {
 	
 	// Load the ini into the resource manager
-	g_DuneEngine->resourcesGet()->IniLoad( pFilename );
+	g_DuneEngine->resourcesGet()->IniLoad( pFilename, pLocalFile );
 
 	// Read the win/brief/lose pictures
 
