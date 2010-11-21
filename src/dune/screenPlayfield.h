@@ -58,4 +58,6 @@ public:
 	void				 scaleSet();
 	inline word			 *scaleGet() { return _scale; }
 
+	inline void			 redrawSet() { _redraw = true; }
+
 };

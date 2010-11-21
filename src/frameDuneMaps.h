@@ -108,9 +108,9 @@ class cFrameDuneMaps : public wxFrame
 			ID_DUMMY_VALUE_, //don't remove this value unless you have other enum values
 			ID_WXTOOLBAR,
 			ID_WXTOOLBAR1 = 3000,
-			ID_WXTOOLBAR1_End = 3019,
-			ID_WXTOOLBAR2 = 3020,
-			ID_WXTOOLBAR2_End = 3039,
+			ID_WXTOOLBAR1_End = 3030,
+			ID_WXTOOLBAR2 = 3040,
+			ID_WXTOOLBAR2_End = 3070,
 			ID_MNU_SCEN_End = 6100,
 		};
 	 

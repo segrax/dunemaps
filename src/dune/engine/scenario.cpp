@@ -124,6 +124,15 @@ bool cScenario::scenarioBegin( size_t pScenNumber ) {
 	return true;
 }
 
+void cScenario::scenarioNew( string pSeed ) {
+	
+	_mapSeed = atoi(pSeed.c_str());
+
+	g_DuneEngine->screenPlayfieldGet()->redrawSet();
+
+	scenarioMapPrepare();
+}
+
 void cScenario::scenarioLoad( string pFilename, bool pLocalFile ) {
 	
 	// Load the ini into the resource manager
@@ -369,9 +378,9 @@ void cScenario::teamsClear() {
 }
 
 void cScenario::scenarioSave( string pFile ) {
-	ofstream	file( pFile, ios::out );
+	//ofstream	file( pFile, ios::out );
 
-	file.close();
+	//file.close();
 
 	unsigned char *buffer =  new unsigned char[1];
 

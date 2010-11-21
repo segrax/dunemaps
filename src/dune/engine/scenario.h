@@ -45,6 +45,8 @@ public:
 								~cScenario();																// Destructor
 
 	void						 missionLoad( size_t pScenNumber );
+
+	void						 scenarioNew( string pSeed );
 	void						 scenarioLoad( string pFilename, bool pLocalFile );
 	void						 scenarioSave( string pFile );
 

@@ -203,6 +203,8 @@ void cPanelSurface::OnMouse(wxMouseEvent& event) {
 		}
 
 	}
+
+	g_DuneEngine->frameGet()->minimapGet()->Refresh(false);
 }
 
 void cPanelSurface::OnInputTimer(wxTimerEvent& event) {

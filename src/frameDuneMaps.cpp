@@ -16,6 +16,7 @@
 #include "dialogBasics.h"
 #include "dialogTeams.h"
 #include "dialogReinforcements.h"
+#include "dialogNewScenario.h"
 
 #include "stdafx.h"
 #include "dune\engine\objects\object.h"
@@ -119,12 +120,12 @@ void cFrameDuneMaps::CreateGUIControls()
 	WxMenuBar1->Append(ID_MNU_FILE_1001_Mnu_Obj, wxT("&File"));
 	
 	wxMenu *ID_MNU_HOUSE_4005_Mnu_Obj = new wxMenu(0);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_HARKONNEN_4006, wxT("Harkonnen"), wxT(""), wxITEM_NORMAL);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_ATREIDES_4007, wxT("Atreides"), wxT(""), wxITEM_NORMAL);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_ORDOS_4008, wxT("Ordos"), wxT(""), wxITEM_NORMAL);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_FREMEN_4009, wxT("Fremen"), wxT(""), wxITEM_NORMAL);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_SARDAUKA_4010, wxT("Sardauka"), wxT(""), wxITEM_NORMAL);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_MERCENARIES_4011, wxT("Mercenaries"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_HARKONNEN_4006, wxT("Harkonnen"), wxT(""), wxITEM_RADIO);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_ATREIDES_4007, wxT("Atreides"), wxT(""), wxITEM_RADIO);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_ORDOS_4008, wxT("Ordos"), wxT(""), wxITEM_RADIO);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_FREMEN_4009, wxT("Fremen"), wxT(""), wxITEM_RADIO);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_SARDAUKA_4010, wxT("Sardauka"), wxT(""), wxITEM_RADIO);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_MERCENARIES_4011, wxT("Mercenaries"), wxT(""), wxITEM_RADIO);
 	WxMenuBar1->Append(ID_MNU_HOUSE_4005_Mnu_Obj, wxT("&House"));
 	
 	wxMenu *ID_MNU_SCENARIO_4001_Mnu_Obj = new wxMenu(0);
@@ -202,6 +203,14 @@ void cFrameDuneMaps::loadToolbarUnits() {
 		WxToolBar2->AddTool(ID_WXTOOLBAR2 + id, wxT(""), SDL_To_Bitmap(surface.scaleTo(1)), wxNullBitmap, wxITEM_NORMAL, unitData->Name, wxT("") );
 	}
 
+	// Sandworm
+	sUnitData *unitData = g_DuneEngine->resourcesGet()->unitGet( 0x19 );
+	SDL_Surface *shp = g_DuneEngine->resourcesGet()->shpGet( unitData->sidebarIconID, 0 );
+
+	surface.surfacePut( shp, 0, 0 );
+		
+	WxToolBar2->AddTool(ID_WXTOOLBAR2 + 0x19, wxT(""), SDL_To_Bitmap(surface.scaleTo(1)), wxNullBitmap, wxITEM_NORMAL, unitData->Name, wxT("") );
+
 	WxToolBar2->Realize();
 }
 
@@ -274,9 +283,10 @@ void cFrameDuneMaps::Mnusavescenario1007Click(wxCommandEvent& event) {
 /*
  * Mnunewscenario1005Click
  */
-void cFrameDuneMaps::Mnunewscenario1005Click(wxCommandEvent& event)
-{
-	// insert your code here
+void cFrameDuneMaps::Mnunewscenario1005Click(wxCommandEvent& event) {
+	cDialogNewScenario *scenario = new cDialogNewScenario(this);
+
+	scenario->Show();
 }
 
 /*
