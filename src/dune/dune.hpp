@@ -5,20 +5,27 @@ class cScreenPlayfield;
 class cStructure;
 class cUnit;
 class cObject;
+class cMinimap;
+class cPanelSurface;
+class cFrameDuneMaps;
 
 class cDune {
 
 	size_t					 mTilesMaxY, mTilesMaxX;
 
+	cMinimap				*_minimap;
 	cResources				*_resources;
 	cScenario				*_scenario;	
 	cScreenPlayfield		*_screenPlayfield;
+	cFrameDuneMaps			*mFrame;
 
 	map< eHouse, cHouse* >	 _houses;
 
 	eHouse					 _missionHouse;
 	cObject					*mPlaceObject;
-
+	
+	cPanelSurface			*mSurface;
+					
 public:
 					 cDune( string pDataPath );
 					~cDune();
@@ -37,6 +44,7 @@ public:
 	void			 scenarioLoad( eHouse pHouse, size_t pScenNumber );
 	void			 scenarioLoad( string pFilename );
 
+	inline cMinimap			*minimapGet()		{ return _minimap; }
 	inline eHouse			 missionHouseGet()  { return _missionHouse; }
 
 	inline cScenario		*scenarioGet()		{ return _scenario; }				// Get the scenario
@@ -54,4 +62,11 @@ public:
 
 	inline size_t			 screenTilesMaxY() { return mTilesMaxY; }
 	inline size_t			 screenTilesMaxX() { return mTilesMaxX; }
+
+	inline cPanelSurface	*mSurfaceGet() { return mSurface; }
+	inline void				 mSurfaceSet( cPanelSurface	*pVal ) { mSurface = pVal; }
+
+
+	inline cFrameDuneMaps	*frameGet() { return mFrame; }
+	inline 	void frameSet( cFrameDuneMaps *pVal ) { mFrame = pVal; }
 };

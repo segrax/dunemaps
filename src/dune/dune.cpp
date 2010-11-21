@@ -3,6 +3,7 @@
 #include "engine/house.h"
 #include "engine/scenario.h"
 #include "screenPlayfield.h"
+#include "minimap.h"
 
 cDune *g_DuneEngine = 0;
 
@@ -15,6 +16,7 @@ cDune::cDune( string pDataPath ) {
 	_screenPlayfield = 0;
 
 	_scenario = 0;
+	_minimap = new cMinimap();
 
 	mPlaceObject = 0;
 }
@@ -29,6 +31,7 @@ cDune::~cDune() {
 	delete _resources;
 	delete _scenario;
 	delete _screenPlayfield;
+	delete _minimap;
 }
 
 cHouse *cDune::houseGet( eHouse pHouse ) {
@@ -62,6 +65,9 @@ void cDune::scenarioLoad( eHouse pHouse, size_t pScenNumber ) {
 
 	delete _screenPlayfield;
 	_screenPlayfield = new cScreenPlayfield();
+
+	delete _minimap;
+	_minimap = new cMinimap();
 }
 
 void cDune::scenarioLoad( string pFilename ) {
@@ -73,6 +79,9 @@ void cDune::scenarioLoad( string pFilename ) {
 
 	delete _screenPlayfield;
 	_screenPlayfield = new cScreenPlayfield();
+
+	delete _minimap;
+	_minimap = new cMinimap();
 }
 
 void cDune::houseReset() {

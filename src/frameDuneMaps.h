@@ -32,6 +32,7 @@
 ////Header Include End
 
 class cPanelSurface;
+class cPanelMinimap;
 class cHouse;
 enum eHouse;
 
@@ -57,6 +58,8 @@ class cFrameDuneMaps : public wxFrame
 		void Mnureinforcements4015Click(wxCommandEvent& event);
 		void Mnubasics4003Click(wxCommandEvent& event);
 		void Mnuhouses4016Click(wxCommandEvent& event);
+
+		inline cPanelMinimap *minimapGet() { return mMinimap; }
 	private:
 		void Mnusavescenario1007Click(wxCommandEvent& event);
 		//Do not add custom control declarations between 
@@ -71,7 +74,7 @@ class cFrameDuneMaps : public wxFrame
 		////GUI Control Declaration End
 		
 		cPanelSurface		*mTileView;
-
+		cPanelMinimap		*mMinimap;
 	private:
 		//Note: if you receive any error with these enum IDs, then you need to
 		//change your old form code that are based on the #define control IDs.
@@ -115,7 +118,7 @@ class cFrameDuneMaps : public wxFrame
 		void OnClose(wxCloseEvent& event);
 		void CreateGUIControls();
 		void OnSize(wxSizeEvent& event);
-
+		void OnMove(wxMoveEvent& event);
 		void loadToolbarStructures();
 		void loadToolbarUnits();
 		void loadScenariosFromPak();

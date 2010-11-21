@@ -15,10 +15,13 @@ IMPLEMENT_APP(cDuneMapsApp)
 
 bool cDuneMapsApp::OnInit() {
 	g_DuneEngine = new cDune( "data" );
+
 	g_DuneEngine->resourcesGet()->resourcePrepare();
 	g_DuneEngine->scenarioLoad(eHouse_Atreides, 1);
 
 	cFrameDuneMaps* dialog = new cFrameDuneMaps(0);
+
+	g_DuneEngine->frameSet( dialog );
 
 	SetTopWindow(dialog);
 	dialog->Show(true);		

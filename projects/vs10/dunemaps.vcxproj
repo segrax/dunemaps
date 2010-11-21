@@ -55,6 +55,7 @@
     <ClCompile Include="..\..\src\dune\resourceExe.cpp" />
     <ClCompile Include="..\..\src\dune\resources.cpp" />
     <ClCompile Include="..\..\src\dune\screenPlayfield.cpp" />
+    <ClCompile Include="..\..\src\panelMinimap.cpp" />
     <ClCompile Include="..\..\src\panelSurface.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +101,7 @@
     <ClInclude Include="..\..\src\dune\screenPlayfield.h" />
     <ClInclude Include="..\..\src\dune\stdafx.h" />
     <ClInclude Include="..\..\src\dune\types.h" />
+    <ClInclude Include="..\..\src\panelMinimap.h" />
     <ClInclude Include="..\..\src\panelSurface.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

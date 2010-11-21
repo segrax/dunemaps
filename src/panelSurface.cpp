@@ -9,6 +9,9 @@
 ///------------------------------------------------------------------
 
 #include "panelSurface.h"
+#include "frameDuneMaps.h"
+#include "panelMinimap.h"
+
 #include "stdafx.h"
 #include "screenPlayfield.h"
 #include "appDuneMaps.h"
@@ -47,7 +50,7 @@ END_EVENT_TABLE()
 ////Event Table End
 
 cPanelSurface::cPanelSurface(wxWindow *parent, wxWindowID id, const wxPoint &position, const wxSize& size)
-: wxPanel(parent, id, position, size) {
+: wxPanel(parent, id, position, size, wxFRAME_NO_TASKBAR | wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX)) {
 	
 	mScale = 2;
 	mMouseX = mMouseY = 0;
@@ -85,7 +88,7 @@ void cPanelSurface::CreateGUIControls() {
 	WxPopupMenu1 = new wxMenu(wxT(""));WxPopupMenu1->Append(ID_MNU_ADDBLOOM_1001, wxT("Add Spice Bloom"), wxT(""), wxITEM_NORMAL);
 	WxPopupMenu1->Append(ID_MNU_ADDSPICEFIELD_1002, wxT("Add Spice Field"), wxT(""), wxITEM_NORMAL);
 
-	SetSize(8,8,320,334);
+	SetSize(wxSize(320,334));
 	Center();
 	
 	////GUI Items Creation End
@@ -229,6 +232,7 @@ void cPanelSurface::playfieldSizeUpdate( size_t pScale, size_t pWidth, size_t pH
 	g_DuneEngine->screenTilesMaxYSet( pHeight / mScale);
 
 	Refresh(false);
+	g_DuneEngine->frameGet()->minimapGet()->Refresh(false);
 }
 
 /*

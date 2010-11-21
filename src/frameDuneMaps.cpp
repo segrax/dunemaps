@@ -10,6 +10,7 @@
 
 #include "frameDuneMaps.h"
 #include "panelSurface.h"
+#include "panelMinimap.h"
 #include "appDuneMaps.h"
 #include "dialogHouses.h"
 #include "dialogBasics.h"
@@ -42,6 +43,7 @@ BEGIN_EVENT_TABLE(cFrameDuneMaps,wxFrame)
 	EVT_TOOL_RANGE(ID_WXTOOLBAR2,ID_WXTOOLBAR2_End, cFrameDuneMaps::WxToolBar2Tool)
 	EVT_TOOL_RANGE(ID_WXTOOLBAR1,ID_WXTOOLBAR1_End, cFrameDuneMaps::WxToolBar1Tool)
 	EVT_MENU_RANGE(ID_MNU_SCEN, ID_MNU_SCEN_End, cFrameDuneMaps::MnuLoadPak_ScenClick)
+	EVT_MOVE(cFrameDuneMaps::OnMove)
 	////Manual Code End
 	
 	EVT_CLOSE(cFrameDuneMaps::OnClose)
@@ -117,12 +119,12 @@ void cFrameDuneMaps::CreateGUIControls()
 	WxMenuBar1->Append(ID_MNU_FILE_1001_Mnu_Obj, wxT("&File"));
 	
 	wxMenu *ID_MNU_HOUSE_4005_Mnu_Obj = new wxMenu(0);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_HARKONNEN_4006, wxT("Harkonnen"), wxT(""), wxITEM_RADIO);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_ATREIDES_4007, wxT("Atreides"), wxT(""), wxITEM_RADIO);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_ORDOS_4008, wxT("Ordos"), wxT(""), wxITEM_RADIO);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_FREMEN_4009, wxT("Fremen"), wxT(""), wxITEM_RADIO);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_SARDAUKA_4010, wxT("Sardauka"), wxT(""), wxITEM_RADIO);
-	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_MERCENARIES_4011, wxT("Mercenaries"), wxT(""), wxITEM_RADIO);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_HARKONNEN_4006, wxT("Harkonnen"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_ATREIDES_4007, wxT("Atreides"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_ORDOS_4008, wxT("Ordos"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_FREMEN_4009, wxT("Fremen"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_SARDAUKA_4010, wxT("Sardauka"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_MERCENARIES_4011, wxT("Mercenaries"), wxT(""), wxITEM_NORMAL);
 	WxMenuBar1->Append(ID_MNU_HOUSE_4005_Mnu_Obj, wxT("&House"));
 	
 	wxMenu *ID_MNU_SCENARIO_4001_Mnu_Obj = new wxMenu(0);
@@ -141,13 +143,16 @@ void cFrameDuneMaps::CreateGUIControls()
 	SetToolBar(WxToolBar1);
 	SetTitle(wxT("Dune Maps"));
 	SetIcon(wxNullIcon);
-	SetSize(8,8,748,477);
+	SetSize(wxSize(748,477));
 	
 	////GUI Items Creation End
 
 	this->SetBackgroundColour( wxColor(0.0L) );
 
 	mTileView = new cPanelSurface( this );
+	mMinimap = new cPanelMinimap( this );
+
+	g_DuneEngine->mSurfaceSet( mTileView );
 
 	mTileView->SetPosition( wxPoint( 12, 10 ) );
 	mTileView->SetSize( GetSize().GetWidth() - 40, GetSize().GetHeight() - 126 );
@@ -156,6 +161,8 @@ void cFrameDuneMaps::CreateGUIControls()
 
 	WxToolBar2 = new wxToolBar(this, ID_WXTOOLBAR2, wxPoint(0, 460), wxSize(404, 28), wxTB_BOTTOM);
 	WxToolBar2->Realize();
+
+	mMinimap->Show();
 }
 
 void cFrameDuneMaps::loadScenariosFromPak() {
@@ -219,9 +226,17 @@ void cFrameDuneMaps::OnClose(wxCloseEvent& /*event*/) {
 	Destroy();
 }
 
+void cFrameDuneMaps::OnMove(wxMoveEvent& event) {
+	wxPoint a( GetPosition().x + GetSize().GetWidth(), GetPosition().y );
+	mMinimap->SetPosition( a );
+}
+
 void cFrameDuneMaps::OnSize(wxSizeEvent& event) {
 	size_t width = event.GetSize().GetWidth();
 	size_t height = event.GetSize().GetHeight();
+	
+	wxPoint a( GetPosition().x + GetSize().GetWidth(), GetPosition().y );
+	mMinimap->SetPosition( a );
 
 	if(mTileView)
 		mTileView->SetSize( width - 40, height - 130 );
@@ -362,6 +377,7 @@ void cFrameDuneMaps::Mnubasics4003Click(wxCommandEvent& event) {
 
 	delete Basics;
 	mTileView->playfieldSizeUpdate();
+	mMinimap->Refresh(false);
 }
 
 /*

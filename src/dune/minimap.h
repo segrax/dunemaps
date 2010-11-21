@@ -12,9 +12,9 @@ public:
 
 			bool	 positionUpdate();
 
-	virtual void	 draw();
-			void	 drawPiece( word pMapIndex );
-			void	 drawAreaFrame();
+	virtual void	 draw( cVideoSurface *pSurface );
+			void	 drawPiece( word pMapIndex, cVideoSurface *pSurface );
+			void	 drawAreaFrame( cVideoSurface *pSurface );
 
 			void	 buttonClear();
 	virtual void	 buttonPressLeft( size_t pX, size_t pY );

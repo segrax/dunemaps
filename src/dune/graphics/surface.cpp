@@ -50,6 +50,7 @@ SDL_Surface *cVideoSurface::scaleTo( size_t scaleLevel ) {
 	if(!_surfaceScaled) {
 		// Set our new dimensions
 		_surfaceScaled = SDL_CreateRGBSurface(SDL_SWSURFACE, _surface->w * scaleLevel, _surface->h * scaleLevel, 32, 0, 0, 0, 0);
+		_changed = true;
 	}
 
 	if(!_changed && _surfaceScaled)
