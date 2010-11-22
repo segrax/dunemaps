@@ -217,7 +217,7 @@ word cMap::mapTileTypeGet( word pMapIndex ) {
 }
 
 word cMap::sub_5700A( word pMapIndex, short int pArg_2 ) {
-	if(pMapIndex > 0x1000)
+	if(pMapIndex >= 0x1000)
 		return 0;
 
 	if( pArg_2 == 0 )
@@ -282,7 +282,7 @@ word cMap::sub_57146( word pMapIndex ) {
 	short int word_45972[4] = { -0x40, 0x01, 0x40, -1 };
 	short int di = pMapIndex;
 	word si = 0;
-
+	
 	di &= 0xFFF;
 
 	word tileType = mapTileTypeGet( di );

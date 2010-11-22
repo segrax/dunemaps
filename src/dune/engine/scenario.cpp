@@ -81,29 +81,35 @@ void cScenario::mapLoad() {
 	vector<string> blooms = splitStr( _mapBloom );
 	vector<string>::iterator	it;
 
+	if(!_map)
+		_map		  = new cMap( );
+
 	delete _mapGenerator;
 
 	_mapGenerator = new cMapGenerator( );
 
 	// Generate the map
 	_mapGenerator->generate( _mapSeed );
-
+	
 	// Now create the map cells using the tileid array
-	if(!_map)
-		_map		  = new cMap( );
-
 	_map->mapLoad();
 
 	// Add spice blooms
 	for( it = blooms.begin(); it != blooms.end(); ++it ) {
-		cMapCell **mapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( atoi((*it).c_str()) );
+		if(*it == "0")
+			continue;
+
+		cMapCell **mapCell = _map->mapCellGet( atoi((*it).c_str()) );
 
 		(*mapCell)->tileSetCurrent( 0, g_DuneEngine->resourcesGet()->tileBloom() );
 	}
 
 	// Add spice fields
 	for( it = fields.begin(); it != fields.end(); ++it ) {
-		cMapCell **mapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( atoi((*it).c_str()) );
+		if(*it == "0")
+			continue;
+
+		cMapCell **mapCell = _map->mapCellGet( atoi((*it).c_str()) );
 
 		_map->mapRetile( (*mapCell)->mapIndexGet(), 5 );
 	}
@@ -391,10 +397,6 @@ void cScenario::teamsClear() {
 }
 
 void cScenario::scenarioSave( string pFile ) {
-	//ofstream	file( pFile, ios::out );
-
-	//file.close();
-
 	unsigned char *buffer =  new unsigned char[1];
 
 	IniFile ini( buffer, 0 );
@@ -557,12 +559,13 @@ string cScenario::scenarioAmigaGet_String( byte **pBuffer ) {
 
 	(*pBuffer) += 2;
 
-	str.append( (char*) *pBuffer, count );
+	//str.append( (char*) *pBuffer, count );
 
-	/*while(count--) {
+	while(*(*pBuffer)) {
 		str.append( 1, (char) **pBuffer );
 		(*pBuffer)++;
-	}*/
+		--count;
+	}
 	
 	(*pBuffer) += count;
 
@@ -619,6 +622,8 @@ void cScenario::scenarioAmigaLoad_Map( byte keyID, byte **pBuffer ) {
 	// SEED
 	if( d0 == 0 ) {
 		_mapSeed = scenarioAmigaGet_Word( pBuffer );
+
+		mapLoad();
 		return;
 	}
 
@@ -718,14 +723,46 @@ void cScenario::scenarioAmigaLoad_House( byte sectionID, byte keyID, byte **pBuf
 		house->brainSet("Human");
 		g_DuneEngine->missionHouseSet( house->houseIDGet() );
 
-	}else
+	} else
 		house->brainSet("CPU");
 
+	(*pBuffer) -= 2;
+}
+
+void cScenario::scenarioAmigaLoad_Units( byte keyID, byte **pBuffer ) {
+	word arg0 = scenarioAmigaGet_Word( pBuffer );
+	word arg1 = scenarioAmigaGet_Word( pBuffer );
+	word d0 = scenarioAmigaGet_Word( pBuffer );
+	word d1 = scenarioAmigaGet_Word( pBuffer );
+	word d2 = scenarioAmigaGet_Word( pBuffer );
+	word d3 = scenarioAmigaGet_Word( pBuffer );
+
+	cHouse *House = g_DuneEngine->houseGet( (eHouse) arg0 );
+
+	cUnit *unit = 0;
+	if(House)
+		unit = House->unitCreate( arg1, d0, d1, d2, d3 );
+
+}
+
+void cScenario::scenarioAmigaLoad_Structures( byte keyID, byte **pBuffer ) {
 	
+	word arg0 = scenarioAmigaGet_Word( pBuffer );
+	word arg1 = scenarioAmigaGet_Word( pBuffer );
+	word d0 = scenarioAmigaGet_Word( pBuffer );
+	word d1 = scenarioAmigaGet_Word( pBuffer );
+	word d2 = scenarioAmigaGet_Word( pBuffer );
+
+	cHouse *House = g_DuneEngine->houseGet( (eHouse) arg1 );
+
+	cStructure *structure = 0;
+	if(House)
+		structure = House->structureCreate( d0, d1, d2 );
 }
 
 void cScenario::scenarioAmigaLoad( string pFilename ) {
 	size_t size = 0, count = 0;
+	bool done = false;
 
 	clear();
 
@@ -734,7 +771,7 @@ void cScenario::scenarioAmigaLoad( string pFilename ) {
 
 	count = size;
 
-	while(count) {
+	while(!done) {
 
 		byte sectionID = *buffer++;
 		byte keyID = *buffer++;
@@ -765,11 +802,26 @@ void cScenario::scenarioAmigaLoad( string pFilename ) {
 				scenarioAmigaGet_Word( &buffer );
 				break;
 					}
+
 			case 7:
+				//scenarioAmigaLoad_Teams( 
+				break;
+
+			case 8:
+				scenarioAmigaLoad_Units( keyID, &buffer );
+				break;
+
+			case 9:
+				scenarioAmigaLoad_Structures( keyID, &buffer );
+				break;
+
+			case 10:
 
 				break;
 
-
+			case 0xFF:
+				done = true;
+				break;
 		}
 
 	}

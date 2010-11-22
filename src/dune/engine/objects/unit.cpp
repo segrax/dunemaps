@@ -27,6 +27,12 @@ cUnit::cUnit(  cHouse *pHouse, word pType, word pMapIndex, byte pAngle, word pAc
 	_Y = 0;
 }
 
+cUnit::~cUnit() {
+
+	if(mapIndexGet())
+		(*mapCellGet())->objectEnter( 0 );
+}
+
 void cUnit::cycle() {
 	
 }

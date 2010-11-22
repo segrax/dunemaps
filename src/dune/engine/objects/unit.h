@@ -34,6 +34,7 @@ private:
 
 public:
 							 cUnit(  cHouse *pHouse, word pType, word pMapIndex, byte pAngle, word pAction, word pHealthPercent );
+							 ~cUnit();
 
 	void					 cycle();
 	void					 draw();

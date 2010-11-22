@@ -48,7 +48,8 @@ private:
 	void						 scenarioAmigaLoad_Basic( byte pKeyID, byte **pBuffer );
 	void						 scenarioAmigaLoad_Map( byte keyID, byte **pBuffer );
 	void						 scenarioAmigaLoad_House( byte sectionID, byte keyID, byte **pBuffer );
-
+	void						 scenarioAmigaLoad_Units( byte keyID, byte **pBuffer );
+	void						 scenarioAmigaLoad_Structures( byte keyID, byte **pBuffer );
 
 public:
 								 cScenario( );												// Constructor
