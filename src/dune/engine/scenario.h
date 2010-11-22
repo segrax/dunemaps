@@ -40,15 +40,29 @@ private:
 	vector<sReinforcement>		 mReinforcements;
 	vector< cTeam* >			 mTeams;
 
+	// AMIGA Load Functions
+	string						 scenarioAmigaGet_String( byte **pBuffer );
+	word						 scenarioAmigaGet_Word( byte **pBuffer );
+	string						 scenarioAmigaGet_NumberString( byte **pBuffer );
+
+	void						 scenarioAmigaLoad_Basic( byte pKeyID, byte **pBuffer );
+	void						 scenarioAmigaLoad_Map( byte keyID, byte **pBuffer );
+	void						 scenarioAmigaLoad_House( byte sectionID, byte keyID, byte **pBuffer );
+
+
 public:
 								 cScenario( );												// Constructor
-								~cScenario();																// Destructor
+								~cScenario();				// Destructor
+
+	void						 clear();
 
 	void						 missionLoad( size_t pScenNumber );
 
-	void						 scenarioNew( string pSeed );
+	void						 scenarioNewSeed( string pSeed );
 	void						 scenarioLoad( string pFilename, bool pLocalFile );
 	void						 scenarioSave( string pFile );
+
+	void						 scenarioAmigaLoad( string pFilename );
 
 	void						 reinforcementLoad( string pHouse, string pUnitType, string pDirection, string pTimer, bool pRepeat );
 

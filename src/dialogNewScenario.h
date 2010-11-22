@@ -26,6 +26,7 @@
 //Header Include Start and Header Include End.
 //wxDev-C++ designer will remove them. Add custom headers after the block.
 ////Header Include Start
+#include <wx/button.h>
 #include <wx/textctrl.h>
 #include <wx/stattext.h>
 ////Header Include End
@@ -39,17 +40,21 @@ class cDialogNewScenario : public wxDialog
 {
 	private:
 		DECLARE_EVENT_TABLE();
-		
+		size_t			mOriginalSeed;
+		bool			mDone;
+
 	public:
 		cDialogNewScenario(wxWindow *parent, wxWindowID id = 1, const wxString &title = wxT("DuneMaps - New Scenario"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = cDialogNewScenario_STYLE);
 		virtual ~cDialogNewScenario();
 		void WxEdit1Updated(wxCommandEvent& event);
+		void buttonDoneClick(wxCommandEvent& event);
 	
 	private:
 		//Do not add custom control declarations between 
 		//GUI Control Declaration Start and GUI Control Declaration End.
 		//wxDev-C++ will remove them. Add custom code after the block.
 		////GUI Control Declaration Start
+		wxButton *buttonDone;
 		wxTextCtrl *WxEdit1;
 		wxStaticText *WxStaticText1;
 		////GUI Control Declaration End
@@ -62,6 +67,7 @@ class cDialogNewScenario : public wxDialog
 		enum
 		{
 			////GUI Enum Control ID Start
+			ID_BUTTONDONE = 1004,
 			ID_WXEDIT1 = 1002,
 			ID_WXSTATICTEXT1 = 1001,
 			////GUI Enum Control ID End

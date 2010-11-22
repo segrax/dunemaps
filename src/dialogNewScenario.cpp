@@ -33,6 +33,7 @@ BEGIN_EVENT_TABLE(cDialogNewScenario,wxDialog)
 	////Manual Code End
 	
 	EVT_CLOSE(cDialogNewScenario::OnClose)
+	EVT_BUTTON(ID_BUTTONDONE,cDialogNewScenario::buttonDoneClick)
 	
 	EVT_TEXT(ID_WXEDIT1,cDialogNewScenario::WxEdit1Updated)
 END_EVENT_TABLE()
@@ -41,7 +42,10 @@ END_EVENT_TABLE()
 cDialogNewScenario::cDialogNewScenario(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &position, const wxSize& size, long style)
 : wxDialog(parent, id, title, position, size, style)
 {
+	mOriginalSeed = g_DuneEngine->scenarioGet()->mapSeedGet();
 	CreateGUIControls();
+
+	mDone = false;
 }
 
 cDialogNewScenario::~cDialogNewScenario()
@@ -56,14 +60,16 @@ void cDialogNewScenario::CreateGUIControls()
 	//Add the custom code before or after the blocks
 	////GUI Items Creation Start
 
-	WxEdit1 = new wxTextCtrl(this, ID_WXEDIT1, wxT("123456789"), wxPoint(115, 26), wxSize(93, 21), 0, wxDefaultValidator, wxT("WxEdit1"));
+	buttonDone = new wxButton(this, ID_BUTTONDONE, wxT("Create"), wxPoint(75, 99), wxSize(91, 25), 0, wxDefaultValidator, wxT("buttonDone"));
+
+	WxEdit1 = new wxTextCtrl(this, ID_WXEDIT1, wxT("123456789"), wxPoint(126, 26), wxSize(93, 21), 0, wxDefaultValidator, wxT("WxEdit1"));
 	WxEdit1->SetMaxLength(9);
 
-	WxStaticText1 = new wxStaticText(this, ID_WXSTATICTEXT1, wxT("Map Seed"), wxPoint(25, 28), wxDefaultSize, 0, wxT("WxStaticText1"));
+	WxStaticText1 = new wxStaticText(this, ID_WXSTATICTEXT1, wxT("Map Seed"), wxPoint(32, 28), wxDefaultSize, 0, wxT("WxStaticText1"));
 
 	SetTitle(wxT("DuneMaps - New Scenario"));
 	SetIcon(wxNullIcon);
-	SetSize(8,8,280,240);
+	SetSize(8,8,274,170);
 	Center();
 	
 	////GUI Items Creation End
@@ -71,6 +77,13 @@ void cDialogNewScenario::CreateGUIControls()
 
 void cDialogNewScenario::OnClose(wxCloseEvent& /*event*/)
 {
+	if(!mDone) {
+		stringstream str;
+		str << mOriginalSeed;
+
+		g_DuneEngine->scenarioGet()->scenarioNewSeed( str.str() );
+	}
+
 	Show(false);
 	Destroy();
 }
@@ -92,8 +105,20 @@ void cDialogNewScenario::OnPaint(wxPaintEvent& event) {
 void cDialogNewScenario::WxEdit1Updated(wxCommandEvent& event) {
 	string seed =  WxEdit1->GetValue();
 
-	g_DuneEngine->scenarioGet()->scenarioNew( seed );
+	g_DuneEngine->scenarioGet()->scenarioNewSeed( seed );
 
 	g_DuneEngine->frameGet()->Refresh(false);
-	g_DuneEngine->frameGet()->minimapGet()->Refresh(false);
+}
+
+/*
+ * buttonDoneClick
+ */
+void cDialogNewScenario::buttonDoneClick(wxCommandEvent& event) {
+	string seed =  WxEdit1->GetValue();
+
+	g_DuneEngine->scenarioNew( seed );
+	g_DuneEngine->frameGet()->Refresh(false);
+
+	mDone = true;
+	Show(false);
 }

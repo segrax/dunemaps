@@ -65,8 +65,6 @@ void cScenario::missionLoad( size_t pScenNumber ) {
 
 void cScenario::scenarioMapPrepare() {
 
-	_map		  = new cMap( );
-
 	mapLoad();
 
 	// Load the prebuilt units
@@ -91,6 +89,9 @@ void cScenario::mapLoad() {
 	_mapGenerator->generate( _mapSeed );
 
 	// Now create the map cells using the tileid array
+	if(!_map)
+		_map		  = new cMap( );
+
 	_map->mapLoad();
 
 	// Add spice blooms
@@ -124,17 +125,29 @@ bool cScenario::scenarioBegin( size_t pScenNumber ) {
 	return true;
 }
 
-void cScenario::scenarioNew( string pSeed ) {
+void cScenario::scenarioNewSeed( string pSeed ) {
 	
 	_mapSeed = atoi(pSeed.c_str());
 
 	g_DuneEngine->screenPlayfieldGet()->redrawSet();
 
-	scenarioMapPrepare();
+	mapLoad();
+}
+
+void cScenario::clear() {
+	for( size_t house = eHouse_Harkonnen; house != eHouse_End; ++house ) {
+
+		cHouse *House = g_DuneEngine->houseGet( (eHouse ) house );
+		House->reset();
+	}
+
+	teamsClear();
 }
 
 void cScenario::scenarioLoad( string pFilename, bool pLocalFile ) {
 	
+	clear();
+
 	// Load the ini into the resource manager
 	g_DuneEngine->resourcesGet()->IniLoad( pFilename, pLocalFile );
 
@@ -502,7 +515,255 @@ void cScenario::scenarioSave( string pFile ) {
 		}
 	}
 
+	vector<sReinforcement>::iterator reIT;
+
+	id = 1;
+
 	// [REINFORCEMENTS] Section
+	for( reIT = mReinforcements.begin(); reIT != mReinforcements.end(); ++reIT ) {
+			stringstream output;
+			stringstream counter;
+			
+			cHouse *house = g_DuneEngine->houseGet( reIT->mHouse );
+			sUnitData *unit = g_DuneEngine->resourcesGet()->unitGet( reIT->mUnitType );
+
+			output << house->houseDataGet()->houseName;
+			output << ",";
+
+			output <<  unit->Name;
+			output << ",";
+
+			output << g_DuneEngine->resourcesGet()->directionGet( reIT->mDirection );
+			output << ",";
+
+			output << reIT->mTime;
+			if( reIT->mRepeat)
+				output << "+";
+			
+			counter << id;
+			++id;
+
+			ini.setStringValue("REINFORCEMENTS", counter.str(), output.str() );
+	}
+
 
 	ini.SaveChangesTo( pFile );
+}
+
+string cScenario::scenarioAmigaGet_String( byte **pBuffer ) {
+
+	word		count = readWord(*pBuffer);
+	string		str;
+
+	(*pBuffer) += 2;
+
+	str.append( (char*) *pBuffer, count );
+
+	/*while(count--) {
+		str.append( 1, (char) **pBuffer );
+		(*pBuffer)++;
+	}*/
+	
+	(*pBuffer) += count;
+
+	return str;
+}
+
+word cScenario::scenarioAmigaGet_Word( byte **pBuffer ) {
+	byte *value = *pBuffer;
+
+	(*pBuffer) += 2;
+
+	return (value[0] << 8) + value[1];
+}
+
+string cScenario::scenarioAmigaGet_NumberString( byte **pBuffer ) {
+	short int		count = readWord(*pBuffer);
+	stringstream	str;
+
+	count += count;
+
+	(*pBuffer) += 2;
+
+	while(count >= 2) {
+		count -= 2;
+
+		str << (int) scenarioAmigaGet_Word( pBuffer );
+		if(count>0)
+			str << ",";
+	}
+
+	return str.str();
+}
+
+void cScenario::scenarioAmigaLoad_Map( byte keyID, byte **pBuffer ) {
+	
+	word d0 = keyID - 0x42;
+
+	if( d0 == 0 ) {
+		_mapBloom = scenarioAmigaGet_NumberString( pBuffer );
+
+		return;
+	}
+	
+	d0 -= 4;
+	// FIELDS
+	if( d0 == 0 ) {
+
+		_mapField = scenarioAmigaGet_NumberString( pBuffer );
+
+		return;
+	} 
+
+	d0 -= 0x0D;
+	// SEED
+	if( d0 == 0 ) {
+		_mapSeed = scenarioAmigaGet_Word( pBuffer );
+		return;
+	}
+
+}
+
+void cScenario::scenarioAmigaLoad_Basic( byte pKeyID, byte **pBuffer ) {
+
+	switch( pKeyID ) {
+		case 0:		// Lose picture
+			_pictureLose = scenarioAmigaGet_String( pBuffer );
+			break;
+
+		case 1:		// Win
+			_pictureWin = scenarioAmigaGet_String( pBuffer );
+			break;
+
+		case 2:		// Brief
+			_pictureBrief = scenarioAmigaGet_String( pBuffer );
+			break;
+
+		case 3:		// Timeout
+			_mapTimeOut = scenarioAmigaGet_Word( pBuffer );
+			break;
+
+		case 4:		// MapScale
+			_mapScale = scenarioAmigaGet_Word( pBuffer );
+			break;
+
+		case 5:		// CursorPos
+			_mapCursor = scenarioAmigaGet_Word( pBuffer );
+			break;
+
+		case 6:		// TacticalPos
+			_mapTactical = scenarioAmigaGet_Word( pBuffer );
+			break;
+
+		case 7:		// Lose Flags
+			_mapLoseFlags = scenarioAmigaGet_Word( pBuffer );
+			break;
+
+		case 8:		// Win Flags
+			_mapWinFlags = scenarioAmigaGet_Word( pBuffer );
+			break;
+	}
+
+}
+
+void cScenario::scenarioAmigaLoad_House( byte sectionID, byte keyID, byte **pBuffer ) {
+	word	 houseIDLoad[8] = { 1, 0, 0, 1, 2, 4, 3, 0 };
+
+	cHouse  *house = g_DuneEngine->houseGet( (eHouse) houseIDLoad[ sectionID ] );
+
+	word d4 = 0;
+
+	for( int i = 0; i < 4; ++i ) {
+		word d0 = keyID;
+
+		d0 -= 0x42;
+		if( d0 == 0 ) {
+			//02D7DE0
+			d4 = scenarioAmigaGet_Word( pBuffer );
+
+		} else {
+
+			d0 -= 1;
+
+			if( d0 == 0 ) {
+				//02D7DE8
+				house->creditSet( scenarioAmigaGet_Word( pBuffer ) );
+
+			} else {
+
+				d0 -= 0x0A;
+				if( d0 == 0 ) {
+					//02D7DF6
+					
+					house->maxUnitSet( scenarioAmigaGet_Word( pBuffer ) );
+				} else {
+					d0 -= 0x04;
+
+					if( d0 == 0 ) {
+						//2D7E04
+						house->creditQuotaSet( scenarioAmigaGet_Word( pBuffer ) );
+
+					}
+				}
+			}
+		}
+
+		//2D7E10
+		keyID = scenarioAmigaGet_Word( pBuffer ) & 0xFF;
+	}
+
+	//2D7E1E
+}
+
+void cScenario::scenarioAmigaLoad( string pFilename ) {
+	size_t size = 0, count = 0;
+
+	clear();
+
+	byte *fileBuffer = g_DuneEngine->resourcesGet()->fileRead( pFilename, size, false );
+	byte *buffer = fileBuffer;
+
+	count = size;
+
+	while(count) {
+
+		byte sectionID = *buffer++;
+		byte keyID = *buffer++;
+
+		switch(sectionID) {
+		
+			case 0:				// [BASIC]
+				scenarioAmigaLoad_Basic( keyID, &buffer );
+				break;
+
+			case 1:
+				scenarioAmigaLoad_Map( keyID, &buffer );
+				break;
+
+			case 2:
+			case 3:	
+			case 4:	
+			case 5:
+				scenarioAmigaLoad_House( sectionID, keyID, &buffer );
+				break;
+
+			case 6: {
+				byte *dst = 0;
+
+				dst += (keyID * 2);
+
+				//*dst = 
+				scenarioAmigaGet_Word( &buffer );
+				break;
+					}
+			case 7:
+
+				break;
+
+
+		}
+
+	}
+
+	delete fileBuffer;
 }

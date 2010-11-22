@@ -41,6 +41,7 @@ public:
 	void			 houseMapPrepare();
 	void			 houseReset();
 
+	void			 scenarioNew( string pSeed );
 	void			 scenarioLoad( eHouse pHouse, size_t pScenNumber );
 	void			 scenarioLoad( string pFilename );
 

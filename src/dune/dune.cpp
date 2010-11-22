@@ -54,6 +54,15 @@ void cDune::houseMapPrepare() {
 		houseIT->second->mapPrepare();
 }
 
+void cDune::scenarioNew( string pSeed ) {
+	houseReset();
+
+	delete _scenario;
+	_scenario = new cScenario();
+	_scenario->scenarioNewSeed( pSeed );
+
+}
+
 void cDune::scenarioLoad( eHouse pHouse, size_t pScenNumber ) {
 	houseReset();
 	_missionHouse = pHouse;

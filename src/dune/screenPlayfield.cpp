@@ -414,8 +414,8 @@ bool cScreenPlayfield::scrollCheck(size_t X, size_t Y) {
 		}
 
 	// If we have to redraw the screen now, the minimaps frame position will need updating
-	//if(redrawGet())
-	//	((cMinimap*) g_DuneEngine->screenGet()->sidebarGet()->minimapGet())->positionUpdate();
+	//if(redraw)
+	//	g_DuneEngine->minimapGet()->positionUpdate();
 
 	return redraw;
 }

@@ -57,6 +57,7 @@ class cFrameDuneMaps : public wxFrame
 		void Mnuteams4014Click(wxCommandEvent& event);
 		void Mnureinforcements4015Click(wxCommandEvent& event);
 		void Mnubasics4003Click(wxCommandEvent& event);
+		void Mnufromamiga7001Click(wxCommandEvent& event);
 		void Mnuhouses4016Click(wxCommandEvent& event);
 
 		inline cPanelMinimap *minimapGet() { return mMinimap; }
@@ -87,6 +88,7 @@ class cFrameDuneMaps : public wxFrame
 			ID_MNU_NEWSCENARIO_1005 = 1005,
 			ID_MNU_LOADSCENARIO_1002 = 1002,
 			ID_MNU_FROMINI_7000 = 7000,
+			ID_MNU_FROMAMIGA_7001 = 7001,
 			ID_MNU_LOADSCENFROMPAK = 1010,
 			ID_MNU_SCEN = 6000,
 			ID_MNU_SAVESCENARIO_1007 = 1007,

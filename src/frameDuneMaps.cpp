@@ -51,6 +51,7 @@ BEGIN_EVENT_TABLE(cFrameDuneMaps,wxFrame)
 	EVT_SIZE(cFrameDuneMaps::OnSize)
 	EVT_MENU(ID_MNU_NEWSCENARIO_1005, cFrameDuneMaps::Mnunewscenario1005Click)
 	EVT_MENU(ID_MNU_FROMINI_7000, cFrameDuneMaps::Mnuloadscenario1002Click)
+	EVT_MENU(ID_MNU_FROMAMIGA_7001, cFrameDuneMaps::Mnufromamiga7001Click)
 	EVT_MENU(ID_MNU_SAVESCENARIO_1007, cFrameDuneMaps::Mnusavescenario1007Click)
 	EVT_MENU(ID_MNU_QUIT_1006, cFrameDuneMaps::Mnuquit1006Click)
 	EVT_MENU(ID_MNU_HARKONNEN_4006, cFrameDuneMaps::MnuHouseChange)
@@ -109,6 +110,7 @@ void cFrameDuneMaps::CreateGUIControls()
 	
 	wxMenu *ID_MNU_LOADSCENARIO_1002_Mnu_Obj = new wxMenu(0);
 	ID_MNU_LOADSCENARIO_1002_Mnu_Obj->Append(ID_MNU_FROMINI_7000, wxT("From Ini"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_LOADSCENARIO_1002_Mnu_Obj->Append(ID_MNU_FROMAMIGA_7001, wxT("From Amiga"), wxT(""), wxITEM_NORMAL);
 	ID_MNU_LOADSCENARIO_1002_Mnu_Obj->AppendSeparator();
 	
 	wxMenu *ID_MNU_LOADSCENFROMPAK_Mnu_Obj = new wxMenu(0);
@@ -144,7 +146,7 @@ void cFrameDuneMaps::CreateGUIControls()
 	SetToolBar(WxToolBar1);
 	SetTitle(wxT("Dune Maps"));
 	SetIcon(wxNullIcon);
-	SetSize(wxSize(748,477));
+	SetSize(8,8,748,477);
 	
 	////GUI Items Creation End
 
@@ -399,4 +401,17 @@ void cFrameDuneMaps::Mnuhouses4016Click(wxCommandEvent& event) {
 	Houses->ShowModal();
 
 	delete Houses;
+}
+
+/*
+ * Mnufromamiga7001Click
+ */
+void cFrameDuneMaps::Mnufromamiga7001Click(wxCommandEvent& event) {
+	WxOpenFileDialog1->SetTitle("Load Amiga Scenario");
+	WxOpenFileDialog1->ShowModal();
+
+	string filename = WxOpenFileDialog1->GetPath();
+
+	g_DuneEngine->scenarioGet()->scenarioAmigaLoad( filename );
+	mTileView->playfieldSizeUpdate();
 }
