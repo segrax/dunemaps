@@ -68,9 +68,12 @@ void cScenario::scenarioMapPrepare() {
 	mapLoad();
 
 	// Load the prebuilt units
+	
 	teamsLoad();
 	unitsLoad();
 	structuresLoad();
+
+	choamLoad();
 	reinforcementsLoad();
 
 	g_DuneEngine->houseMapPrepare();
@@ -113,6 +116,9 @@ void cScenario::mapLoad() {
 
 		_map->mapRetile( (*mapCell)->mapIndexGet(), 5 );
 	}
+
+	if(g_DuneEngine->screenPlayfieldGet())
+		g_DuneEngine->screenPlayfieldGet()->scaleSet();
 }
 
 bool cScenario::scenarioBegin( size_t pScenNumber ) {
@@ -148,6 +154,8 @@ void cScenario::clear() {
 	}
 
 	teamsClear();
+	mChoam.clear();
+	mReinforcements.clear();
 }
 
 void cScenario::scenarioLoad( string pFilename, bool pLocalFile ) {
@@ -353,6 +361,22 @@ void cScenario::reinforcementsLoad() {
 	g_DuneEngine->resourcesGet()->IniSectionClose("REINFORCEMENTS");
 }
 
+void cScenario::choamLoad() {
+
+	mChoam.clear();
+
+	for(int i = 0; i < 18; ++i) {
+		sChoam choam;
+		
+		choam.mUnitType = g_DuneEngine->resourcesGet()->unitGet( i )->Name;
+		choam.mCount = g_DuneEngine->resourcesGet()->IniNumGet("CHOAM", choam.mUnitType, 0 );
+
+		if(choam.mCount)
+			mChoam.push_back( choam );
+	}
+
+}
+
 void cScenario::reinforcementsClear() {
 	mReinforcements.clear();
 }
@@ -430,6 +454,16 @@ void cScenario::scenarioSave( string pFile ) {
 		ini.setIntValue(houseName, "Credits", house->creditGet() );
 		ini.setStringValue(houseName, "Brain", house->brainGet() );
 		ini.setIntValue(houseName, "MaxUnit", house->maxUnitGet() );
+	}
+
+	// [CHOAM] Section
+	vector< sChoam >::iterator		choamIT;
+
+	for( choamIT = mChoam.begin(); choamIT != mChoam.end(); ++choamIT ) {
+		stringstream	output;
+
+		output << choamIT->mCount;
+		ini.setStringValue("CHOAM", choamIT->mUnitType, output.str() );
 	}
 
 	// [TEAMS] Section
@@ -746,18 +780,94 @@ void cScenario::scenarioAmigaLoad_Units( byte keyID, byte **pBuffer ) {
 }
 
 void cScenario::scenarioAmigaLoad_Structures( byte keyID, byte **pBuffer ) {
-	
 	word arg0 = scenarioAmigaGet_Word( pBuffer );
 	word arg1 = scenarioAmigaGet_Word( pBuffer );
 	word d0 = scenarioAmigaGet_Word( pBuffer );
-	word d1 = scenarioAmigaGet_Word( pBuffer );
-	word d2 = scenarioAmigaGet_Word( pBuffer );
+	word d1 = 0;
+	word d2 = 0;
+
+	if( keyID == 'G' ) {
+		// Health
+		d1 = 256;
+
+		// Map Index
+		d2 = arg0;
+	} else {
+		d1 = scenarioAmigaGet_Word( pBuffer );
+		d2 = scenarioAmigaGet_Word( pBuffer );
+	}
 
 	cHouse *House = g_DuneEngine->houseGet( (eHouse) arg1 );
 
 	cStructure *structure = 0;
 	if(House)
 		structure = House->structureCreate( d0, d1, d2 );
+
+
+}
+
+void cScenario::scenarioAmigaLoad_Teams( byte keyID, byte **pBuffer ) {
+	word house = scenarioAmigaGet_Word( pBuffer );
+	word findMode = scenarioAmigaGet_Word( pBuffer );
+
+	word foundMode = 0;
+
+	bool found = false;
+	
+	for( int i = 0; i < 5; ++i ) {
+		string mode = g_DuneEngine->resourcesGet()->aiModeGet( i );
+
+		if( mode[0] == (char) findMode ) {
+			found = true;
+			foundMode = i;
+			break;
+		}
+	}
+	if(!found)
+		return;
+
+	found = false;
+	word findMovement = scenarioAmigaGet_Word( pBuffer );
+	word foundMove = 0;
+
+	for( int i = 0; i < 6; ++i ) {
+		string move = g_DuneEngine->resourcesGet()->movementNameGet(i);
+
+		if( move[0] == (char) findMovement ) {
+			foundMove = i;
+			found = true;
+			break;
+		}
+	}
+	if(!found)
+		return;
+
+	word min = scenarioAmigaGet_Word( pBuffer );
+	word max = scenarioAmigaGet_Word( pBuffer );
+	
+	mTeams.push_back( new cTeam( g_DuneEngine->houseGet( (eHouse) house ), foundMode, foundMove, min, max ));
+}
+
+void cScenario::scenarioAmigaLoad_Choam( byte keyID, byte **pBuffer ) {
+
+}
+
+void cScenario::scenarioAmigaLoad_Reinforcements( byte keyID, byte **pBuffer ) {
+	sReinforcement reinforce;
+	
+	reinforce.mHouse = (eHouse) scenarioAmigaGet_Word( pBuffer );
+	reinforce.mUnitType = scenarioAmigaGet_Word( pBuffer );
+	reinforce.mDirection = scenarioAmigaGet_Word( pBuffer );
+
+	reinforce.mTime = *(*pBuffer)++;
+	byte repeat = *(*pBuffer)++;
+	
+	if( repeat == '+' )
+		reinforce.mRepeat = true;
+	else
+		reinforce.mRepeat = false;
+
+	mReinforcements.push_back( reinforce );
 }
 
 void cScenario::scenarioAmigaLoad( string pFilename ) {
@@ -794,17 +904,17 @@ void cScenario::scenarioAmigaLoad( string pFilename ) {
 				break;
 
 			case 6: {
-				byte *dst = 0;
+				sChoam choam;
+				choam.mCount = scenarioAmigaGet_Word( &buffer );
+				choam.mUnitType = g_DuneEngine->resourcesGet()->unitGet( keyID )->Name;
+				
+				mChoam.push_back( choam );
 
-				dst += (keyID * 2);
-
-				//*dst = 
-				scenarioAmigaGet_Word( &buffer );
 				break;
 					}
 
 			case 7:
-				//scenarioAmigaLoad_Teams( 
+				scenarioAmigaLoad_Teams( keyID, &buffer );
 				break;
 
 			case 8:
@@ -816,7 +926,7 @@ void cScenario::scenarioAmigaLoad( string pFilename ) {
 				break;
 
 			case 10:
-
+				scenarioAmigaLoad_Reinforcements( keyID, &buffer );
 				break;
 
 			case 0xFF:

@@ -21,6 +21,11 @@ struct sReinforcement {
 	}
 };
 
+struct sChoam {
+	string			mUnitType;
+	size_t			mCount;
+};
+
 class cScenario {
 private:
 	cMap						*_map;
@@ -39,6 +44,7 @@ private:
 
 	vector<sReinforcement>		 mReinforcements;
 	vector< cTeam* >			 mTeams;
+	vector< sChoam >			 mChoam;
 
 	// AMIGA Load Functions
 	string						 scenarioAmigaGet_String( byte **pBuffer );
@@ -50,7 +56,10 @@ private:
 	void						 scenarioAmigaLoad_House( byte sectionID, byte keyID, byte **pBuffer );
 	void						 scenarioAmigaLoad_Units( byte keyID, byte **pBuffer );
 	void						 scenarioAmigaLoad_Structures( byte keyID, byte **pBuffer );
-
+	void						 scenarioAmigaLoad_Teams( byte keyID, byte **pBuffer );
+	void						 scenarioAmigaLoad_Choam( byte keyID, byte **pBuffer );
+	void						 scenarioAmigaLoad_Reinforcements( byte keyID, byte **pBuffer );
+				
 public:
 								 cScenario( );												// Constructor
 								~cScenario();				// Destructor
@@ -74,6 +83,7 @@ public:
 	void						 teamsClear();
 
 	void						 houseLoad();
+	void						 choamLoad();
 	void						 reinforcementsLoad();
 	void						 reinforcementsClear();
 

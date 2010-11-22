@@ -146,7 +146,7 @@ void cFrameDuneMaps::CreateGUIControls()
 	SetToolBar(WxToolBar1);
 	SetTitle(wxT("Dune Maps"));
 	SetIcon(wxNullIcon);
-	SetSize(8,8,748,477);
+	SetSize(wxSize(756,550));
 	
 	////GUI Items Creation End
 
@@ -162,7 +162,7 @@ void cFrameDuneMaps::CreateGUIControls()
 	
 	SetMinSize( wxSize(756, 550) );
 
-	WxToolBar2 = new wxToolBar(this, ID_WXTOOLBAR2, wxPoint(0, 460), wxSize(404, 28), wxTB_BOTTOM);
+	WxToolBar2 = new wxToolBar(this, ID_WXTOOLBAR2, wxPoint(0, 460), wxSize(800, 28), wxTB_BOTTOM);
 	WxToolBar2->Realize();
 
 	mMinimap->Show();
@@ -265,6 +265,9 @@ void cFrameDuneMaps::Mnuloadscenario1002Click(wxCommandEvent& event) {
 	WxOpenFileDialog1->ShowModal();
 
 	string filename = WxOpenFileDialog1->GetPath();
+
+	if(!filename.size())
+		return;
 
 	g_DuneEngine->scenarioGet()->scenarioLoad( filename, true );
 	mTileView->playfieldSizeUpdate();
@@ -411,6 +414,8 @@ void cFrameDuneMaps::Mnufromamiga7001Click(wxCommandEvent& event) {
 	WxOpenFileDialog1->ShowModal();
 
 	string filename = WxOpenFileDialog1->GetPath();
+	if(!filename.size())
+		return;
 
 	g_DuneEngine->scenarioGet()->scenarioAmigaLoad( filename );
 	mTileView->playfieldSizeUpdate();
