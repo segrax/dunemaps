@@ -713,6 +713,15 @@ void cScenario::scenarioAmigaLoad_House( byte sectionID, byte keyID, byte **pBuf
 	}
 
 	//2D7E1E
+	if( d4 == 'H' ) {
+
+		house->brainSet("Human");
+		g_DuneEngine->missionHouseSet( house->houseIDGet() );
+
+	}else
+		house->brainSet("CPU");
+
+	
 }
 
 void cScenario::scenarioAmigaLoad( string pFilename ) {
