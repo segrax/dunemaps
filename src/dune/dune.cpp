@@ -2,6 +2,7 @@
 #include "engine/objects/object.h"
 #include "engine/house.h"
 #include "engine/scenario.h"
+#include "engine/scenarioAmiga.h"
 #include "screenPlayfield.h"
 #include "minimap.h"
 
@@ -23,15 +24,17 @@ cDune::cDune( string pDataPath ) {
 
 cDune::~cDune() {
 	map< eHouse, cHouse* >::iterator	 houseIT;
-
-	for( houseIT = _houses.begin(); houseIT != _houses.end(); ++houseIT )
-		delete houseIT->second;
+	
+	delete _scenario;
 
 	delete mPlaceObject;
 	delete _resources;
-	delete _scenario;
+
 	delete _screenPlayfield;
 	delete _minimap;
+
+	for( houseIT = _houses.begin(); houseIT != _houses.end(); ++houseIT )
+		delete houseIT->second;
 }
 
 cHouse *cDune::houseGet( eHouse pHouse ) {
@@ -55,40 +58,65 @@ void cDune::houseMapPrepare() {
 }
 
 void cDune::scenarioNew( string pSeed ) {
-	houseReset();
 
 	delete _scenario;
 	_scenario = new cScenario();
-	_scenario->scenarioNewSeed( pSeed );
+	_scenario->mapSeedSet( pSeed );
 
 }
 
 void cDune::scenarioLoad( eHouse pHouse, size_t pScenNumber ) {
-	houseReset();
+	sHouseData		*houseData;
+	stringstream	 missionScenarioIni;
+	
 	_missionHouse = pHouse;
 
-	delete _scenario;
+	houseData = g_DuneEngine->resourcesGet()->houseGet( pHouse );
 	
-	_scenario = new cScenario( );
-	_scenario->missionLoad( pScenNumber );
+	// Generate scenario filename
+	missionScenarioIni << "SCEN" << houseData->houseLetter;
+	missionScenarioIni << setfill('0') << setw(3) << pScenNumber;
+	missionScenarioIni << ".INI";
 
-	delete _screenPlayfield;
-	_screenPlayfield = new cScreenPlayfield();
-
-	delete _minimap;
-	_minimap = new cMinimap();
+	scenarioLoad( missionScenarioIni.str(), eScenarioLoad::eLoad_PC_Pak );
 }
 
-void cDune::scenarioLoad( string pFilename ) {
+void cDune::scenarioLoad( string pFilename, eScenarioLoad pLoad ) {
+	bool local = false;
+
 	houseReset();
+
 	delete _scenario;
+	_scenario = 0;
 
-	_scenario = new cScenario( );
-	_scenario->scenarioLoad( pFilename, false );
+	switch(pLoad) {
 
+		case eScenarioLoad::eLoad_PC:		// From local INI
+			local = true;
+			break;
+
+		case eScenarioLoad::eLoad_PC_Pak:	// From INI in PAK
+			local = false;
+			break;
+
+		case eScenarioLoad::eLoad_Amiga:	// From local Amiga Ini
+			local = true;
+			_scenario = new cScenarioAmiga( );
+			break;
+	}
+
+	// Not set? standard pc scenario
+	if(!_scenario)
+		_scenario = new cScenario( );
+
+	// Load the INI
+	_scenario->iniLoad( pFilename, local );
+
+	// Prep the playfield
 	delete _screenPlayfield;
 	_screenPlayfield = new cScreenPlayfield();
 
+	// Prep minimap
 	delete _minimap;
 	_minimap = new cMinimap();
 }

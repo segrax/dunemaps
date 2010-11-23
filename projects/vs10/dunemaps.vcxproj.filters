@@ -152,6 +152,9 @@
     <ClCompile Include="..\..\src\dialogNewScenario.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\dune\engine\scenarioAmiga.cpp">
+      <Filter>Source Files\dune\engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\appDuneMaps.h">
@@ -288,6 +291,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\dialogNewScenario.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dune\engine\scenarioAmiga.h">
+      <Filter>Source Files\dune\engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

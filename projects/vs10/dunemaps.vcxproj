@@ -19,6 +19,7 @@
     <ClCompile Include="..\..\src\dialogReinforcements.cpp" />
     <ClCompile Include="..\..\src\dialogTeam.cpp" />
     <ClCompile Include="..\..\src\dialogTeams.cpp" />
+    <ClCompile Include="..\..\src\dune\engine\scenarioAmiga.cpp" />
     <ClCompile Include="..\..\src\dune\engine\team.cpp" />
     <ClCompile Include="..\..\src\dune\graphics\tools.cpp" />
     <ClCompile Include="..\..\src\frameDuneMaps.cpp" />
@@ -68,6 +69,7 @@
     <ClInclude Include="..\..\src\dialogReinforcements.h" />
     <ClInclude Include="..\..\src\dialogTeam.h" />
     <ClInclude Include="..\..\src\dialogTeams.h" />
+    <ClInclude Include="..\..\src\dune\engine\scenarioAmiga.h" />
     <ClInclude Include="..\..\src\dune\engine\team.h" />
     <ClInclude Include="..\..\src\dune\graphics\tools.h" />
     <ClInclude Include="..\..\src\frameDuneMaps.h" />

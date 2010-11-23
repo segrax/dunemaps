@@ -75,7 +75,6 @@ void cHouse::reset() {
 	multimap< size_t, cUnit* >::iterator		unitIT;
 	multimap< size_t, cStructure* >::iterator	structIT;
 
-
 	for( unitIT = _units.begin(); unitIT != _units.end(); ++unitIT ) 
 		delete unitIT->second;
 

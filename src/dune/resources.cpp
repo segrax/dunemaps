@@ -809,22 +809,28 @@ SDL_Surface *cResources::CpsGet( string fileName ) {
 	return surface;
 }
 
-void cResources::IniLoad( string fileName, bool pLocalFile ) {
+bool cResources::IniLoad( string fileName, bool pLocalFile ) {
 
-	istream		*stream;
-	byte		*ini;
+	istream		*stream = 0;
+	byte		*ini = 0;
 
 	if( pLocalFile ) {
 		ini = fileRead( fileName, _fileIniSize, false );
 
 	} else {
 		stream		= fileOpen( fileName );
-		ini			= fileRead( stream, _fileIniSize );
+		if(stream)
+			ini			= fileRead( stream, _fileIniSize );
 	}
 	delete _ini;
 	_ini 		= new IniFile( ini, _fileIniSize );
 	
 	delete ini;
+
+	if(stream)
+		return true;
+
+	return false;
 }
 
 string cResources::IniStringGet(  string pSection, string pVariable, string pDefault ) {
@@ -835,7 +841,7 @@ string cResources::IniStringGet(  string pSection, string pVariable, string pDef
 
 size_t cResources::IniNumGet( string pSection, string pVariable, size_t pDefault ) {
 	if(!_ini)
-		return 0;
+		return pDefault;
 
 	return _ini->getIntValue( pSection, pVariable, pDefault );
 }

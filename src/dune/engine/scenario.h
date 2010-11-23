@@ -27,7 +27,7 @@ struct sChoam {
 };
 
 class cScenario {
-private:
+protected:
 	cMap						*_map;
 	cMapGenerator				*_mapGenerator;
 	
@@ -36,8 +36,6 @@ private:
 	string						 _pictureLose, _pictureBrief, _pictureWin;
 
 	void						 scenarioMapPrepare();
-	bool						 scenarioBegin(  size_t pScenNumber );
-	
 
 	void						 unitsLoad();
 	void						 structuresLoad();
@@ -45,34 +43,17 @@ private:
 	vector<sReinforcement>		 mReinforcements;
 	vector< cTeam* >			 mTeams;
 	vector< sChoam >			 mChoam;
-
-	// AMIGA Load Functions
-	string						 scenarioAmigaGet_String( byte **pBuffer );
-	word						 scenarioAmigaGet_Word( byte **pBuffer );
-	string						 scenarioAmigaGet_NumberString( byte **pBuffer );
-
-	void						 scenarioAmigaLoad_Basic( byte pKeyID, byte **pBuffer );
-	void						 scenarioAmigaLoad_Map( byte keyID, byte **pBuffer );
-	void						 scenarioAmigaLoad_House( byte sectionID, byte keyID, byte **pBuffer );
-	void						 scenarioAmigaLoad_Units( byte keyID, byte **pBuffer );
-	void						 scenarioAmigaLoad_Structures( byte keyID, byte **pBuffer );
-	void						 scenarioAmigaLoad_Teams( byte keyID, byte **pBuffer );
-	void						 scenarioAmigaLoad_Choam( byte keyID, byte **pBuffer );
-	void						 scenarioAmigaLoad_Reinforcements( byte keyID, byte **pBuffer );
-				
+			
 public:
 								 cScenario( );												// Constructor
 								~cScenario();				// Destructor
 
 	void						 clear();
 
-	void						 missionLoad( size_t pScenNumber );
+	void						 mapSeedSet( string pSeed );
 
-	void						 scenarioNewSeed( string pSeed );
-	void						 scenarioLoad( string pFilename, bool pLocalFile );
-	void						 scenarioSave( string pFile );
-
-	void						 scenarioAmigaLoad( string pFilename );
+	virtual void				 iniLoad( string pFile, bool pLocalFile );
+	virtual void				 iniSave( string pFile );
 
 	void						 reinforcementLoad( string pHouse, string pUnitType, string pDirection, string pTimer, bool pRepeat );
 

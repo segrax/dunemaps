@@ -82,7 +82,10 @@ void cStructure::mapTilesSetup( bool pClear ) {
 				(*mapCell)->tileSetCurrent( 0 );
 
 		} else {
-			(*mapCell)->tileSetCurrent( this, g_DuneEngine->resourcesGet()->tileConcrete() );
+			if( !pClear )
+				(*mapCell)->tileSetCurrent( this, g_DuneEngine->resourcesGet()->tileConcrete() );
+			else
+				(*mapCell)->tileSetCurrent( 0 );
 		}
 
 	}	

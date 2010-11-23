@@ -81,7 +81,7 @@ void cDialogNewScenario::OnClose(wxCloseEvent& /*event*/)
 		stringstream str;
 		str << mOriginalSeed;
 
-		g_DuneEngine->scenarioGet()->scenarioNewSeed( str.str() );
+		g_DuneEngine->scenarioGet()->mapSeedSet( str.str() );
 	}
 
 	Show(false);
@@ -105,7 +105,7 @@ void cDialogNewScenario::OnPaint(wxPaintEvent& event) {
 void cDialogNewScenario::WxEdit1Updated(wxCommandEvent& event) {
 	string seed =  WxEdit1->GetValue();
 
-	g_DuneEngine->scenarioGet()->scenarioNewSeed( seed );
+	g_DuneEngine->scenarioGet()->mapSeedSet( seed );
 
 	g_DuneEngine->frameGet()->Refresh(false);
 }

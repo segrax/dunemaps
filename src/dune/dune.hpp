@@ -9,6 +9,12 @@ class cMinimap;
 class cPanelSurface;
 class cFrameDuneMaps;
 
+enum eScenarioLoad {
+	eLoad_PC			= 0,
+	eLoad_PC_Pak,
+	eLoad_Amiga,
+};
+
 class cDune {
 
 	size_t					 mTilesMaxY, mTilesMaxX;
@@ -43,7 +49,7 @@ public:
 
 	void			 scenarioNew( string pSeed );
 	void			 scenarioLoad( eHouse pHouse, size_t pScenNumber );
-	void			 scenarioLoad( string pFilename );
+	void			 scenarioLoad( string pFilename, eScenarioLoad pLoad );
 
 	inline cMinimap			*minimapGet()		{ return _minimap; }
 	inline eHouse			 missionHouseGet()  { return _missionHouse; }

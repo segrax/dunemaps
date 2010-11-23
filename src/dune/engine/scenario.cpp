@@ -49,18 +49,10 @@ cScenario::cScenario(  )  {
 
 
 cScenario::~cScenario() {
-
-	teamsClear();
+	clear();
 
 	delete _map;
 	delete _mapGenerator;
-}
-
-void cScenario::missionLoad( size_t pScenNumber ) {
-	if( pScenNumber < 1 )
-		pScenNumber = 1;
-
-	scenarioBegin( pScenNumber );
 }
 
 void cScenario::scenarioMapPrepare() {
@@ -121,23 +113,7 @@ void cScenario::mapLoad() {
 		g_DuneEngine->screenPlayfieldGet()->scaleSet();
 }
 
-bool cScenario::scenarioBegin( size_t pScenNumber ) {
-	sHouseData		*houseData;
-	stringstream	 missionScenarioIni;
-
-	houseData = g_DuneEngine->resourcesGet()->houseGet( g_DuneEngine->missionHouseGet() );
-	
-	// Generate scenario filename
-	missionScenarioIni << "SCEN" << houseData->houseLetter;
-	missionScenarioIni << setfill('0') << setw(3) << pScenNumber;
-	missionScenarioIni << ".INI";
-
-	scenarioLoad( missionScenarioIni.str(), false );
-
-	return true;
-}
-
-void cScenario::scenarioNewSeed( string pSeed ) {
+void cScenario::mapSeedSet( string pSeed ) {
 	
 	_mapSeed = atoi(pSeed.c_str());
 
@@ -158,12 +134,11 @@ void cScenario::clear() {
 	mReinforcements.clear();
 }
 
-void cScenario::scenarioLoad( string pFilename, bool pLocalFile ) {
+void cScenario::iniLoad( string pFilename, bool pLocalFile ) {
 	
-	clear();
-
 	// Load the ini into the resource manager
-	g_DuneEngine->resourcesGet()->IniLoad( pFilename, pLocalFile );
+	if(!g_DuneEngine->resourcesGet()->IniLoad( pFilename, pLocalFile ))
+		return;
 
 	// Read the win/brief/lose pictures
 
@@ -420,7 +395,7 @@ void cScenario::teamsClear() {
 	mTeams.clear();
 }
 
-void cScenario::scenarioSave( string pFile ) {
+void cScenario::iniSave( string pFile ) {
 	unsigned char *buffer =  new unsigned char[1];
 
 	IniFile ini( buffer, 0 );
@@ -584,357 +559,4 @@ void cScenario::scenarioSave( string pFile ) {
 
 
 	ini.SaveChangesTo( pFile );
-}
-
-string cScenario::scenarioAmigaGet_String( byte **pBuffer ) {
-
-	word		count = readWord(*pBuffer);
-	string		str;
-
-	(*pBuffer) += 2;
-
-	//str.append( (char*) *pBuffer, count );
-
-	while(*(*pBuffer)) {
-		str.append( 1, (char) **pBuffer );
-		(*pBuffer)++;
-		--count;
-	}
-	
-	(*pBuffer) += count;
-
-	return str;
-}
-
-word cScenario::scenarioAmigaGet_Word( byte **pBuffer ) {
-	byte *value = *pBuffer;
-
-	(*pBuffer) += 2;
-
-	return (value[0] << 8) + value[1];
-}
-
-string cScenario::scenarioAmigaGet_NumberString( byte **pBuffer ) {
-	short int		count = readWord(*pBuffer);
-	stringstream	str;
-
-	count += count;
-
-	(*pBuffer) += 2;
-
-	while(count >= 2) {
-		count -= 2;
-
-		str << (int) scenarioAmigaGet_Word( pBuffer );
-		if(count>0)
-			str << ",";
-	}
-
-	return str.str();
-}
-
-void cScenario::scenarioAmigaLoad_Map( byte keyID, byte **pBuffer ) {
-	
-	word d0 = keyID - 0x42;
-
-	if( d0 == 0 ) {
-		_mapBloom = scenarioAmigaGet_NumberString( pBuffer );
-
-		return;
-	}
-	
-	d0 -= 4;
-	// FIELDS
-	if( d0 == 0 ) {
-
-		_mapField = scenarioAmigaGet_NumberString( pBuffer );
-
-		return;
-	} 
-
-	d0 -= 0x0D;
-	// SEED
-	if( d0 == 0 ) {
-		_mapSeed = scenarioAmigaGet_Word( pBuffer );
-
-		mapLoad();
-		return;
-	}
-
-}
-
-void cScenario::scenarioAmigaLoad_Basic( byte pKeyID, byte **pBuffer ) {
-
-	switch( pKeyID ) {
-		case 0:		// Lose picture
-			_pictureLose = scenarioAmigaGet_String( pBuffer );
-			break;
-
-		case 1:		// Win
-			_pictureWin = scenarioAmigaGet_String( pBuffer );
-			break;
-
-		case 2:		// Brief
-			_pictureBrief = scenarioAmigaGet_String( pBuffer );
-			break;
-
-		case 3:		// Timeout
-			_mapTimeOut = scenarioAmigaGet_Word( pBuffer );
-			break;
-
-		case 4:		// MapScale
-			_mapScale = scenarioAmigaGet_Word( pBuffer );
-			break;
-
-		case 5:		// CursorPos
-			_mapCursor = scenarioAmigaGet_Word( pBuffer );
-			break;
-
-		case 6:		// TacticalPos
-			_mapTactical = scenarioAmigaGet_Word( pBuffer );
-			break;
-
-		case 7:		// Lose Flags
-			_mapLoseFlags = scenarioAmigaGet_Word( pBuffer );
-			break;
-
-		case 8:		// Win Flags
-			_mapWinFlags = scenarioAmigaGet_Word( pBuffer );
-			break;
-	}
-
-}
-
-void cScenario::scenarioAmigaLoad_House( byte sectionID, byte keyID, byte **pBuffer ) {
-	word	 houseIDLoad[8] = { 1, 0, 0, 1, 2, 4, 3, 0 };
-
-	cHouse  *house = g_DuneEngine->houseGet( (eHouse) houseIDLoad[ sectionID ] );
-
-	word d4 = 0;
-
-	for( int i = 0; i < 4; ++i ) {
-		word d0 = keyID;
-
-		d0 -= 0x42;
-		if( d0 == 0 ) {
-			//02D7DE0
-			d4 = scenarioAmigaGet_Word( pBuffer );
-
-		} else {
-
-			d0 -= 1;
-
-			if( d0 == 0 ) {
-				//02D7DE8
-				house->creditSet( scenarioAmigaGet_Word( pBuffer ) );
-
-			} else {
-
-				d0 -= 0x0A;
-				if( d0 == 0 ) {
-					//02D7DF6
-					
-					house->maxUnitSet( scenarioAmigaGet_Word( pBuffer ) );
-				} else {
-					d0 -= 0x04;
-
-					if( d0 == 0 ) {
-						//2D7E04
-						house->creditQuotaSet( scenarioAmigaGet_Word( pBuffer ) );
-
-					}
-				}
-			}
-		}
-
-		//2D7E10
-		keyID = scenarioAmigaGet_Word( pBuffer ) & 0xFF;
-	}
-
-	//2D7E1E
-	if( d4 == 'H' ) {
-
-		house->brainSet("Human");
-		g_DuneEngine->missionHouseSet( house->houseIDGet() );
-
-	} else
-		house->brainSet("CPU");
-
-	(*pBuffer) -= 2;
-}
-
-void cScenario::scenarioAmigaLoad_Units( byte keyID, byte **pBuffer ) {
-	word arg0 = scenarioAmigaGet_Word( pBuffer );
-	word arg1 = scenarioAmigaGet_Word( pBuffer );
-	word d0 = scenarioAmigaGet_Word( pBuffer );
-	word d1 = scenarioAmigaGet_Word( pBuffer );
-	word d2 = scenarioAmigaGet_Word( pBuffer );
-	word d3 = scenarioAmigaGet_Word( pBuffer );
-
-	cHouse *House = g_DuneEngine->houseGet( (eHouse) arg0 );
-
-	cUnit *unit = 0;
-	if(House)
-		unit = House->unitCreate( arg1, d0, d1, d2, d3 );
-
-}
-
-void cScenario::scenarioAmigaLoad_Structures( byte keyID, byte **pBuffer ) {
-	word arg0 = scenarioAmigaGet_Word( pBuffer );
-	word arg1 = scenarioAmigaGet_Word( pBuffer );
-	word d0 = scenarioAmigaGet_Word( pBuffer );
-	word d1 = 0;
-	word d2 = 0;
-
-	if( keyID == 'G' ) {
-		// Health
-		d1 = 256;
-
-		// Map Index
-		d2 = arg0;
-	} else {
-		d1 = scenarioAmigaGet_Word( pBuffer );
-		d2 = scenarioAmigaGet_Word( pBuffer );
-	}
-
-	cHouse *House = g_DuneEngine->houseGet( (eHouse) arg1 );
-
-	cStructure *structure = 0;
-	if(House)
-		structure = House->structureCreate( d0, d1, d2 );
-
-
-}
-
-void cScenario::scenarioAmigaLoad_Teams( byte keyID, byte **pBuffer ) {
-	word house = scenarioAmigaGet_Word( pBuffer );
-	word findMode = scenarioAmigaGet_Word( pBuffer );
-
-	word foundMode = 0;
-
-	bool found = false;
-	
-	for( int i = 0; i < 5; ++i ) {
-		string mode = g_DuneEngine->resourcesGet()->aiModeGet( i );
-
-		if( mode[0] == (char) findMode ) {
-			found = true;
-			foundMode = i;
-			break;
-		}
-	}
-	if(!found)
-		return;
-
-	found = false;
-	word findMovement = scenarioAmigaGet_Word( pBuffer );
-	word foundMove = 0;
-
-	for( int i = 0; i < 6; ++i ) {
-		string move = g_DuneEngine->resourcesGet()->movementNameGet(i);
-
-		if( move[0] == (char) findMovement ) {
-			foundMove = i;
-			found = true;
-			break;
-		}
-	}
-	if(!found)
-		return;
-
-	word min = scenarioAmigaGet_Word( pBuffer );
-	word max = scenarioAmigaGet_Word( pBuffer );
-	
-	mTeams.push_back( new cTeam( g_DuneEngine->houseGet( (eHouse) house ), foundMode, foundMove, min, max ));
-}
-
-void cScenario::scenarioAmigaLoad_Choam( byte keyID, byte **pBuffer ) {
-
-}
-
-void cScenario::scenarioAmigaLoad_Reinforcements( byte keyID, byte **pBuffer ) {
-	sReinforcement reinforce;
-	
-	reinforce.mHouse = (eHouse) scenarioAmigaGet_Word( pBuffer );
-	reinforce.mUnitType = scenarioAmigaGet_Word( pBuffer );
-	reinforce.mDirection = scenarioAmigaGet_Word( pBuffer );
-
-	reinforce.mTime = *(*pBuffer)++;
-	byte repeat = *(*pBuffer)++;
-	
-	if( repeat == '+' )
-		reinforce.mRepeat = true;
-	else
-		reinforce.mRepeat = false;
-
-	mReinforcements.push_back( reinforce );
-}
-
-void cScenario::scenarioAmigaLoad( string pFilename ) {
-	size_t size = 0, count = 0;
-	bool done = false;
-
-	clear();
-
-	byte *fileBuffer = g_DuneEngine->resourcesGet()->fileRead( pFilename, size, false );
-	byte *buffer = fileBuffer;
-
-	count = size;
-
-	while(!done) {
-
-		byte sectionID = *buffer++;
-		byte keyID = *buffer++;
-
-		switch(sectionID) {
-		
-			case 0:				// [BASIC]
-				scenarioAmigaLoad_Basic( keyID, &buffer );
-				break;
-
-			case 1:
-				scenarioAmigaLoad_Map( keyID, &buffer );
-				break;
-
-			case 2:
-			case 3:	
-			case 4:	
-			case 5:
-				scenarioAmigaLoad_House( sectionID, keyID, &buffer );
-				break;
-
-			case 6: {
-				sChoam choam;
-				choam.mCount = scenarioAmigaGet_Word( &buffer );
-				choam.mUnitType = g_DuneEngine->resourcesGet()->unitGet( keyID )->Name;
-				
-				mChoam.push_back( choam );
-
-				break;
-					}
-
-			case 7:
-				scenarioAmigaLoad_Teams( keyID, &buffer );
-				break;
-
-			case 8:
-				scenarioAmigaLoad_Units( keyID, &buffer );
-				break;
-
-			case 9:
-				scenarioAmigaLoad_Structures( keyID, &buffer );
-				break;
-
-			case 10:
-				scenarioAmigaLoad_Reinforcements( keyID, &buffer );
-				break;
-
-			case 0xFF:
-				done = true;
-				break;
-		}
-
-	}
-
-	delete fileBuffer;
 }

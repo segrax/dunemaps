@@ -221,7 +221,7 @@ public:
 	byte							*fileRead( istream *pStream, size_t &pSize );		// Read from an istream
 	istream							*fileOpen( string pFilename );						
 	
-	void							 IniLoad( string fileName, bool pLocalFile );		// Load an ini in
+	bool							 IniLoad( string fileName, bool pLocalFile );		// Load an ini in
 
 	string							 IniStringGet( string pSection, string pVariable, string pDefault);
 	size_t							 IniNumGet( string pSection, string pVariable, size_t pDefault );

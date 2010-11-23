@@ -91,6 +91,10 @@ cFrameDuneMaps::~cFrameDuneMaps()
 {
 	delete WxToolBar2;
 	delete mTileView;
+	delete WxOpenFileDialog1;
+	delete WxSaveFileDialog1;
+	delete mMinimap;
+
 } 
 
 void cFrameDuneMaps::CreateGUIControls()
@@ -269,7 +273,7 @@ void cFrameDuneMaps::Mnuloadscenario1002Click(wxCommandEvent& event) {
 	if(!filename.size())
 		return;
 
-	g_DuneEngine->scenarioGet()->scenarioLoad( filename, true );
+	g_DuneEngine->scenarioLoad( filename, eScenarioLoad::eLoad_PC );
 	mTileView->playfieldSizeUpdate();
 }
 
@@ -282,7 +286,7 @@ void cFrameDuneMaps::Mnusavescenario1007Click(wxCommandEvent& event) {
 
 	string filename = WxSaveFileDialog1->GetPath();
 
-	g_DuneEngine->scenarioGet()->scenarioSave( filename );
+	g_DuneEngine->scenarioGet()->iniSave( filename );
 }
 
 /*
@@ -314,7 +318,7 @@ void cFrameDuneMaps::WxToolBar1Tool(wxCommandEvent& event) {
 	if(object)
 		delete object;
 
-	g_DuneEngine->mPlaceObjectSet( new cStructure( house, structID, 0, 256) );
+	g_DuneEngine->mPlaceObjectSet( new cStructure( house, structID, -1, 256) );
 
 }
 
@@ -331,7 +335,7 @@ void cFrameDuneMaps::WxToolBar2Tool(wxCommandEvent& event) {
 	if(object)
 		delete object;
 
-	g_DuneEngine->mPlaceObjectSet( new cUnit( house, unitID, 0, 0, 0, 256 ) );
+	g_DuneEngine->mPlaceObjectSet( new cUnit( house, unitID, -1, 0, 0, 256 ) );
 }
 
 /*
@@ -342,7 +346,7 @@ void cFrameDuneMaps::MnuLoadPak_ScenClick(wxCommandEvent& event) {
 
 	string filename = item->GetItemLabel();
 
-	g_DuneEngine->scenarioLoad( filename );
+	g_DuneEngine->scenarioLoad( filename, eScenarioLoad::eLoad_PC_Pak );
 
 	mTileView->playfieldSizeUpdate();
 }
@@ -417,6 +421,6 @@ void cFrameDuneMaps::Mnufromamiga7001Click(wxCommandEvent& event) {
 	if(!filename.size())
 		return;
 
-	g_DuneEngine->scenarioGet()->scenarioAmigaLoad( filename );
+	g_DuneEngine->scenarioLoad( filename, eScenarioLoad::eLoad_Amiga );
 	mTileView->playfieldSizeUpdate();
 }
