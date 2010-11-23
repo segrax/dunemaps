@@ -41,6 +41,7 @@ class cFrameDuneMaps : public wxFrame
 	private:
 		DECLARE_EVENT_TABLE();
 		eHouse				mHouse;
+		bool				mMinimapLock;
 
 	public:
 		cFrameDuneMaps(wxWindow *parent, wxWindowID id = 1, const wxString &title = wxT("Dune Maps"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize );
@@ -61,6 +62,7 @@ class cFrameDuneMaps : public wxFrame
 		void Mnuhouses4016Click(wxCommandEvent& event);
 
 		inline cPanelMinimap *minimapGet() { return mMinimap; }
+		void Mnuminimapfollowswindow7003Click(wxCommandEvent& event);
 	private:
 		void Mnusavescenario1007Click(wxCommandEvent& event);
 		//Do not add custom control declarations between 
@@ -105,15 +107,18 @@ class cFrameDuneMaps : public wxFrame
 			ID_MNU_HOUSES_4016 = 4016,
 			ID_MNU_TEAMS_4014 = 4014,
 			ID_MNU_REINFORCEMENTS_4015 = 4015,
+			ID_MNU_OPTIONS_7002 = 7002,
+			ID_MNU_MINIMAPFOLLOWSWINDOW_7003 = 7003,
 			
 			////GUI Enum Control ID End
-			ID_DUMMY_VALUE_, //don't remove this value unless you have other enum values
 			ID_WXTOOLBAR,
 			ID_WXTOOLBAR1 = 3000,
 			ID_WXTOOLBAR1_End = 3030,
 			ID_WXTOOLBAR2 = 3040,
 			ID_WXTOOLBAR2_End = 3070,
 			ID_MNU_SCEN_End = 6100,
+
+			ID_DUMMY_VALUE_, //don't remove this value unless you have other enum values
 		};
 	 
 	private:

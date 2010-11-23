@@ -52,6 +52,7 @@ BEGIN_EVENT_TABLE(cFrameDuneMaps,wxFrame)
 	EVT_MENU(ID_MNU_NEWSCENARIO_1005, cFrameDuneMaps::Mnunewscenario1005Click)
 	EVT_MENU(ID_MNU_FROMINI_7000, cFrameDuneMaps::Mnuloadscenario1002Click)
 	EVT_MENU(ID_MNU_FROMAMIGA_7001, cFrameDuneMaps::Mnufromamiga7001Click)
+	EVT_MENU(ID_MNU_MINIMAPFOLLOWSWINDOW_7003, cFrameDuneMaps::Mnuminimapfollowswindow7003Click)
 	EVT_MENU(ID_MNU_SAVESCENARIO_1007, cFrameDuneMaps::Mnusavescenario1007Click)
 	EVT_MENU(ID_MNU_QUIT_1006, cFrameDuneMaps::Mnuquit1006Click)
 	EVT_MENU(ID_MNU_HARKONNEN_4006, cFrameDuneMaps::MnuHouseChange)
@@ -64,6 +65,7 @@ BEGIN_EVENT_TABLE(cFrameDuneMaps,wxFrame)
 	EVT_MENU(ID_MNU_HOUSES_4016, cFrameDuneMaps::Mnuhouses4016Click)
 	EVT_MENU(ID_MNU_TEAMS_4014, cFrameDuneMaps::Mnuteams4014Click)
 	EVT_MENU(ID_MNU_REINFORCEMENTS_4015, cFrameDuneMaps::Mnureinforcements4015Click)
+	
 END_EVENT_TABLE()
 ////Event Table End
 
@@ -72,6 +74,8 @@ cFrameDuneMaps::cFrameDuneMaps(wxWindow *parent, wxWindowID id, const wxString &
 {
 	mHouse = eHouse_Harkonnen;
 	CreateGUIControls();
+
+	mMinimapLock = true;
 
 	string windowTitle = "Dune Maps (SVN:";
 	windowTitle.append( SVNREV );
@@ -140,6 +144,10 @@ void cFrameDuneMaps::CreateGUIControls()
 	ID_MNU_SCENARIO_4001_Mnu_Obj->Append(ID_MNU_TEAMS_4014, wxT("Teams"), wxT(""), wxITEM_NORMAL);
 	ID_MNU_SCENARIO_4001_Mnu_Obj->Append(ID_MNU_REINFORCEMENTS_4015, wxT("Reinforcements"), wxT(""), wxITEM_NORMAL);
 	WxMenuBar1->Append(ID_MNU_SCENARIO_4001_Mnu_Obj, wxT("&Scenario"));
+	
+	wxMenu *ID_MNU_OPTIONS_7002_Mnu_Obj = new wxMenu(0);
+	ID_MNU_OPTIONS_7002_Mnu_Obj->Append(ID_MNU_MINIMAPFOLLOWSWINDOW_7003, wxT("Minimap Lock"), wxT(""), wxITEM_NORMAL);
+	WxMenuBar1->Append(ID_MNU_OPTIONS_7002_Mnu_Obj, wxT("Options"));
 	SetMenuBar(WxMenuBar1);
 
 	WxSaveFileDialog1 =  new wxFileDialog(this, wxT("Choose a file"), wxT(""), wxT(""), wxT("SCEN*.INI"), wxFD_SAVE);
@@ -150,9 +158,13 @@ void cFrameDuneMaps::CreateGUIControls()
 	SetToolBar(WxToolBar1);
 	SetTitle(wxT("Dune Maps"));
 	SetIcon(wxNullIcon);
-	SetSize(wxSize(756,550));
+	SetSize(wxSize(756, 550));
 	
 	////GUI Items Creation End
+
+	wxMenuItem *menuItem = WxMenuBar1->FindItem(ID_MNU_MINIMAPFOLLOWSWINDOW_7003);
+	menuItem->SetCheckable(true);
+	menuItem->Check(true);
 
 	this->SetBackgroundColour( wxColor(0.0L) );
 
@@ -242,16 +254,20 @@ void cFrameDuneMaps::OnClose(wxCloseEvent& /*event*/) {
 }
 
 void cFrameDuneMaps::OnMove(wxMoveEvent& event) {
-	wxPoint a( GetPosition().x + GetSize().GetWidth(), GetPosition().y );
-	mMinimap->SetPosition( a );
+	if(mMinimapLock) {
+		wxPoint a( GetPosition().x + GetSize().GetWidth(), GetPosition().y );
+		mMinimap->SetPosition( a );
+	}
 }
 
 void cFrameDuneMaps::OnSize(wxSizeEvent& event) {
 	size_t width = event.GetSize().GetWidth();
 	size_t height = event.GetSize().GetHeight();
 	
-	wxPoint a( GetPosition().x + GetSize().GetWidth(), GetPosition().y );
-	mMinimap->SetPosition( a );
+	if(mMinimapLock) {
+		wxPoint a( GetPosition().x + GetSize().GetWidth(), GetPosition().y );
+		mMinimap->SetPosition( a );
+	}
 
 	if(mTileView)
 		mTileView->SetSize( width - 40, height - 130 );
@@ -273,7 +289,7 @@ void cFrameDuneMaps::Mnuloadscenario1002Click(wxCommandEvent& event) {
 	if(!filename.size())
 		return;
 
-	g_DuneEngine->scenarioLoad( filename, eScenarioLoad::eLoad_PC );
+	g_DuneEngine->scenarioLoad( filename, eLoad_PC );
 	mTileView->playfieldSizeUpdate();
 }
 
@@ -346,7 +362,7 @@ void cFrameDuneMaps::MnuLoadPak_ScenClick(wxCommandEvent& event) {
 
 	string filename = item->GetItemLabel();
 
-	g_DuneEngine->scenarioLoad( filename, eScenarioLoad::eLoad_PC_Pak );
+	g_DuneEngine->scenarioLoad( filename, eLoad_PC_Pak );
 
 	mTileView->playfieldSizeUpdate();
 }
@@ -421,6 +437,20 @@ void cFrameDuneMaps::Mnufromamiga7001Click(wxCommandEvent& event) {
 	if(!filename.size())
 		return;
 
-	g_DuneEngine->scenarioLoad( filename, eScenarioLoad::eLoad_Amiga );
+	g_DuneEngine->scenarioLoad( filename, eLoad_Amiga );
 	mTileView->playfieldSizeUpdate();
+}
+
+/*
+ * Mnuminimapfollowswindow7003Click
+ */
+void cFrameDuneMaps::Mnuminimapfollowswindow7003Click(wxCommandEvent& event) {
+	wxMenuItem *item = WxMenuBar1->FindItem( ID_MNU_MINIMAPFOLLOWSWINDOW_7003 );
+
+	if( mMinimapLock )
+		mMinimapLock = false;
+	else 
+		mMinimapLock = true;
+
+	item->Check( mMinimapLock );
 }

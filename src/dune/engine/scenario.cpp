@@ -141,7 +141,6 @@ void cScenario::iniLoad( string pFilename, bool pLocalFile ) {
 		return;
 
 	// Read the win/brief/lose pictures
-
 	_pictureLose	= g_DuneEngine->resourcesGet()->IniStringGet("BASIC", "LosePicture", "");
 	_pictureBrief	= g_DuneEngine->resourcesGet()->IniStringGet("BASIC", "BriefPicture", "");
 	_pictureWin		= g_DuneEngine->resourcesGet()->IniStringGet("BASIC", "WinPicture", "");
@@ -175,7 +174,7 @@ void cScenario::structuresLoad() {
 	g_DuneEngine->resourcesGet()->IniSectionOpen("STRUCTURES");
 
 	for(;;) {
-		word	mapIndex = 0, healthPercent = 100;
+		word	mapIndex = 0, healthPercent = 256;
 		tmp = g_DuneEngine->resourcesGet()->IniSectionNext("STRUCTURES");
 
 		// Read map location
