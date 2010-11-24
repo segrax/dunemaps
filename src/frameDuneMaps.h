@@ -40,8 +40,9 @@ class cFrameDuneMaps : public wxFrame
 {
 	private:
 		DECLARE_EVENT_TABLE();
-		eHouse				mHouse;
-		bool				mMinimapLock;
+		eHouse				 mHouse;
+		bool				 mMinimapLock;
+		size_t				 mScensFromPak;
 
 	public:
 		cFrameDuneMaps(wxWindow *parent, wxWindowID id = 1, const wxString &title = wxT("Dune Maps"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize );
@@ -62,6 +63,7 @@ class cFrameDuneMaps : public wxFrame
 		void Mnuhouses4016Click(wxCommandEvent& event);
 
 		inline cPanelMinimap *minimapGet() { return mMinimap; }
+		void Mnuloadscenariopak7005Click(wxCommandEvent& event);
 		void Mnuminimapfollowswindow7003Click(wxCommandEvent& event);
 	private:
 		void Mnusavescenario1007Click(wxCommandEvent& event);
@@ -94,6 +96,7 @@ class cFrameDuneMaps : public wxFrame
 			ID_MNU_LOADSCENFROMPAK = 1010,
 			ID_MNU_SCEN = 6000,
 			ID_MNU_SAVESCENARIO_1007 = 1007,
+			ID_MNU_LOADSCENARIOPAK_7005 = 7005,
 			ID_MNU_QUIT_1006 = 1006,
 			ID_MNU_HOUSE_4005 = 4005,
 			ID_MNU_HARKONNEN_4006 = 4006,

@@ -78,7 +78,7 @@ void cDune::scenarioLoad( eHouse pHouse, size_t pScenNumber ) {
 	missionScenarioIni << setfill('0') << setw(3) << pScenNumber;
 	missionScenarioIni << ".INI";
 
-	scenarioLoad( missionScenarioIni.str(), eScenarioLoad::eLoad_PC_Pak );
+	scenarioLoad( missionScenarioIni.str(), eLoad_PC_Pak );
 }
 
 void cDune::scenarioLoad( string pFilename, eScenarioLoad pLoad ) {
@@ -91,15 +91,15 @@ void cDune::scenarioLoad( string pFilename, eScenarioLoad pLoad ) {
 
 	switch(pLoad) {
 
-		case eScenarioLoad::eLoad_PC:		// From local INI
+		case eLoad_PC:		// From local INI
 			local = true;
 			break;
 
-		case eScenarioLoad::eLoad_PC_Pak:	// From INI in PAK
+		case eLoad_PC_Pak:	// From INI in PAK
 			local = false;
 			break;
 
-		case eScenarioLoad::eLoad_Amiga:	// From local Amiga Ini
+		case eLoad_Amiga:	// From local Amiga Ini
 			local = true;
 			_scenario = new cScenarioAmiga( );
 			break;

@@ -205,6 +205,9 @@ public:
 									 cResources( string pPath );
 									~cResources();
 
+	bool							 pakLoad( string pFile, bool pData, string pFileLoadAs = "");
+	void							 pakUnload( string pFilename );
+
 	string							 aiModeGet( int pNum );
 	size_t							 aiModeFind( string pName ) ;
 

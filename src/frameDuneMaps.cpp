@@ -52,8 +52,8 @@ BEGIN_EVENT_TABLE(cFrameDuneMaps,wxFrame)
 	EVT_MENU(ID_MNU_NEWSCENARIO_1005, cFrameDuneMaps::Mnunewscenario1005Click)
 	EVT_MENU(ID_MNU_FROMINI_7000, cFrameDuneMaps::Mnuloadscenario1002Click)
 	EVT_MENU(ID_MNU_FROMAMIGA_7001, cFrameDuneMaps::Mnufromamiga7001Click)
-	EVT_MENU(ID_MNU_MINIMAPFOLLOWSWINDOW_7003, cFrameDuneMaps::Mnuminimapfollowswindow7003Click)
 	EVT_MENU(ID_MNU_SAVESCENARIO_1007, cFrameDuneMaps::Mnusavescenario1007Click)
+	EVT_MENU(ID_MNU_LOADSCENARIOPAK_7005, cFrameDuneMaps::Mnuloadscenariopak7005Click)
 	EVT_MENU(ID_MNU_QUIT_1006, cFrameDuneMaps::Mnuquit1006Click)
 	EVT_MENU(ID_MNU_HARKONNEN_4006, cFrameDuneMaps::MnuHouseChange)
 	EVT_MENU(ID_MNU_ATREIDES_4007, cFrameDuneMaps::MnuHouseChange)
@@ -65,7 +65,7 @@ BEGIN_EVENT_TABLE(cFrameDuneMaps,wxFrame)
 	EVT_MENU(ID_MNU_HOUSES_4016, cFrameDuneMaps::Mnuhouses4016Click)
 	EVT_MENU(ID_MNU_TEAMS_4014, cFrameDuneMaps::Mnuteams4014Click)
 	EVT_MENU(ID_MNU_REINFORCEMENTS_4015, cFrameDuneMaps::Mnureinforcements4015Click)
-	
+	EVT_MENU(ID_MNU_MINIMAPFOLLOWSWINDOW_7003, cFrameDuneMaps::Mnuminimapfollowswindow7003Click)
 END_EVENT_TABLE()
 ////Event Table End
 
@@ -76,6 +76,7 @@ cFrameDuneMaps::cFrameDuneMaps(wxWindow *parent, wxWindowID id, const wxString &
 	CreateGUIControls();
 
 	mMinimapLock = true;
+	mScensFromPak = 1;
 
 	string windowTitle = "Dune Maps (SVN:";
 	windowTitle.append( SVNREV );
@@ -109,7 +110,7 @@ void cFrameDuneMaps::CreateGUIControls()
 	//Add the custom code before or after the blocks
 	////GUI Items Creation Start
 
-	WxToolBar1 = new wxToolBar(this, ID_WXTOOLBAR1, wxPoint(0, 0), wxSize(732, 28));
+	WxToolBar1 = new wxToolBar(this, ID_WXTOOLBAR1, wxPoint(0, 0), wxSize(740, 28));
 
 	WxMenuBar1 = new wxMenuBar();
 	wxMenu *ID_MNU_FILE_1001_Mnu_Obj = new wxMenu(0);
@@ -126,16 +127,24 @@ void cFrameDuneMaps::CreateGUIControls()
 	ID_MNU_LOADSCENARIO_1002_Mnu_Obj->Append(ID_MNU_LOADSCENFROMPAK, wxT("From Pak"), ID_MNU_LOADSCENFROMPAK_Mnu_Obj);
 	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_LOADSCENARIO_1002, wxT("&Load Scenario"), ID_MNU_LOADSCENARIO_1002_Mnu_Obj);
 	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_SAVESCENARIO_1007, wxT("&Save Scenario"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_FILE_1001_Mnu_Obj->AppendSeparator();
+	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_LOADSCENARIOPAK_7005, wxT("Load Scenario &PAK"), wxT(""), wxITEM_NORMAL);
 	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_QUIT_1006, wxT("Quit"), wxT(""), wxITEM_NORMAL);
 	WxMenuBar1->Append(ID_MNU_FILE_1001_Mnu_Obj, wxT("&File"));
 	
 	wxMenu *ID_MNU_HOUSE_4005_Mnu_Obj = new wxMenu(0);
 	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_HARKONNEN_4006, wxT("Harkonnen"), wxT(""), wxITEM_RADIO);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Check(ID_MNU_HARKONNEN_4006,true);
 	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_ATREIDES_4007, wxT("Atreides"), wxT(""), wxITEM_RADIO);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Check(ID_MNU_ATREIDES_4007,false);
 	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_ORDOS_4008, wxT("Ordos"), wxT(""), wxITEM_RADIO);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Check(ID_MNU_ORDOS_4008,false);
 	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_FREMEN_4009, wxT("Fremen"), wxT(""), wxITEM_RADIO);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Check(ID_MNU_FREMEN_4009,false);
 	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_SARDAUKA_4010, wxT("Sardauka"), wxT(""), wxITEM_RADIO);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Check(ID_MNU_SARDAUKA_4010,false);
 	ID_MNU_HOUSE_4005_Mnu_Obj->Append(ID_MNU_MERCENARIES_4011, wxT("Mercenaries"), wxT(""), wxITEM_RADIO);
+	ID_MNU_HOUSE_4005_Mnu_Obj->Check(ID_MNU_MERCENARIES_4011,false);
 	WxMenuBar1->Append(ID_MNU_HOUSE_4005_Mnu_Obj, wxT("&House"));
 	
 	wxMenu *ID_MNU_SCENARIO_4001_Mnu_Obj = new wxMenu(0);
@@ -158,7 +167,7 @@ void cFrameDuneMaps::CreateGUIControls()
 	SetToolBar(WxToolBar1);
 	SetTitle(wxT("Dune Maps"));
 	SetIcon(wxNullIcon);
-	SetSize(wxSize(756, 550));
+	SetSize( wxSize(756,550) );
 	
 	////GUI Items Creation End
 
@@ -189,23 +198,29 @@ void cFrameDuneMaps::loadScenariosFromPak() {
 	wxMenuItem *mnuItemPak = FindItemInMenuBar( ID_MNU_LOADSCENFROMPAK );
 	wxMenu *mnuPakScenarios = mnuItemPak->GetSubMenu();
 
-	mnuPakScenarios->Delete(ID_MNU_SCEN);
+	// Cleanup the PAK menu
+	for( int i = 0; i < mScensFromPak; ++i )
+		mnuPakScenarios->Delete(ID_MNU_SCEN + i);
 
-	PakFile *pak = g_DuneEngine->resourcesGet()->pakGet("SCENARIO.PAK");
+	PakFile *pak = g_DuneEngine->resourcesGet()->pakGet("scenario.pak");
+	mScensFromPak = pak->getNumFiles();
 
-	int count = pak->getNumFiles();
+	int count = 0;
 
 	// Loop the entries in the PAK, and add any beginning with 'scen' to the pak load menu
-	for( int i = 0; i < count; ++i ) {
+	for( int i = 0; i < mScensFromPak; ++i ) {
 	
 		string name = pak->getFileName( i );
 
 		std::transform( name.begin(), name.end(), name.begin(), tolower );
 
-		if( name.find("scen") != string::npos )
-			mnuPakScenarios->Insert(mnuPakScenarios->GetMenuItemCount(), ID_MNU_SCEN + i, name );
+		if( name.find("scen") != string::npos ) {
+			mnuPakScenarios->Insert(mnuPakScenarios->GetMenuItemCount(), ID_MNU_SCEN + count, name );
+			++count;
+		}
 	}
 
+	mScensFromPak = count;
 }
 
 void cFrameDuneMaps::loadToolbarUnits() {
@@ -315,6 +330,54 @@ void cFrameDuneMaps::Mnunewscenario1005Click(wxCommandEvent& event) {
 }
 
 /*
+ * Mnufromamiga7001Click
+ */
+void cFrameDuneMaps::Mnufromamiga7001Click(wxCommandEvent& event) {
+	WxOpenFileDialog1->SetTitle("Load Amiga Scenario");
+	WxOpenFileDialog1->ShowModal();
+
+	string filename = WxOpenFileDialog1->GetPath();
+	if(!filename.size())
+		return;
+
+	g_DuneEngine->scenarioLoad( filename, eLoad_Amiga );
+	mTileView->playfieldSizeUpdate();
+}
+
+/*
+ * MnuLoadPak_ScenClick
+ */
+void cFrameDuneMaps::MnuLoadPak_ScenClick(wxCommandEvent& event) {
+	wxMenuItem *item = WxMenuBar1->FindItem( event.GetId() );
+
+	string filename = item->GetItemLabel();
+
+	g_DuneEngine->scenarioLoad( filename, eLoad_PC_Pak );
+
+	mTileView->playfieldSizeUpdate();
+}
+
+/*
+ * Mnuloadscenariopak7005Click
+ */
+void cFrameDuneMaps::Mnuloadscenariopak7005Click(wxCommandEvent& event) {
+	WxOpenFileDialog1->SetTitle("Load Scenario PAK");
+
+	WxOpenFileDialog1->SetWildcard(wxT("*.PAK"));
+	WxOpenFileDialog1->ShowModal();
+	WxOpenFileDialog1->SetWildcard(wxT("SCEN*.INI"));
+	
+	string filename = WxOpenFileDialog1->GetPath();
+	if(!filename.size())
+		return;
+
+	g_DuneEngine->resourcesGet()->pakUnload("scenario.pak");
+	g_DuneEngine->resourcesGet()->pakLoad( filename, false, "scenario.pak" );
+
+	loadScenariosFromPak();
+}
+
+/*
  * Mnuquit1006Click
  */
 void cFrameDuneMaps::Mnuquit1006Click(wxCommandEvent& event) {
@@ -352,19 +415,6 @@ void cFrameDuneMaps::WxToolBar2Tool(wxCommandEvent& event) {
 		delete object;
 
 	g_DuneEngine->mPlaceObjectSet( new cUnit( house, unitID, -1, 0, 0, 256 ) );
-}
-
-/*
- * MnuLoadPak_ScenClick
- */
-void cFrameDuneMaps::MnuLoadPak_ScenClick(wxCommandEvent& event) {
-	wxMenuItem *item = WxMenuBar1->FindItem( event.GetId() );
-
-	string filename = item->GetItemLabel();
-
-	g_DuneEngine->scenarioLoad( filename, eLoad_PC_Pak );
-
-	mTileView->playfieldSizeUpdate();
 }
 
 /*
@@ -425,22 +475,6 @@ void cFrameDuneMaps::Mnuhouses4016Click(wxCommandEvent& event) {
 
 	delete Houses;
 }
-
-/*
- * Mnufromamiga7001Click
- */
-void cFrameDuneMaps::Mnufromamiga7001Click(wxCommandEvent& event) {
-	WxOpenFileDialog1->SetTitle("Load Amiga Scenario");
-	WxOpenFileDialog1->ShowModal();
-
-	string filename = WxOpenFileDialog1->GetPath();
-	if(!filename.size())
-		return;
-
-	g_DuneEngine->scenarioLoad( filename, eLoad_Amiga );
-	mTileView->playfieldSizeUpdate();
-}
-
 /*
  * Mnuminimapfollowswindow7003Click
  */

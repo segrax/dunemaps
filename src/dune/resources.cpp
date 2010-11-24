@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <fstream>
+#include <algorithm>
 
 // Lib Eastwood
 #include "eastwood/IniFile.h"
@@ -471,30 +472,49 @@ byte *cResources::mapCosTableGet() {
 void cResources::pakLoad() {
 	string		 loadPaks[] = { "DUNE.PAK", "ENGLISH.PAK", "SCENARIO.PAK" };
 
+	// Load Paks
+	for( size_t i = 0; i < 0x03; ++i ) {
+		string filename = loadPaks[i];
+
+		pakLoad( filename, true );
+	}
+
+}
+
+bool cResources::pakLoad( string pFile, bool pData, string pFileLoadAs ) {
 	PakFile		*tmpFile;
-	sFileData	*fileData = 0;
 	istream		*stream;
 	byte		*pakData = 0;
 	size_t		 pakSize = 0;
+	
+	pakData = fileRead( pFile, pakSize, pData );
+	if(!pakData)
+		return false;
 
-	// Load all packs
-	for( size_t i = 0; i < 0x03; ++i ) {
-		//fileData = fileTableGet( i );
-		string filename = loadPaks[i];
-		delete fileData;
+	stream = new istringstream( std::string((const char*)pakData, pakSize ));
+	tmpFile = new PakFile( stream );
 
-		pakData = fileRead( filename, pakSize, true );
-		if(!pakData)
-			continue;
+	delete pakData;
+	if( pFileLoadAs.size() == 0 )
+		pFileLoadAs = pFile;
 
-		stream = new istringstream( std::string((const char*)pakData, pakSize ));
-		tmpFile = new PakFile( stream );
+	if( _Paks.find( pFileLoadAs ) != _Paks.end() )
+		pakUnload( pFileLoadAs );
 
-		delete pakData;
+	transform( pFileLoadAs.begin(), pFileLoadAs.end(), pFileLoadAs.begin(), tolower );
 
-		_Paks.insert( pair< string, PakFile*>( filename, tmpFile ) );
-	}
+	_Paks.insert( pair< string, PakFile*>( pFileLoadAs, tmpFile ) );
+	return true;
+}
 
+void cResources::pakUnload( string pFilename ) {
+	map< string, PakFile*>::iterator pakIT;
+
+	pakIT = _Paks.find( pFilename );
+
+	delete pakIT->second;
+
+	_Paks.erase( pakIT );
 }
 
 string *cResources::fileRead( string pFilename) {
