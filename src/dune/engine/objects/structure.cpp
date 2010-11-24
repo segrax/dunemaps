@@ -74,18 +74,15 @@ void cStructure::mapTilesSetup( bool pClear ) {
 		
 		++foundation;
 
-		if( typeGet() != 1) {
+		if( pClear )
+			(*mapCell)->tileSetCurrent( 0 );
 
-			if( !pClear )
+		else {
+
+			if( typeGet() != 1) 
 				(*mapCell)->tileSetCurrent( this, (*_tileIDs)[tileCount] );
 			else
-				(*mapCell)->tileSetCurrent( 0 );
-
-		} else {
-			if( !pClear )
 				(*mapCell)->tileSetCurrent( this, g_DuneEngine->resourcesGet()->tileConcrete() );
-			else
-				(*mapCell)->tileSetCurrent( 0 );
 		}
 
 	}	

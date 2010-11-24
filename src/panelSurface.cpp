@@ -70,7 +70,7 @@ cPanelSurface::~cPanelSurface() {
 
 	delete mTimer;
 	delete WxPopupMenu1;
-
+	delete mPopupObject;
 }
 
 void cPanelSurface::CreateGUIControls() {

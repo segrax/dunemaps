@@ -51,6 +51,9 @@ cResources::~cResources() {
 	map< word, SDL_Surface*>::iterator		tileIT;
 	map< size_t, sActionData*>::iterator	actionIT;
 	map< string, PakFile*>::iterator		pakIT;
+	map< size_t, vector<size_t>*>::iterator	iconFrameIT;
+	map< size_t, map< size_t, SDL_Surface*> >::iterator	shpIT;
+	map< size_t, SDL_Surface*>::iterator	surfaceIT;
 
 	for( houseIT = _dataHouses.begin(); houseIT != _dataHouses.end(); ++houseIT )
 		delete houseIT->second;
@@ -69,6 +72,16 @@ cResources::~cResources() {
 
 	for( pakIT = _Paks.begin(); pakIT != _Paks.end(); ++pakIT )
 		delete pakIT->second;
+
+	for( iconFrameIT = _dataIconFrames.begin(); iconFrameIT != _dataIconFrames.end(); ++iconFrameIT )
+		delete iconFrameIT->second;
+
+	for( shpIT = _dataSHP.begin(); shpIT != _dataSHP.end(); ++shpIT ) {
+		for( surfaceIT = shpIT->second.begin(); surfaceIT != shpIT->second.end(); ++surfaceIT )
+			SDL_FreeSurface( surfaceIT->second );
+	}
+
+	_dataSHP.clear();
 
 	delete _Exe;
 	delete _fileIconICN;
@@ -456,6 +469,8 @@ byte *cResources::mapCosTableGet() {
 }
 
 void cResources::pakLoad() {
+	string		 loadPaks[] = { "DUNE.PAK", "ENGLISH.PAK", "SCENARIO.PAK" };
+
 	PakFile		*tmpFile;
 	sFileData	*fileData = 0;
 	istream		*stream;
@@ -463,9 +478,9 @@ void cResources::pakLoad() {
 	size_t		 pakSize = 0;
 
 	// Load all packs
-	for( size_t i = 0; i < 0x0F; ++i ) {
-		fileData = fileTableGet( i );
-		string filename = fileData->fileName;
+	for( size_t i = 0; i < 0x03; ++i ) {
+		//fileData = fileTableGet( i );
+		string filename = loadPaks[i];
 		delete fileData;
 
 		pakData = fileRead( filename, pakSize, true );

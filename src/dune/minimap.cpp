@@ -11,7 +11,7 @@ cMinimap::cMinimap( ) {
 }
 
 cMinimap::~cMinimap() {
-
+	SDL_FreeSurface( _surfaceAreaFrame );
 }
 
 bool cMinimap::positionUpdate() {
