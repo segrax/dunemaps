@@ -15,6 +15,7 @@
 //Do not add custom headers
 //wxDev-C++ designer will remove them
 ////Header Include Start
+#include "Images/Self_cDialogReinforcement_XPM.xpm"
 ////Header Include End
 
 //----------------------------------------------------------------------------
@@ -100,7 +101,7 @@ void cDialogReinforcement::CreateGUIControls()
 	WxStaticText1 = new wxStaticText(this, ID_WXSTATICTEXT1, wxT("House"), wxPoint(14, 12), wxDefaultSize, 0, wxT("WxStaticText1"));
 
 	SetTitle(wxT("DuneMaps - Reinforcement"));
-	SetIcon(wxNullIcon);
+	SetIcon(Self_cDialogReinforcement_XPM);
 	SetSize(8,8,286,241);
 	Center();
 	

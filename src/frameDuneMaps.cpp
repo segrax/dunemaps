@@ -31,6 +31,7 @@
 //Do not add custom headers
 //wxDev-C++ designer will remove them
 ////Header Include Start
+#include "Images/Self_cFrameDuneMaps_XPM.xpm"
 ////Header Include End
 
 //----------------------------------------------------------------------------
@@ -112,6 +113,8 @@ void cFrameDuneMaps::CreateGUIControls()
 
 	WxToolBar1 = new wxToolBar(this, ID_WXTOOLBAR1, wxPoint(0, 0), wxSize(740, 28));
 
+	WxOpenFileDialog1 =  new wxFileDialog(this, wxT("Choose a file"), wxT(""), wxT(""), wxT("SCEN*.INI"), wxFD_OPEN);
+
 	WxMenuBar1 = new wxMenuBar();
 	wxMenu *ID_MNU_FILE_1001_Mnu_Obj = new wxMenu(0);
 	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_NEWSCENARIO_1005, wxT("&New Scenario"), wxT(""), wxITEM_NORMAL);
@@ -155,19 +158,18 @@ void cFrameDuneMaps::CreateGUIControls()
 	WxMenuBar1->Append(ID_MNU_SCENARIO_4001_Mnu_Obj, wxT("&Scenario"));
 	
 	wxMenu *ID_MNU_OPTIONS_7002_Mnu_Obj = new wxMenu(0);
-	ID_MNU_OPTIONS_7002_Mnu_Obj->Append(ID_MNU_MINIMAPFOLLOWSWINDOW_7003, wxT("Minimap Lock"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_OPTIONS_7002_Mnu_Obj->Append(ID_MNU_MINIMAPFOLLOWSWINDOW_7003, wxT("Minimap Lock"), wxT(""), wxITEM_CHECK);
+	ID_MNU_OPTIONS_7002_Mnu_Obj->Check(ID_MNU_MINIMAPFOLLOWSWINDOW_7003,true);
 	WxMenuBar1->Append(ID_MNU_OPTIONS_7002_Mnu_Obj, wxT("Options"));
 	SetMenuBar(WxMenuBar1);
 
 	WxSaveFileDialog1 =  new wxFileDialog(this, wxT("Choose a file"), wxT(""), wxT(""), wxT("SCEN*.INI"), wxFD_SAVE);
 
-	WxOpenFileDialog1 =  new wxFileDialog(this, wxT("Choose a file"), wxT(""), wxT(""), wxT("SCEN*.INI"), wxFD_OPEN);
-
 	WxToolBar1->Realize();
 	SetToolBar(WxToolBar1);
 	SetTitle(wxT("Dune Maps"));
-	SetIcon(wxNullIcon);
-	SetSize( wxSize(756,550) );
+	SetIcon(Self_cFrameDuneMaps_XPM);
+	SetSize(wxSize(756,550));
 	
 	////GUI Items Creation End
 

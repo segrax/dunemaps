@@ -16,6 +16,7 @@
 //Do not add custom headers
 //wxDev-C++ designer will remove them
 ////Header Include Start
+#include "Images/Self_cDialogHouses_XPM.xpm"
 ////Header Include End
 
 //----------------------------------------------------------------------------
@@ -101,7 +102,7 @@ void cDialogHouses::CreateGUIControls()
 	mButtonCancel = new wxButton(this, ID_MBUTTONCANCEL, wxT("Cancel"), wxPoint(197, 133), wxSize(60, 22), 0, wxDefaultValidator, wxT("mButtonCancel"));
 
 	SetTitle(wxT("DuneMaps - House Editor"));
-	SetIcon(wxNullIcon);
+	SetIcon(Self_cDialogHouses_XPM);
 	SetSize(8,8,430,191);
 	Center();
 	
