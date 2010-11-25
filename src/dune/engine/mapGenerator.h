@@ -1,4 +1,3 @@
-
 enum eTerrain {
 	TERRAIN_SAND		= 0,
 	TERRAIN_DUNES		= 2,
@@ -19,7 +18,7 @@ private:
 
 	void				generateFinalise();								// Finish the map by converting to the 'icon.map' tile ids
 	void				generateSpiceAdd();								// Add spice to the array
-	void				generateSpiceAddTo( word mapIndex );			// Add spice to map location
+	void				generateSpiceAddTo( word mapIndex );			// Add spice .to map location
 	void				generateTerrainAverage();						// Average cells with their 8 neighbouring cells
 	void				generateTerrainBuild();							// Turn the map array into the terrain ids
 	void				generateToTiles();								// Convert the map to the tile icon ids

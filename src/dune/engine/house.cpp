@@ -109,3 +109,28 @@ void cHouse::buildingsHave( word pTypeIndex, bool pOn )	{
 	else
 		_buildingsHave &= ~pTypeIndex;
 }
+
+void cHouse::unitRemove( cUnit *pUnit ) {
+	multimap< size_t, cUnit* >::iterator		unitIT;
+
+	for( unitIT = _units.begin(); unitIT != _units.end(); ++unitIT ) {
+		if( pUnit == unitIT->second ) {
+			delete pUnit;
+			_units.erase( unitIT );
+			return;
+		}
+	}
+
+}
+
+void cHouse::structureRemove( cStructure *pStructure ) {
+	multimap< size_t, cStructure*>::iterator		structIT;
+
+	for( structIT = _structures.begin(); structIT != _structures.end(); ++structIT ) {
+		if( pStructure == structIT->second ) {
+			delete pStructure;
+			_structures.erase( structIT );
+			return;
+		}
+	}
+}

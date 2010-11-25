@@ -118,8 +118,8 @@ size_t cMap::mapTileColorGet( word pMapIndex ) {
 
 	// Check map piece for building here
 	
-	//if(has_structure)
-	//	return 0x0C;
+	if( _mapCells[ pMapIndex ]->hasStructure() )
+		return 0x0C;
 
 	if(tile - g_DuneEngine->resourcesGet()->tileLand() < 0)
 		return 0x04;

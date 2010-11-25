@@ -53,4 +53,8 @@ public:
 
 	multimap< size_t, cUnit* >		*unitsGet()		{ return &_units; }
 	multimap< size_t, cStructure*>	*structsGet()	{ return &_structures; }
+
+	void					 unitRemove( cUnit *pUnit );
+	void					 structureRemove( cStructure *pStructure );
+
 };

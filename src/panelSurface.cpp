@@ -25,6 +25,9 @@
 #include "dune/engine/objects/object.h"
 #include "dune/engine/objects/mapCell.h"
 #include "dune/engine/objects/unit.h"
+#include "dune/engine/objects/structure.h"
+
+#include "dune/engine/house.h"
 
 //----------------------------------------------------------------------------
 // cPanelSurface
@@ -32,8 +35,10 @@
 //Add Custom Events only in the appropriate block.
 //Code added in other places will be removed by wxDev-C++
 ////Event Table Start
-BEGIN_EVENT_TABLE(cPanelSurface, wxPanel)
+BEGIN_EVENT_TABLE(cPanelSurface,wxPanel)
 	////Manual Code Start
+	EVT_TIMER(inputTimer, cPanelSurface::OnInputTimer)
+	EVT_MENU_RANGE(ID_MNU_ORDER_2000, ID_MNU_ORDER_2000 + 14, cPanelSurface::menuActionSet)
 	////Manual Code End
 	
 	EVT_CLOSE(cPanelSurface::OnClose)
@@ -41,11 +46,12 @@ BEGIN_EVENT_TABLE(cPanelSurface, wxPanel)
 	EVT_RIGHT_DOWN(cPanelSurface::cPanelSurfaceRightDown)
 	EVT_PAINT(cPanelSurface::OnPaint)
 	EVT_MOUSE_EVENTS(cPanelSurface::OnMouse)
+	EVT_MENU(ID_MNU_DELETE_1009 , cPanelSurface::Mnudelete2001Click)
 	EVT_MENU(ID_MNU_UNITROTATE_1003 , cPanelSurface::Mnuunitrotate1003Click)
+	EVT_MENU(ID_MNU_DELETE_1005 , cPanelSurface::Mnudelete2001Click)
 	EVT_MENU(ID_MNU_ADDBLOOM_1001 , cPanelSurface::Mnuaddbloom1001Click)
 	EVT_MENU(ID_MNU_ADDSPICEFIELD_1002 , cPanelSurface::Mnuaddspicefield1002Click)
-	EVT_TIMER(inputTimer, cPanelSurface::OnInputTimer)
-	EVT_MENU_RANGE(ID_MNU_ORDER_2000, ID_MNU_ORDER_2000 + 14, cPanelSurface::menuActionSet)
+	EVT_MENU(ID_MNU_DELETE , cPanelSurface::Mnudelete2001Click)
 END_EVENT_TABLE()
 ////Event Table End
 
@@ -69,8 +75,9 @@ cPanelSurface::~cPanelSurface() {
 	Sleep(200);
 
 	delete mTimer;
-	delete WxPopupMenu1;
-	delete mPopupObject;
+	delete mPopupTerrain;
+	delete mPopupUnit;
+	delete mPopupStructure;
 }
 
 void cPanelSurface::CreateGUIControls() {
@@ -80,15 +87,21 @@ void cPanelSurface::CreateGUIControls() {
 	//Add the custom code before or after the blocks
 	////GUI Items Creation Start
 
-	mPopupObject = new wxMenu(wxT(""));mPopupObject->Append(ID_MNU_UNITROTATE_1003, wxT("Rotate"), wxT(""), wxITEM_NORMAL);
+	mPopupStructure = new wxMenu(wxT(""));mPopupStructure->Append(ID_MNU_DELETE_1009, wxT("Delete"), wxT(""), wxITEM_NORMAL);
+
+	mPopupUnit = new wxMenu(wxT(""));mPopupUnit->Append(ID_MNU_UNITROTATE_1003, wxT("Rotate"), wxT(""), wxITEM_NORMAL);
 	wxMenu *ID_MNU_STARTINGORDERS_1004_Obj = new wxMenu();
 	ID_MNU_STARTINGORDERS_1004_Obj->Append(ID_MNU_ORDER_2000, wxT("Order"), wxT(""), wxITEM_NORMAL);
-	mPopupObject->Append(ID_MNU_STARTINGORDERS_1004, wxT("Orders"), ID_MNU_STARTINGORDERS_1004_Obj);
+	mPopupUnit->Append(ID_MNU_STARTINGORDERS_1004, wxT("Orders"), ID_MNU_STARTINGORDERS_1004_Obj);
+	mPopupUnit->AppendSeparator();
+	mPopupUnit->Append(ID_MNU_DELETE_1005, wxT("Delete"), wxT(""), wxITEM_NORMAL);
 
-	WxPopupMenu1 = new wxMenu(wxT(""));WxPopupMenu1->Append(ID_MNU_ADDBLOOM_1001, wxT("Add Spice Bloom"), wxT(""), wxITEM_NORMAL);
-	WxPopupMenu1->Append(ID_MNU_ADDSPICEFIELD_1002, wxT("Add Spice Field"), wxT(""), wxITEM_NORMAL);
+	mPopupTerrain = new wxMenu(wxT(""));mPopupTerrain->Append(ID_MNU_ADDBLOOM_1001, wxT("Add Spice Bloom"), wxT(""), wxITEM_NORMAL);
+	mPopupTerrain->Append(ID_MNU_ADDSPICEFIELD_1002, wxT("Add Spice Field"), wxT(""), wxITEM_NORMAL);
+	mPopupTerrain->AppendSeparator();
+	mPopupTerrain->Append(ID_MNU_DELETE, wxT("Delete"), wxT(""), wxITEM_NORMAL);
 
-	SetSize(wxSize(320,334));
+	SetSize(8,8,320,334);
 	Center();
 	
 	////GUI Items Creation End
@@ -237,6 +250,16 @@ void cPanelSurface::playfieldSizeUpdate( size_t pScale, size_t pWidth, size_t pH
 	g_DuneEngine->frameGet()->minimapGet()->Refresh(false);
 }
 
+
+unsigned short cPanelSurface::MapIndexGet() {
+	unsigned short mapIndex = g_DuneEngine->scenarioGet()->mapGet()->posXYtoIndex( 
+
+		g_DuneEngine->screenPlayfieldGet()->mapXGet() + (mMouseX / 16), 
+		g_DuneEngine->screenPlayfieldGet()->mapYGet() + (mMouseY / 16) );
+
+	return mapIndex;
+}
+
 /*
  * Mnuaddbloom1001Click : 
  */
@@ -244,9 +267,16 @@ void cPanelSurface::Mnuaddbloom1001Click(wxCommandEvent& event) {
 	stringstream	bloom;
 	string			blooms = g_DuneEngine->scenarioGet()->mapBloomGet();
 	
-	word			mapIndex = g_DuneEngine->scenarioGet()->mapGet()->posXYtoIndex( g_DuneEngine->screenPlayfieldGet()->mapXGet() + (mMouseX / 16), g_DuneEngine->screenPlayfieldGet()->mapYGet() + (mMouseY / 16) );
+	word			mapIndex = MapIndexGet();
 
+	// 
 	bloom << mapIndex;
+
+	// No need to add twice
+	if(blooms.find( bloom.str() ) != string::npos ) 
+		return;
+
+	//
 	if(blooms.size())
 		blooms.append(",");
 	blooms.append( bloom.str() );
@@ -264,9 +294,13 @@ void cPanelSurface::Mnuaddspicefield1002Click(wxCommandEvent& event) {
 	stringstream	field;
 	string			fields = g_DuneEngine->scenarioGet()->mapFieldGet();
 	
-	word			mapIndex = g_DuneEngine->scenarioGet()->mapGet()->posXYtoIndex( g_DuneEngine->screenPlayfieldGet()->mapXGet() + (mMouseX / 16), g_DuneEngine->screenPlayfieldGet()->mapYGet() + (mMouseY / 16) );
-
+	word			mapIndex = MapIndexGet();
 	field << mapIndex;
+	
+	// No need to add twice
+	if(fields.find( field.str() ) != string::npos ) 
+		return;
+
 	if(fields.size())
 		fields.append(",");
 	fields.append( field.str() );
@@ -285,23 +319,36 @@ void cPanelSurface::cPanelSurfaceRightDown(wxMouseEvent& event) {
 	OnMouse( event );
 
 	// No unit in selected cell, display the map menu
-	if(!(*mMapCell)->hasUnit())
-		PopupMenu( WxPopupMenu1 );
+	if(!(*mMapCell)->hasUnit() && !(*mMapCell)->hasStructure()) {
+		word tile = g_DuneEngine->scenarioGet()->mapGet()->mapTileTypeGet( (*mMapCell)->mapIndexGet() );
 
-	else {
+		if( tile == 4 || tile == 5 || tile == 7) {
+			return;
+		}
+
+		PopupMenu( mPopupTerrain );
+		return;
+	}
+
+	if( (*mMapCell)->hasStructure() ) {
+
+		PopupMenu( mPopupStructure );
+		return;
+
+	} else if( (*mMapCell)->hasUnit() ) {
 		// Reset orders menu
 		menuOrdersReset();
 
 		// Check the action thats in use by the unit
 		cUnit *unit = (cUnit*) (*mMapCell)->objectGet();
 		word actionID = unit->actionGet();
-		wxMenuItem		*item = mPopupObject->FindItem(ID_MNU_ORDER_2000 + actionID);
+		wxMenuItem		*item = mPopupUnit->FindItem(ID_MNU_ORDER_2000 + actionID);
 		item->Check();
 
 		// Show the unit menu
-		PopupMenu( mPopupObject );
-		
+		PopupMenu( mPopupUnit );
 	}
+
 }
 
 /*
@@ -329,7 +376,7 @@ void cPanelSurface::menuOrdersReset() {
 	
 	for( int i = 0; i < 14; ++i ) {
 
-		wxMenuItem		*item = mPopupObject->FindItem(ID_MNU_ORDER_2000 + i);
+		wxMenuItem		*item = mPopupUnit->FindItem(ID_MNU_ORDER_2000 + i);
 		item->Check(false);
 	}
 }
@@ -337,7 +384,7 @@ void cPanelSurface::menuOrdersReset() {
 // Menu: Build a list of actions
 void cPanelSurface::menuOrdersBuild() {
 
-	wxMenuItem		*item = mPopupObject->FindItem(ID_MNU_ORDER_2000);
+	wxMenuItem		*item = mPopupUnit->FindItem(ID_MNU_ORDER_2000);
 
 	wxMenu			*menu = item->GetMenu();
 	menu->Remove( item );
@@ -360,4 +407,67 @@ void cPanelSurface::menuActionSet(wxCommandEvent& event) {
 	cUnit *unit = (cUnit*) (*mMapCell)->objectGet();
 
 	unit->actionSet( actionID );
+}
+
+/*
+ * Mnudelete2001Click
+ */
+void cPanelSurface::Mnudelete2001Click(wxCommandEvent& event) {
+	word			mapIndex = MapIndexGet();
+	stringstream	strMapIndex;
+
+	// 
+	strMapIndex << mapIndex;
+
+	if( (*mMapCell)->hasUnit() ) {
+		cUnit *unit = (cUnit*) (*mMapCell)->objectGet();
+
+		unit->houseGet()->unitRemove( unit );
+
+		playfieldSizeUpdate();
+		return;
+	}
+
+	if( (*mMapCell)->hasStructure() ) {
+		cStructure *structure = (cStructure*) (*mMapCell)->objectGet();
+
+		structure->houseGet()->structureRemove( structure );
+
+		playfieldSizeUpdate();
+		return;
+	}
+
+	word tile = g_DuneEngine->scenarioGet()->mapGet()->mapTileTypeGet( mapIndex );
+
+	// Bloom
+	if( tile == 0x0E ) {
+		string blooms = g_DuneEngine->scenarioGet()->mapBloomGet();
+		string newBloom;
+
+		if(blooms.find( strMapIndex.str() ) == string::npos ) 
+			return;
+
+		size_t pos = blooms.find( strMapIndex.str() );
+		if(pos) {
+			newBloom = blooms.substr( 0, pos - 1 );
+
+			size_t posEnd = blooms.find( ',', pos );
+
+			if(posEnd != string::npos) {
+				newBloom.append( "," );
+				newBloom.append( blooms.substr( posEnd + 1) );
+			}
+		
+		}
+		
+		(*mMapCell)->tileSetCurrent(0);
+
+		g_DuneEngine->scenarioGet()->mapBloomSet(newBloom);
+		g_DuneEngine->scenarioGet()->mapLoad();
+
+		playfieldSizeUpdate();
+
+		return;
+	}
+
 }
