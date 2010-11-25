@@ -110,9 +110,18 @@
     <ClInclude Include="..\..\src\dune\types.h" />
     <ClInclude Include="..\..\src\panelMinimap.h" />
     <ClInclude Include="..\..\src\panelSurface.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\dunemaps_icon.bmp" />
+    <None Include="..\..\dunemaps_icon.ico">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
     <None Include="..\..\dunemaps_icon.png" />
+    <None Include="..\..\icon1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="dunemaps.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{45F20872-01DA-4697-9509-C7DFDCE0E5E4}</ProjectGuid>

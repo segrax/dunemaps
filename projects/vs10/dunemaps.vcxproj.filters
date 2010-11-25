@@ -295,8 +295,17 @@
     <ClInclude Include="..\..\src\dune\engine\scenarioAmiga.h">
       <Filter>Source Files\dune\engine</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\dunemaps_icon.ico" />
+    <None Include="..\..\dunemaps_icon.bmp" />
     <None Include="..\..\dunemaps_icon.png" />
+    <None Include="..\..\icon1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="dunemaps.rc" />
   </ItemGroup>
 </Project>
