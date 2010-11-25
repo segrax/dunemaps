@@ -10,6 +10,8 @@
 #include "map.h"
 #include "minimap.h"
 
+#include "..\panelSurface.h"
+
 cScreenPlayfield::cScreenPlayfield( ) {
 	word Tactical = g_DuneEngine->scenarioGet()->mapTacticalGet();
 		
@@ -413,9 +415,8 @@ bool cScreenPlayfield::scrollCheck(size_t X, size_t Y) {
 			redraw = true;
 		}
 
-	// If we have to redraw the screen now, the minimaps frame position will need updating
-	//if(redraw)
-	//	g_DuneEngine->minimapGet()->positionUpdate();
+	if( redraw )
+		mapTacticalSet( _mapX, _mapY );
 
 	return redraw;
 }
@@ -435,3 +436,19 @@ bool cScreenPlayfield::mouseMove(size_t X, size_t Y) {
 
 	return redraw;
 }
+
+void cScreenPlayfield::mapTacticalSet( short int pX, short int pY ) { 
+	if(pX < 0) 
+		pX = 0; 
+	
+	if( pY < 0)
+		pY = 0;
+	
+	_mapX = pX; 
+	_mapY = pY;  
+
+	g_DuneEngine->scenarioGet()->mapTacticalSet( g_DuneEngine->scenarioGet()->mapGet()->posXYtoIndex( _mapX, _mapY ) );
+
+}	
+
+				

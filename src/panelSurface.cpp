@@ -176,11 +176,14 @@ void cPanelSurface::OnMouse(wxMouseEvent& event) {
 	if(!mMouseIgnore) {
 		word mapIndex = g_DuneEngine->scenarioGet()->mapGet()->posXYtoIndex( g_DuneEngine->screenPlayfieldGet()->mapXGet() + (mMouseX / 16), g_DuneEngine->screenPlayfieldGet()->mapYGet() + (mMouseY / 16) );
 		mMapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( mapIndex );
+
 	} else
 		mMapCell = 0;
 
 	// Left Mouse
 	if( event.LeftDown() ) {
+
+		g_DuneEngine->scenarioGet()->mapCursorSet( (*mMapCell)->mapIndexGet() );
 
 		// Select the unit, structure or map piece under the cursor
 		g_DuneEngine->screenPlayfieldGet()->buttonPressLeft( mMouseX, mMouseY );

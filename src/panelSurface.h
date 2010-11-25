@@ -111,7 +111,7 @@ public:
 		void Mnudelete2001Click(wxCommandEvent& event);
 
 		unsigned short	MapIndexGet();
-		cMapCell	*MapCellGet() { return *mMapCell; }
+		cMapCell	**MapCellGet() { return mMapCell; }
 
 };
 

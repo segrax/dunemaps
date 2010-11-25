@@ -402,19 +402,6 @@ void cScenario::iniSave( string pFile ) {
 	IniFile ini( buffer, 0 );
 	delete buffer;
 
-	cMapCell *mapCell = g_DuneEngine->mSurfaceGet()->MapCellGet();
-
-	word mapX = g_DuneEngine->screenPlayfieldGet()->mapXGet();
-	word mapY = g_DuneEngine->screenPlayfieldGet()->mapYGet();
-
-	word mapindex = g_DuneEngine->scenarioGet()->mapGet()->posXYtoIndex( mapX, mapY );
-	_mapCursor = mapindex;
-
-	if( mapCell->hasUnit() || mapCell->hasStructure() ) {
-		mapindex = mapCell->mapIndexGet();
-		_mapTactical = mapindex;
-	}
-
 	// [BASIC] Section
 	ini.setStringValue("BASIC", "LosePicture", _pictureLose );
 	ini.setStringValue("BASIC", "WinPicture", _pictureWin );
