@@ -296,4 +296,7 @@
       <Filter>Source Files\dune\engine</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\dunemaps_icon.png" />
+  </ItemGroup>
 </Project>

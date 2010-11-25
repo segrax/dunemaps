@@ -111,6 +111,9 @@
     <ClInclude Include="..\..\src\panelMinimap.h" />
     <ClInclude Include="..\..\src\panelSurface.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\dunemaps_icon.png" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{45F20872-01DA-4697-9509-C7DFDCE0E5E4}</ProjectGuid>
     <RootNamespace>dunemaps</RootNamespace>
@@ -140,6 +143,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)..\..\run\</OutDir>
     <TargetName>$(ProjectName)_d</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)..\..\run\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
