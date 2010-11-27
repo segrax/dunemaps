@@ -76,6 +76,8 @@ void cScenario::scenarioMapPrepare() {
 void cScenario::mapLoad() {
 	vector<string> fields = splitStr( _mapField );
 	vector<string> blooms = splitStr( _mapBloom );
+	vector<string> specials = splitStr( _mapSpecial );
+
 	vector<string>::iterator	it;
 
 	if(!_map)
@@ -98,6 +100,16 @@ void cScenario::mapLoad() {
 
 	// Add spice blooms
 	for( it = blooms.begin(); it != blooms.end(); ++it ) {
+		if(*it == "0")
+			continue;
+
+		cMapCell **mapCell = _map->mapCellGet( atoi((*it).c_str()) );
+
+		(*mapCell)->tileSetCurrent( 0, g_DuneEngine->resourcesGet()->tileBloom() );
+	}
+	
+	// Add special
+	for( it = specials.begin(); it != specials.end(); ++it ) {
 		if(*it == "0")
 			continue;
 
@@ -421,6 +433,8 @@ void cScenario::iniSave( string pFile ) {
 	// [MAP] Section
 	ini.setStringValue("MAP", "Field", _mapField );
 	ini.setStringValue("MAP", "Bloom", _mapBloom );
+	ini.setStringValue("MAP", "Special", _mapSpecial );
+
 	ini.setIntValue("MAP", "Seed", _mapSeed );
 
 	// [HOUSENAME] Section
