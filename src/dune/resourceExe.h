@@ -180,6 +180,8 @@ public:
 							 cResourceExe( const char *pExe );
 							~cResourceExe();
 
+	bool					 isOpen() { if( !_bufferExe) return false; return true; }
+
 	sExeActionData			 actionGet( size_t pIndex );
 	sExeHouseData			 houseGet( eHouse pHouse );								// Get house data at index
 	sExeStructureData		 structureGet( size_t pIndex );							// Get structure data at index

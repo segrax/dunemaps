@@ -260,7 +260,7 @@ void cScenarioAmiga::load_Units( byte keyID, byte **pBuffer ) {
 
 	cUnit *unit = 0;
 	if(House)
-		unit = House->unitCreate( arg1, d0, d1, d2, d3 );
+		unit = House->unitCreate( arg1, d0, d1, (byte) d2, (byte) d3 );
 
 }
 

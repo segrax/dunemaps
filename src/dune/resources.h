@@ -194,7 +194,7 @@ private:
 	void							 angleAdjustBuild();
 	string							 languageAdd( string pFilename );
 
-	void							 pakLoad();														// Load all PAKs into '_Paks' map
+	bool							 pakLoad();														// Load all PAKs into '_Paks' map
 	void							 mapTileIDsLoad();												// Load the Map-Tiles IDs into '_tile' variables
 
 	void							 shpLoad();														// Load the 4 SHP files into _dataSHP

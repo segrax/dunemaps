@@ -12,6 +12,7 @@
 #include "eastwood/WsaFile.h"
 
 #include "graphics\tools.h"
+#include <wx/msgdlg.h>
 
 string mapDirections[8] = {
 	"North",
@@ -101,7 +102,15 @@ void cResources::resourcePrepare() {
 	
 	_Exe = new cResourceExe( "Dune2.EXE" );
 
-	pakLoad();
+	if(!_Exe->isOpen()) {
+		wxMessageBox("Dune2.Exe not found in data directory!", "Data not found");
+		exit(0);
+	}
+
+	if(!pakLoad()) {
+		wxMessageBox("Loading PAKs' failed, please check data directory for the following files\n\nDUNE2.PAK\nENGLISH.PAK\nSCENARIO.PAK", "Data not found");
+		exit(0);
+	}
 
 	// Load the main palette
 	istream *filePalIBM  = fileOpen( "IBM.PAL" );
@@ -469,16 +478,18 @@ byte *cResources::mapCosTableGet() {
 	return _Exe->mapCosTableGet();
 }
 
-void cResources::pakLoad() {
+bool cResources::pakLoad() {
 	string		 loadPaks[] = { "DUNE.PAK", "ENGLISH.PAK", "SCENARIO.PAK" };
 
 	// Load Paks
 	for( size_t i = 0; i < 0x03; ++i ) {
 		string filename = loadPaks[i];
 
-		pakLoad( filename, true );
+		if(!pakLoad( filename, true ))
+			return false;
 	}
 
+	return true;
 }
 
 bool cResources::pakLoad( string pFile, bool pData, string pFileLoadAs ) {
