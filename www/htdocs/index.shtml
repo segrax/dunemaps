@@ -44,10 +44,12 @@
     <hr />
     <p class="NewsDates"><strong>Saturday, 27 November, 2010  15:36</strong></p>
     <hr />
-    <p>SVN-58 has been released, this is the first public release and is available on the <a href="https://sourceforge.net/projects/dunemaps/files">Downloads</a> page</p>
+    <p>SVN-62 has been released, this is the first public release and is available on the <a href="https://sourceforge.net/projects/dunemaps/files">Downloads</a> page</p>
     <p>&nbsp;</p>
     <p>Scenario files are completely editable, including the 3 Other Houses.</p>
     <p>Amiga scenarios can be loaded in, then saved into PC format, however no Amiga save feature is yet available.</p>
+    <p>&nbsp;</p>
+    <p>See the included Readme for feature list</p>
     <p><br />
       <!-- end #mainContent -->
     </p>

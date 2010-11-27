@@ -65,6 +65,7 @@
     <ClCompile Include="..\..\src\panelSurface.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\rev.h" />
     <ClInclude Include="..\..\src\appDuneMaps.h" />
     <ClInclude Include="..\..\src\dialogBasics.h" />
     <ClInclude Include="..\..\src\dialogChoam.h" />

@@ -86,6 +86,7 @@ Section "Copy Files" DuneMapsInst
   File "..\run\SDL.dll"
 
   SetOutPath "$INSTDIR\data"
+  File "..\run\data\dune_2_data_here"
 
   SetOutPath "$INSTDIR"
   ;Store installation folder

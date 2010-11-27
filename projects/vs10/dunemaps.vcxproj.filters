@@ -304,6 +304,9 @@
     <ClInclude Include="..\..\src\dialogChoam.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\rev.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\dunemaps_icon.ico" />
