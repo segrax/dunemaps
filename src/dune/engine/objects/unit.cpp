@@ -17,7 +17,7 @@ cUnit::cUnit(  cHouse *pHouse, word pType, word pMapIndex, byte pAngle, word pAc
 	_actionCurrent = pAction;
 
 	// Put the unit in the mapcell
-	if(pMapIndex = 0xFFFF)
+	if(pMapIndex != 0xFFFF)
 		(*mapCellGet())->objectEnter( this );
 
 	angleSet(pAngle, false, &_angleBase);

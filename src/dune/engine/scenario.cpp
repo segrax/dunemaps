@@ -85,6 +85,11 @@ void cScenario::mapLoad() {
 
 	_mapGenerator = new cMapGenerator( );
 
+	if( (short int) _mapSeed < 0 )
+		_mapSeed |= 0xFFFF0000;
+	else
+		_mapSeed &= 0xFFFF;
+
 	// Generate the map
 	_mapGenerator->generate( _mapSeed );
 	

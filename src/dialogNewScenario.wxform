@@ -1,4 +1,4 @@
-object frmNewForm_4: TfrmNewForm
+object frmNewForm_1: TfrmNewForm
   Left = 8
   Top = 8
   AutoScroll = False
@@ -206,7 +206,7 @@ object frmNewForm_4: TfrmNewForm
     BevelOuter = bvNone
     AutoSize = False
     TabOrder = 1
-    Text = '123456789'
+    Text = '12345'
     EVT_TEXT = 'WxEdit1Updated'
     Wx_BGColor = clBlack
     Wx_Class = 'wxTextCtrl'
@@ -217,7 +217,7 @@ object frmNewForm_4: TfrmNewForm
     Wx_Hidden = False
     Wx_IDName = 'ID_WXEDIT1'
     Wx_IDValue = 1002
-    Wx_MaxLength = 9
+    Wx_MaxLength = 8
     Wx_PaneCaption = 'WxEdit1'
     Wx_PaneName = 'WxEdit1_Pane'
     Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE

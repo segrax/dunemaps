@@ -65,6 +65,7 @@ class cFrameDuneMaps : public wxFrame
 		inline cPanelMinimap *minimapGet() { return mMinimap; }
 		void Mnuloadscenariopak7005Click(wxCommandEvent& event);
 		void Mnuminimapfollowswindow7003Click(wxCommandEvent& event);
+		void Mnuchoam4017Click(wxCommandEvent& event);
 	private:
 		void Mnusavescenario1007Click(wxCommandEvent& event);
 		//Do not add custom control declarations between 
@@ -107,9 +108,10 @@ class cFrameDuneMaps : public wxFrame
 			ID_MNU_MERCENARIES_4011 = 4011,
 			ID_MNU_SCENARIO_4001 = 4001,
 			ID_MNU_BASICS_4003 = 4003,
+			ID_MNU_CHOAM_4017 = 4017,
 			ID_MNU_HOUSES_4016 = 4016,
-			ID_MNU_TEAMS_4014 = 4014,
 			ID_MNU_REINFORCEMENTS_4015 = 4015,
+			ID_MNU_TEAMS_4014 = 4014,
 			ID_MNU_OPTIONS_7002 = 7002,
 			ID_MNU_MINIMAPFOLLOWSWINDOW_7003 = 7003,
 			

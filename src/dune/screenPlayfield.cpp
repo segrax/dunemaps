@@ -187,8 +187,9 @@ void cScreenPlayfield::draw( cVideoSurface *pSurface ) {
 	}
 
 	// Is a structure selected? draw the rectangle on it
-	if(!(*_mapCell)->hasStructure())
-		return;
+	if(_mapCell)
+		if(!(*_mapCell)->hasStructure())
+			return;
 
 	drawTileSquares(pSurface);
 }
@@ -451,4 +452,7 @@ void cScreenPlayfield::mapTacticalSet( short int pX, short int pY ) {
 
 }	
 
-				
+void cScreenPlayfield::mapCellSet( word pX, word pY ) {
+	
+	_mapCell = g_DuneEngine->scenarioGet()->mapGet()->mapCellGet( pX, pY );
+}

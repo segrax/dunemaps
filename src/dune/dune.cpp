@@ -58,10 +58,13 @@ void cDune::houseMapPrepare() {
 }
 
 void cDune::scenarioNew( string pSeed ) {
+	
 
 	delete _scenario;
 	_scenario = new cScenario();
 	_scenario->mapSeedSet( pSeed );
+	
+	_screenPlayfield->mapCellSet(0, 0);
 
 }
 

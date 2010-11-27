@@ -1,4 +1,4 @@
-object frmNewForm_6: TfrmNewForm
+object frmNewForm_1: TfrmNewForm
   Left = 8
   Top = 8
   AutoScroll = False
@@ -280,6 +280,44 @@ object frmNewForm_6: TfrmNewForm
     Wx_IDValue = 1007
     Wx_PaneCaption = 'WxButton2'
     Wx_PaneName = 'WxButton2_Pane'
+    Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
+    Wx_Aui_Dockable_Direction = []
+    Wx_Aui_Pane_Style = []
+    Wx_Aui_Pane_Buttons = []
+    Wx_BestSize_Height = 0
+    Wx_BestSize_Width = 0
+    Wx_MinSize_Height = 0
+    Wx_MinSize_Width = 0
+    Wx_MaxSize_Height = 0
+    Wx_MaxSize_Width = 0
+    Wx_Floating_Height = 0
+    Wx_Floating_Width = 0
+    Wx_Floating_X_Pos = 0
+    Wx_Floating_Y_Pos = 0
+  end
+  object WxButton1: TWxButton
+    Left = 15
+    Top = 214
+    Width = 45
+    Height = 19
+    Caption = 'New'
+    TabOrder = 3
+    EVT_BUTTON = 'WxButton1Click'
+    Wx_BKColor = clBlack
+    Wx_ButtonStyle = []
+    Wx_Class = 'wxButton'
+    Wx_ControlOrientation = wxControlVertical
+    Wx_Default = False
+    Wx_EventList.Strings = (
+      'EVT_BUTTON:OnClick'
+      'EVT_UPDATE_UI:OnUpdateUI')
+    Wx_FGColor = clBlack
+    Wx_GeneralStyle = []
+    Wx_Hidden = False
+    Wx_IDName = 'ID_WXBUTTON1'
+    Wx_IDValue = 1008
+    Wx_PaneCaption = 'WxButton1'
+    Wx_PaneName = 'WxButton1_Pane'
     Wx_Aui_Dock_Direction = wxAUI_DOCK_NONE
     Wx_Aui_Dockable_Direction = []
     Wx_Aui_Pane_Style = []

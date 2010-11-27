@@ -31,6 +31,7 @@ BEGIN_EVENT_TABLE(cDialogReinforcements,wxDialog)
 	////Manual Code End
 	
 	EVT_CLOSE(cDialogReinforcements::OnClose)
+	EVT_BUTTON(ID_WXBUTTON1,cDialogReinforcements::WxButton1Click)
 	EVT_BUTTON(ID_MBUTTONDONE,cDialogReinforcements::mButtonDoneClick)
 	EVT_BUTTON(ID_MBUTTONCANCEL,cDialogReinforcements::mButtonCancelClick)
 	
@@ -86,6 +87,8 @@ void cDialogReinforcements::CreateGUIControls()
 	//wxDev-C++ designer will remove them.
 	//Add the custom code before or after the blocks
 	////GUI Items Creation Start
+
+	WxButton1 = new wxButton(this, ID_WXBUTTON1, wxT("New"), wxPoint(15, 214), wxSize(45, 19), 0, wxDefaultValidator, wxT("WxButton1"));
 
 	mButtonDone = new wxButton(this, ID_MBUTTONDONE, wxT("Done"), wxPoint(134, 215), wxSize(69, 22), 0, wxDefaultValidator, wxT("mButtonDone"));
 
@@ -165,6 +168,8 @@ void cDialogReinforcements::WxListCtrl1ItemActivated(wxListEvent& event) {
 	delete reinforce;
 
 	reinforce = reinforcement->reforcementGet();
+	if(!reinforce)
+		return;
 
 	WxListCtrl1->SetItem(id, 0, reinforce->mHouse );
 	WxListCtrl1->SetItem( id, 1, reinforce->mUnitType );
@@ -173,4 +178,26 @@ void cDialogReinforcements::WxListCtrl1ItemActivated(wxListEvent& event) {
 	WxListCtrl1->SetItem( id, 4, reinforce->mRepeat );
 
 	delete reinforcement;
+}
+
+/*
+ * WxButton1Click
+ */
+void cDialogReinforcements::WxButton1Click(wxCommandEvent& event) {
+
+	cDialogReinforcement *reinforcement = new cDialogReinforcement(this);
+	reinforcement->ShowModal();
+
+	sReinforce *reinforce = reinforcement->reforcementGet();
+	if(!reinforce)
+		return;
+
+	int id = WxListCtrl1->InsertItem( WxListCtrl1->GetItemCount(), reinforce->mHouse );
+	WxListCtrl1->SetItem( id, 1, reinforce->mUnitType );
+	WxListCtrl1->SetItem( id, 2, reinforce->mDirection );
+	WxListCtrl1->SetItem( id, 3, reinforce->mTimer );
+	WxListCtrl1->SetItem( id, 4, reinforce->mRepeat );
+
+	delete reinforcement;
+
 }

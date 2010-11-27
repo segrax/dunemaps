@@ -1,15 +1,15 @@
 ///-----------------------------------------------------------------
 ///
-/// @file      dialogReinforcements.h
+/// @file      dialogChoam.h
 /// @author    Robert
-/// Created:   19/11/2010 18:00:35
+/// Created:   25/11/2010 17:13:34
 /// @section   DESCRIPTION
-///            cDialogReinforcements class declaration
+///            cDialogChoam class declaration
 ///
 ///------------------------------------------------------------------
 
-#ifndef __CDIALOGREINFORCEMENTS_H__
-#define __CDIALOGREINFORCEMENTS_H__
+#ifndef __CDIALOGCHOAM_H__
+#define __CDIALOGCHOAM_H__
 
 #ifdef __BORLANDC__
 	#pragma hdrstop
@@ -26,27 +26,28 @@
 //Header Include Start and Header Include End.
 //wxDev-C++ designer will remove them. Add custom headers after the block.
 ////Header Include Start
+#include <wx/menu.h>
 #include <wx/button.h>
 #include <wx/listctrl.h>
 ////Header Include End
 
 ////Dialog Style Start
-#undef cDialogReinforcements_STYLE
-#define cDialogReinforcements_STYLE wxCAPTION | wxSYSTEM_MENU | wxDIALOG_NO_PARENT | wxMINIMIZE_BOX | wxCLOSE_BOX
+#undef cDialogChoam_STYLE
+#define cDialogChoam_STYLE wxCAPTION | wxSYSTEM_MENU | wxDIALOG_NO_PARENT | wxMINIMIZE_BOX | wxCLOSE_BOX
 ////Dialog Style End
 
-class cDialogReinforcements : public wxDialog
+class cDialogChoam : public wxDialog
 {
 	private:
 		DECLARE_EVENT_TABLE();
-		
-		void reinforcementsLoad();
+		bool	mCancel;
+
 	public:
-		cDialogReinforcements(wxWindow *parent, wxWindowID id = 1, const wxString &title = wxT("DuneMaps - Reinforcements"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = cDialogReinforcements_STYLE);
-		virtual ~cDialogReinforcements();
-		void mButtonCancelClick(wxCommandEvent& event);
+		cDialogChoam(wxWindow *parent, wxWindowID id = 1, const wxString &title = wxT("DuneMaps - Choam"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = cDialogChoam_STYLE);
+		virtual ~cDialogChoam();
 		void WxListCtrl1ItemActivated(wxListEvent& event);
 		void mButtonDoneClick(wxCommandEvent& event);
+		void mButtonCancelClick(wxCommandEvent& event);
 		void WxButton1Click(wxCommandEvent& event);
 	
 	private:
@@ -54,6 +55,7 @@ class cDialogReinforcements : public wxDialog
 		//GUI Control Declaration Start and GUI Control Declaration End.
 		//wxDev-C++ will remove them. Add custom code after the block.
 		////GUI Control Declaration Start
+		wxMenu *WxPopupMenu1;
 		wxButton *WxButton1;
 		wxButton *mButtonDone;
 		wxButton *mButtonCancel;
@@ -68,9 +70,9 @@ class cDialogReinforcements : public wxDialog
 		enum
 		{
 			////GUI Enum Control ID Start
-			ID_WXBUTTON1 = 1008,
-			ID_MBUTTONDONE = 1007,
-			ID_MBUTTONCANCEL = 1006,
+			ID_WXBUTTON1 = 1007,
+			ID_MBUTTONDONE = 1006,
+			ID_MBUTTONCANCEL = 1005,
 			ID_WXLISTCTRL1 = 1001,
 			////GUI Enum Control ID End
 			ID_DUMMY_VALUE_ //don't remove this value unless you have other enum values

@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\appDuneMaps.cpp" />
     <ClCompile Include="..\..\src\dialogBasics.cpp" />
+    <ClCompile Include="..\..\src\dialogChoam.cpp" />
     <ClCompile Include="..\..\src\dialogHouses.cpp" />
     <ClCompile Include="..\..\src\dialogNewScenario.cpp" />
     <ClCompile Include="..\..\src\dialogReinforcement.cpp" />
@@ -66,6 +67,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\appDuneMaps.h" />
     <ClInclude Include="..\..\src\dialogBasics.h" />
+    <ClInclude Include="..\..\src\dialogChoam.h" />
     <ClInclude Include="..\..\src\dialogHouses.h" />
     <ClInclude Include="..\..\src\dialogNewScenario.h" />
     <ClInclude Include="..\..\src\dialogReinforcement.h" />

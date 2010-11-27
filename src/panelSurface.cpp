@@ -72,7 +72,7 @@ cPanelSurface::cPanelSurface(wxWindow *parent, wxWindowID id, const wxPoint &pos
 
 cPanelSurface::~cPanelSurface() {
 	mTimer->Stop();
-	Sleep(200);
+	Sleep(400);
 
 	delete mTimer;
 	delete mPopupTerrain;

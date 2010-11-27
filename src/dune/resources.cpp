@@ -862,7 +862,7 @@ bool cResources::IniLoad( string fileName, bool pLocalFile ) {
 	
 	delete ini;
 
-	if(stream)
+	if(stream || ini)
 		return true;
 
 	return false;

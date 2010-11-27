@@ -63,8 +63,8 @@ void cDialogNewScenario::CreateGUIControls()
 
 	buttonDone = new wxButton(this, ID_BUTTONDONE, wxT("Create"), wxPoint(75, 99), wxSize(91, 25), 0, wxDefaultValidator, wxT("buttonDone"));
 
-	WxEdit1 = new wxTextCtrl(this, ID_WXEDIT1, wxT("123456789"), wxPoint(126, 26), wxSize(93, 21), 0, wxDefaultValidator, wxT("WxEdit1"));
-	WxEdit1->SetMaxLength(9);
+	WxEdit1 = new wxTextCtrl(this, ID_WXEDIT1, wxT("12345"), wxPoint(126, 26), wxSize(93, 21), 0, wxDefaultValidator, wxT("WxEdit1"));
+	WxEdit1->SetMaxLength(8);
 
 	WxStaticText1 = new wxStaticText(this, ID_WXSTATICTEXT1, wxT("Map Seed"), wxPoint(32, 28), wxDefaultSize, 0, wxT("WxStaticText1"));
 
@@ -74,6 +74,10 @@ void cDialogNewScenario::CreateGUIControls()
 	Center();
 	
 	////GUI Items Creation End
+	stringstream str;
+	str << mOriginalSeed;
+
+	WxEdit1->SetValue( str.str() );
 }
 
 void cDialogNewScenario::OnClose(wxCloseEvent& /*event*/)
@@ -109,6 +113,7 @@ void cDialogNewScenario::WxEdit1Updated(wxCommandEvent& event) {
 	g_DuneEngine->scenarioGet()->mapSeedSet( seed );
 
 	g_DuneEngine->frameGet()->Refresh(false);
+	g_DuneEngine->frameGet()->minimapGet()->Refresh(false);
 }
 
 /*

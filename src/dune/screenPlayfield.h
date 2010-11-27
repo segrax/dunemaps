@@ -33,7 +33,7 @@ public:
 			void		 screenPrep();
 	virtual void		 draw( cVideoSurface *pSurface );
 
-	inline void			 mapCellClear() { _mapCell = 0; }
+	void				 mapCellSet( word pX, word pY );
 
 	virtual bool		 mouseMove( size_t pX, size_t pY );
 

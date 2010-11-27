@@ -23,7 +23,7 @@ struct sReinforcement {
 
 struct sChoam {
 	string			mUnitType;
-	size_t			mCount;
+	int				mCount;
 };
 
 class cScenario {
@@ -112,5 +112,5 @@ public:
 
 	inline vector<sReinforcement>	*reinforcementsGet() { return &mReinforcements; }
 	inline vector< cTeam* >			*teamsGet()			 { return &mTeams; }
-	
+	inline vector< sChoam >			*choamGet()			 { return &mChoam; }
 };

@@ -17,6 +17,7 @@
 #include "dialogTeams.h"
 #include "dialogReinforcements.h"
 #include "dialogNewScenario.h"
+#include "dialogChoam.h"
 
 #include "stdafx.h"
 #include "dune\engine\objects\object.h"
@@ -63,9 +64,10 @@ BEGIN_EVENT_TABLE(cFrameDuneMaps,wxFrame)
 	EVT_MENU(ID_MNU_SARDAUKA_4010, cFrameDuneMaps::MnuHouseChange)
 	EVT_MENU(ID_MNU_MERCENARIES_4011, cFrameDuneMaps::MnuHouseChange)
 	EVT_MENU(ID_MNU_BASICS_4003, cFrameDuneMaps::Mnubasics4003Click)
+	EVT_MENU(ID_MNU_CHOAM_4017, cFrameDuneMaps::Mnuchoam4017Click)
 	EVT_MENU(ID_MNU_HOUSES_4016, cFrameDuneMaps::Mnuhouses4016Click)
-	EVT_MENU(ID_MNU_TEAMS_4014, cFrameDuneMaps::Mnuteams4014Click)
 	EVT_MENU(ID_MNU_REINFORCEMENTS_4015, cFrameDuneMaps::Mnureinforcements4015Click)
+	EVT_MENU(ID_MNU_TEAMS_4014, cFrameDuneMaps::Mnuteams4014Click)
 	EVT_MENU(ID_MNU_MINIMAPFOLLOWSWINDOW_7003, cFrameDuneMaps::Mnuminimapfollowswindow7003Click)
 END_EVENT_TABLE()
 ////Event Table End
@@ -152,9 +154,10 @@ void cFrameDuneMaps::CreateGUIControls()
 	
 	wxMenu *ID_MNU_SCENARIO_4001_Mnu_Obj = new wxMenu(0);
 	ID_MNU_SCENARIO_4001_Mnu_Obj->Append(ID_MNU_BASICS_4003, wxT("Basics"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_SCENARIO_4001_Mnu_Obj->Append(ID_MNU_CHOAM_4017, wxT("Choam"), wxT(""), wxITEM_NORMAL);
 	ID_MNU_SCENARIO_4001_Mnu_Obj->Append(ID_MNU_HOUSES_4016, wxT("Houses"), wxT(""), wxITEM_NORMAL);
-	ID_MNU_SCENARIO_4001_Mnu_Obj->Append(ID_MNU_TEAMS_4014, wxT("Teams"), wxT(""), wxITEM_NORMAL);
 	ID_MNU_SCENARIO_4001_Mnu_Obj->Append(ID_MNU_REINFORCEMENTS_4015, wxT("Reinforcements"), wxT(""), wxITEM_NORMAL);
+	ID_MNU_SCENARIO_4001_Mnu_Obj->Append(ID_MNU_TEAMS_4014, wxT("Teams"), wxT(""), wxITEM_NORMAL);
 	WxMenuBar1->Append(ID_MNU_SCENARIO_4001_Mnu_Obj, wxT("&Scenario"));
 	
 	wxMenu *ID_MNU_OPTIONS_7002_Mnu_Obj = new wxMenu(0);
@@ -169,7 +172,7 @@ void cFrameDuneMaps::CreateGUIControls()
 	SetToolBar(WxToolBar1);
 	SetTitle(wxT("Dune Maps"));
 	SetIcon(Self_cFrameDuneMaps_XPM);
-	SetSize(wxSize(756,550));
+	SetSize(8,8,756,550);
 	
 	////GUI Items Creation End
 
@@ -201,7 +204,7 @@ void cFrameDuneMaps::loadScenariosFromPak() {
 	wxMenu *mnuPakScenarios = mnuItemPak->GetSubMenu();
 
 	// Cleanup the PAK menu
-	for( int i = 0; i < mScensFromPak; ++i )
+	for( size_t i = 0; i < mScensFromPak; ++i )
 		mnuPakScenarios->Delete(ID_MNU_SCEN + i);
 
 	PakFile *pak = g_DuneEngine->resourcesGet()->pakGet("scenario.pak");
@@ -210,7 +213,7 @@ void cFrameDuneMaps::loadScenariosFromPak() {
 	int count = 0;
 
 	// Loop the entries in the PAK, and add any beginning with 'scen' to the pak load menu
-	for( int i = 0; i < mScensFromPak; ++i ) {
+	for( size_t i = 0; i < mScensFromPak; ++i ) {
 	
 		string name = pak->getFileName( i );
 
@@ -489,4 +492,15 @@ void cFrameDuneMaps::Mnuminimapfollowswindow7003Click(wxCommandEvent& event) {
 		mMinimapLock = true;
 
 	item->Check( mMinimapLock );
+}
+
+/*
+ * Mnuchoam4017Click
+ */
+void cFrameDuneMaps::Mnuchoam4017Click(wxCommandEvent& event) {
+	cDialogChoam *choam = new cDialogChoam( this );
+
+	choam->ShowModal();
+	delete choam;
+
 }
