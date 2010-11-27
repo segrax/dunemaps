@@ -177,7 +177,7 @@ void cFrameDuneMaps::CreateGUIControls()
 	SetToolBar(WxToolBar1);
 	SetTitle(wxT("Dune Maps"));
 	SetIcon(Self_cFrameDuneMaps_XPM);
-	SetSize(8,8,756,550);
+	SetSize(wxSize(756,550));
 	
 	////GUI Items Creation End
 
