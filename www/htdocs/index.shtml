@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>DuneMaps :: Home</title>
+<link href="css/twoColHybRtHdr.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+<!--
+.NewsDates {
+	color: #004000;
+}
+.menuTitles {
+	color: #800080;
+	font-weight:bold;
+}
+#mainTitle {
+	color: #408080;
+}
+-->
+</style>
+</head>
+
+<body class="twoColHybRtHdr">
+
+<div id="container">
+  <div id="header">
+    <h1 id="mainTitle">DuneMaps</h1>
+  <!-- end #header --></div>
+  <!--#include file="menu.shtml" --> 
+  
+  <div id="mainContent">
+    <table border="0">
+      <tr>
+        <td ><img src="images/screenshots/dunemaps.png"  alt="DuneMaps" width="506" height="281" style="margin-top:15px" /></td>
+        <td ><div class="about1">
+          <p>DuneMaps is a Dune II Scenario Editor, supporting both Amiga and PC .INI Files aswell as SCENARIOS.PAK. </p>
+          <p>Based on my previous <a href="http://od2.sourceforge.net/">OD2 Project</a>, and LibEastwood.          </p>
+          <p>&nbsp;</p>
+          <p>Certain files from the original Dune2 are required, from either Battle of Arrakis or Building of a Dynasty v1.07 (US &amp; Hitsquad verions). The files are outlined in the Readme.</p>
+        </div></td>
+      </tr>
+    </table>
+    <p>&nbsp;</p>
+    <hr />
+    <p class="NewsDates"><strong>Saturday, 27 November, 2010  15:36</strong></p>
+    <hr />
+    <p>SVN-58 has been released, this is the first public release and is available on the <a href="https://sourceforge.net/projects/dunemaps/files">Downloads</a> page</p>
+    <p>&nbsp;</p>
+    <p>Scenario files are completely editable, including the 3 Other Houses.</p>
+    <p>Amiga scenarios can be loaded in, then saved into PC format, however no Amiga save feature is yet available.</p>
+    <p><br />
+      <!-- end #mainContent -->
+    </p>
+  </div>
+	<!-- This clearing element should immediately follow the #mainContent div in order to force the #container div to contain all child floats -->
+	<br class="clearfloat" />
+	<!--#include file="footer.shtml" --> 
+<!-- end #container --></div>
+</body>
+</html>

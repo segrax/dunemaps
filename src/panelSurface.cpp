@@ -46,13 +46,13 @@ BEGIN_EVENT_TABLE(cPanelSurface,wxPanel)
 	EVT_RIGHT_DOWN(cPanelSurface::cPanelSurfaceRightDown)
 	EVT_PAINT(cPanelSurface::OnPaint)
 	EVT_MOUSE_EVENTS(cPanelSurface::OnMouse)
+	EVT_MENU(ID_MNU_DELETE_1009 , cPanelSurface::Mnudelete2001Click)
+	EVT_MENU(ID_MNU_UNITROTATE_1003 , cPanelSurface::Mnuunitrotate1003Click)
+	EVT_MENU(ID_MNU_DELETE_1005 , cPanelSurface::Mnudelete2001Click)
 	EVT_MENU(ID_MNU_ADDBLOOM_1001 , cPanelSurface::Mnuaddbloom1001Click)
 	EVT_MENU(ID_MNU_ADDSPICEFIELD_1002 , cPanelSurface::Mnuaddspicefield1002Click)
 	EVT_MENU(ID_MNU_ADDSPECIAL , cPanelSurface::MnuaddspecialClick)
 	EVT_MENU(ID_MNU_DELETE , cPanelSurface::Mnudelete2001Click)
-	EVT_MENU(ID_MNU_DELETE_1009 , cPanelSurface::Mnudelete2001Click)
-	EVT_MENU(ID_MNU_UNITROTATE_1003 , cPanelSurface::Mnuunitrotate1003Click)
-	EVT_MENU(ID_MNU_DELETE_1005 , cPanelSurface::Mnudelete2001Click)
 END_EVENT_TABLE()
 ////Event Table End
 
@@ -88,12 +88,6 @@ void cPanelSurface::CreateGUIControls() {
 	//Add the custom code before or after the blocks
 	////GUI Items Creation Start
 
-	mPopupTerrain = new wxMenu(wxT(""));mPopupTerrain->Append(ID_MNU_ADDBLOOM_1001, wxT("Add Spice Bloom"), wxT(""), wxITEM_NORMAL);
-	mPopupTerrain->Append(ID_MNU_ADDSPICEFIELD_1002, wxT("Add Spice Field"), wxT(""), wxITEM_NORMAL);
-	mPopupTerrain->Append(ID_MNU_ADDSPECIAL, wxT("Add Special"), wxT(""), wxITEM_NORMAL);
-	mPopupTerrain->AppendSeparator();
-	mPopupTerrain->Append(ID_MNU_DELETE, wxT("Delete"), wxT(""), wxITEM_NORMAL);
-
 	mPopupStructure = new wxMenu(wxT(""));mPopupStructure->Append(ID_MNU_DELETE_1009, wxT("Delete"), wxT(""), wxITEM_NORMAL);
 
 	mPopupUnit = new wxMenu(wxT(""));mPopupUnit->Append(ID_MNU_UNITROTATE_1003, wxT("Rotate"), wxT(""), wxITEM_NORMAL);
@@ -102,6 +96,12 @@ void cPanelSurface::CreateGUIControls() {
 	mPopupUnit->Append(ID_MNU_STARTINGORDERS_1004, wxT("Orders"), ID_MNU_STARTINGORDERS_1004_Obj);
 	mPopupUnit->AppendSeparator();
 	mPopupUnit->Append(ID_MNU_DELETE_1005, wxT("Delete"), wxT(""), wxITEM_NORMAL);
+
+	mPopupTerrain = new wxMenu(wxT(""));mPopupTerrain->Append(ID_MNU_ADDBLOOM_1001, wxT("Add Spice Bloom"), wxT(""), wxITEM_NORMAL);
+	mPopupTerrain->Append(ID_MNU_ADDSPICEFIELD_1002, wxT("Add Spice Field"), wxT(""), wxITEM_NORMAL);
+	mPopupTerrain->Append(ID_MNU_ADDSPECIAL, wxT("Add Special"), wxT(""), wxITEM_NORMAL);
+	mPopupTerrain->AppendSeparator();
+	mPopupTerrain->Append(ID_MNU_DELETE, wxT("Delete"), wxT(""), wxITEM_NORMAL);
 
 	SetSize(8,8,320,334);
 	Center();

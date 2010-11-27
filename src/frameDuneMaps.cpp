@@ -69,6 +69,7 @@ BEGIN_EVENT_TABLE(cFrameDuneMaps,wxFrame)
 	EVT_MENU(ID_MNU_REINFORCEMENTS_4015, cFrameDuneMaps::Mnureinforcements4015Click)
 	EVT_MENU(ID_MNU_TEAMS_4014, cFrameDuneMaps::Mnuteams4014Click)
 	EVT_MENU(ID_MNU_MINIMAPFOLLOWSWINDOW_7003, cFrameDuneMaps::Mnuminimapfollowswindow7003Click)
+	EVT_MENU(ID_MNU_ABOUT_1008, cFrameDuneMaps::Mnuabout1008Click)
 END_EVENT_TABLE()
 ////Event Table End
 
@@ -114,8 +115,6 @@ void cFrameDuneMaps::CreateGUIControls()
 	////GUI Items Creation Start
 
 	WxToolBar1 = new wxToolBar(this, ID_WXTOOLBAR1, wxPoint(0, 0), wxSize(740, 28));
-
-	WxOpenFileDialog1 =  new wxFileDialog(this, wxT("Choose a file"), wxT(""), wxT(""), wxT("SCEN*.INI"), wxFD_OPEN);
 
 	WxMenuBar1 = new wxMenuBar();
 	wxMenu *ID_MNU_FILE_1001_Mnu_Obj = new wxMenu(0);
@@ -163,16 +162,21 @@ void cFrameDuneMaps::CreateGUIControls()
 	wxMenu *ID_MNU_OPTIONS_7002_Mnu_Obj = new wxMenu(0);
 	ID_MNU_OPTIONS_7002_Mnu_Obj->Append(ID_MNU_MINIMAPFOLLOWSWINDOW_7003, wxT("Minimap Lock"), wxT(""), wxITEM_CHECK);
 	ID_MNU_OPTIONS_7002_Mnu_Obj->Check(ID_MNU_MINIMAPFOLLOWSWINDOW_7003,true);
-	WxMenuBar1->Append(ID_MNU_OPTIONS_7002_Mnu_Obj, wxT("Options"));
+	WxMenuBar1->Append(ID_MNU_OPTIONS_7002_Mnu_Obj, wxT("&Options"));
+	
+	wxMenu *ID_MNU_ABOUT_1008_Mnu_Obj = new wxMenu(0);
+	WxMenuBar1->Append(ID_MNU_ABOUT_1008_Mnu_Obj, wxT("&About"));
 	SetMenuBar(WxMenuBar1);
 
 	WxSaveFileDialog1 =  new wxFileDialog(this, wxT("Choose a file"), wxT(""), wxT(""), wxT("SCEN*.INI"), wxFD_SAVE);
+
+	WxOpenFileDialog1 =  new wxFileDialog(this, wxT("Choose a file"), wxT(""), wxT(""), wxT("SCEN*.INI"), wxFD_OPEN);
 
 	WxToolBar1->Realize();
 	SetToolBar(WxToolBar1);
 	SetTitle(wxT("Dune Maps"));
 	SetIcon(Self_cFrameDuneMaps_XPM);
-	SetSize(8,8,756,550);
+	SetSize(wxSize(756,550));
 	
 	////GUI Items Creation End
 
@@ -502,5 +506,14 @@ void cFrameDuneMaps::Mnuchoam4017Click(wxCommandEvent& event) {
 
 	choam->ShowModal();
 	delete choam;
+
+}
+
+/*
+ * Mnuabout1008Click
+ */
+void cFrameDuneMaps::Mnuabout1008Click(wxCommandEvent& event) {
+
+	wxMessageBox("DuneMaps\n\nhttp://dunemaps.sourceforge.net\nCopyright 2009-2010 Robert Crossfield\n\nLibEastwood\nCopyright 2009-2010 Per Øyvind Karlsen\n", "About");
 
 }

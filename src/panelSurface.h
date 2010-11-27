@@ -62,9 +62,9 @@ class cPanelSurface : public wxPanel
 		//GUI Control Declaration Start and GUI Control Declaration End.
 		//wxDev-C++ will remove them. Add custom code after the block.
 		////GUI Control Declaration Start
-		wxMenu *mPopupTerrain;
 		wxMenu *mPopupStructure;
 		wxMenu *mPopupUnit;
+		wxMenu *mPopupTerrain;
 		////GUI Control Declaration End
 
 	private:
@@ -75,17 +75,17 @@ class cPanelSurface : public wxPanel
 		enum
 		{
 			////GUI Enum Control ID Start
-			ID_MNU_ADDBLOOM_1001 = 1001,
-			ID_MNU_ADDSPICEFIELD_1002 = 1002,
-			ID_MNU_ADDSPECIAL = 1003,
-			ID_MNU_DELETE = 1008,
-			
 			ID_MNU_DELETE_1009 = 1009,
 			
 			ID_MNU_UNITROTATE_1003 = 1003,
 			ID_MNU_STARTINGORDERS_1004 = 1004,
 			ID_MNU_ORDER_2000 = 2000,
 			ID_MNU_DELETE_1005 = 1005,
+			
+			ID_MNU_ADDBLOOM_1001 = 1001,
+			ID_MNU_ADDSPICEFIELD_1002 = 1002,
+			ID_MNU_ADDSPECIAL = 1003,
+			ID_MNU_DELETE = 1008,
 			
 			////GUI Enum Control ID End
 			inputTimer,

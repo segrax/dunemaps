@@ -1,0 +1,35 @@
+<div id="sidebar">    
+     
+    <div id="sidebar1" ><div class="sidebarMain" >
+  
+    <div class="menuTitles">Main Menu</div>
+      <h6>
+      <a href="http://dunemaps.sourceforge.net/">Home</a><br />
+      <a href="http://sourceforge.net/projects/dunemaps/">Project Page</a><br />
+      <a href="https://sourceforge.net/projects/dunemaps/forums">Forums</a><br />
+      <a href="https://sourceforge.net/projects/dunemaps/files/">Downloads</a><br />
+      <a href="https://sourceforge.net/project/screenshots.php?group_id=304335">Screenshots</a><br />
+      </h6>
+  
+    </div></div>
+  
+  <div id="sidebar2"><div class="sidebarMain" >
+  <div class="menuTitles">Documentation</div>
+  </h6>
+  </div></div>
+  
+   <div id="sidebar3"><div class="sidebarMain" >
+  <div class="menuTitles">Links</div>
+  <h6>
+  <a href="http://www.opendune.org/">OpenDune</a><br/>
+  <a href="https://code.launchpad.net/~doonlunacy/libeastwood/trunk">LibEastwood</a><br />
+  <a href="http://forum.dune2k.com/index.php?showforum=18">Dune Editing Forum</a></h6>
+   </div></div>
+
+   <div id="sidebar4"><div class="sidebarMain" >
+  <div class="menuTitles">Development</div>
+  <h6>
+  <a href="http://dunemaps.svn.sourceforge.net/viewvc/dunemaps/head/src/">SVN</a><br />
+  </h6>
+  </div></div>
+  </div>
