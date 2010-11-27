@@ -116,6 +116,8 @@ void cFrameDuneMaps::CreateGUIControls()
 
 	WxToolBar1 = new wxToolBar(this, ID_WXTOOLBAR1, wxPoint(0, 0), wxSize(740, 28));
 
+	WxSaveFileDialog1 =  new wxFileDialog(this, wxT("Choose a file"), wxT(""), wxT(""), wxT("SCEN*.INI"), wxFD_SAVE);
+
 	WxMenuBar1 = new wxMenuBar();
 	wxMenu *ID_MNU_FILE_1001_Mnu_Obj = new wxMenu(0);
 	ID_MNU_FILE_1001_Mnu_Obj->Append(ID_MNU_NEWSCENARIO_1005, wxT("&New Scenario"), wxT(""), wxITEM_NORMAL);
@@ -164,11 +166,10 @@ void cFrameDuneMaps::CreateGUIControls()
 	ID_MNU_OPTIONS_7002_Mnu_Obj->Check(ID_MNU_MINIMAPFOLLOWSWINDOW_7003,true);
 	WxMenuBar1->Append(ID_MNU_OPTIONS_7002_Mnu_Obj, wxT("&Options"));
 	
-	wxMenu *ID_MNU_ABOUT_1008_Mnu_Obj = new wxMenu(0);
-	WxMenuBar1->Append(ID_MNU_ABOUT_1008_Mnu_Obj, wxT("&About"));
+	wxMenu *ID_MNU_HELP_7008_Mnu_Obj = new wxMenu(0);
+	ID_MNU_HELP_7008_Mnu_Obj->Append(ID_MNU_ABOUT_1008, wxT("&About"), wxT(""), wxITEM_NORMAL);
+	WxMenuBar1->Append(ID_MNU_HELP_7008_Mnu_Obj, wxT("Help"));
 	SetMenuBar(WxMenuBar1);
-
-	WxSaveFileDialog1 =  new wxFileDialog(this, wxT("Choose a file"), wxT(""), wxT(""), wxT("SCEN*.INI"), wxFD_SAVE);
 
 	WxOpenFileDialog1 =  new wxFileDialog(this, wxT("Choose a file"), wxT(""), wxT(""), wxT("SCEN*.INI"), wxFD_OPEN);
 
@@ -176,7 +177,7 @@ void cFrameDuneMaps::CreateGUIControls()
 	SetToolBar(WxToolBar1);
 	SetTitle(wxT("Dune Maps"));
 	SetIcon(Self_cFrameDuneMaps_XPM);
-	SetSize(wxSize(756,550));
+	SetSize(8,8,756,550);
 	
 	////GUI Items Creation End
 

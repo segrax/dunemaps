@@ -26,8 +26,8 @@
 //Header Include Start and Header Include End.
 //wxDev-C++ designer will remove them. Add custom headers after the block.
 ////Header Include Start
-#include <wx/filedlg.h>
 #include <wx/menu.h>
+#include <wx/filedlg.h>
 #include <wx/toolbar.h>
 ////Header Include End
 
@@ -74,8 +74,8 @@ class cFrameDuneMaps : public wxFrame
 		//wxDev-C++ will remove them. Add custom code after the block.
 		////GUI Control Declaration Start
 		wxFileDialog *WxOpenFileDialog1;
-		wxFileDialog *WxSaveFileDialog1;
 		wxMenuBar *WxMenuBar1;
+		wxFileDialog *WxSaveFileDialog1;
 		wxToolBar *WxToolBar2;
 		wxToolBar *WxToolBar1;
 		////GUI Control Declaration End
@@ -115,6 +115,7 @@ class cFrameDuneMaps : public wxFrame
 			ID_MNU_TEAMS_4014 = 4014,
 			ID_MNU_OPTIONS_7002 = 7002,
 			ID_MNU_MINIMAPFOLLOWSWINDOW_7003 = 7003,
+			ID_MNU_HELP_7008 = 7008,
 			ID_MNU_ABOUT_1008 = 7004,
 			
 			////GUI Enum Control ID End
