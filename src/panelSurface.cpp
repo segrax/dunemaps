@@ -74,7 +74,6 @@ cPanelSurface::cPanelSurface(wxWindow *parent, wxWindowID id, const wxPoint &pos
 cPanelSurface::~cPanelSurface() {
 	mTimer->Stop();
 	Sleep(400);
-
 	delete mTimer;
 	delete mPopupTerrain;
 	delete mPopupUnit;
@@ -109,37 +108,41 @@ void cPanelSurface::CreateGUIControls() {
 	////GUI Items Creation End
 
 	mTimer = new wxTimer(this, inputTimer);
-	mTimer->Start(100);	// Milliseconds
 }
 
 void cPanelSurface::OnClose(wxCloseEvent& event) {
-	Destroy();
+	//Destroy();
 }
 
 void cPanelSurface::OnPaint(wxPaintEvent& event) {
-	wxBufferedPaintDC tileView(this);
-
 	size_t width = this->GetSize().GetWidth();
 	size_t height = this->GetSize().GetHeight();
 
-	cVideoSurface surface(width, height);
+	if( g_DuneEngine->screenPlayfieldGet() ) {
+		wxBufferedPaintDC tileView(this);
+		cVideoSurface surface(width, height);
 
-	g_DuneEngine->screenPlayfieldGet()->draw( &surface );
+		g_DuneEngine->screenPlayfieldGet()->draw( &surface );
 
-	tileView.Clear();
-	tileView.DrawBitmap( SDL_To_Bitmap( surface.scaleTo(mScale) ), 0, 0 );
+		tileView.DrawBitmap( SDL_To_Bitmap( surface.scaleTo(mScale) ), 0, 0 );
+		mTimer->Start(100);	// Milliseconds
+	}
 }
 
 void cPanelSurface::OnSize(wxSizeEvent& event) {
 	size_t width = this->GetSize().GetWidth();
 	size_t height = this->GetSize().GetHeight();
-
-	playfieldSizeUpdate( mScale, width, height );
+	
+	if( g_DuneEngine->screenPlayfieldGet() )
+		playfieldSizeUpdate( mScale, width, height );
 }
 
 void cPanelSurface::OnMouse(wxMouseEvent& event) {
 	mMouseIgnore = false;
 	int scroll = event.GetWheelRotation();
+
+	if( !g_DuneEngine->screenPlayfieldGet() )
+		return;
 
 	if( scroll ) {
 
@@ -222,12 +225,13 @@ void cPanelSurface::OnMouse(wxMouseEvent& event) {
 
 	}
 
-	g_DuneEngine->frameGet()->minimapGet()->Refresh(false);
+	if( g_DuneEngine->frameGet()->minimapGet() )
+		g_DuneEngine->frameGet()->minimapGet()->Refresh(false);
 }
 
 void cPanelSurface::OnInputTimer(wxTimerEvent& event) {
 
-	if(!mMouseIgnore)
+	if(!mMouseIgnore && g_DuneEngine->screenPlayfieldGet())
 		// Check for movement along the edge of the tile viewer
 		if( g_DuneEngine->screenPlayfieldGet()->mouseMove( mMouseX, mMouseY ) )
 			Refresh(false);
@@ -245,14 +249,18 @@ void cPanelSurface::playfieldSizeUpdate( size_t pScale, size_t pWidth, size_t pH
 
 	mScale = pScale;
 
-	g_DuneEngine->screenPlayfieldGet()->widthSet( pWidth );
-	g_DuneEngine->screenPlayfieldGet()->heightSet( pHeight );
+	if(g_DuneEngine->screenPlayfieldGet()) {
+		g_DuneEngine->screenPlayfieldGet()->widthSet( pWidth );
+		g_DuneEngine->screenPlayfieldGet()->heightSet( pHeight );
+	}
 
 	g_DuneEngine->screenTilesMaxXSet( pWidth / mScale);
 	g_DuneEngine->screenTilesMaxYSet( pHeight / mScale);
 
 	Refresh(false);
-	g_DuneEngine->frameGet()->minimapGet()->Refresh(false);
+
+	if(g_DuneEngine->frameGet() != NULL && g_DuneEngine->frameGet()->minimapGet() != NULL)
+		g_DuneEngine->frameGet()->minimapGet()->Refresh(false);
 }
 
 

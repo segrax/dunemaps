@@ -63,12 +63,12 @@ cDialogTeams::cDialogTeams(wxWindow *parent, wxWindowID id, const wxString &titl
 		unk1 << team->unk1Get();
 		maxUnits << team->unitsMaxGet();
 
-		int i = WxListCtrl1->InsertItem( WxListCtrl1->GetItemCount(), team->houseGet()->houseDataGet()->houseName );
-		WxListCtrl1->SetItem( i, 1, mode );
-		WxListCtrl1->SetItem( i, 2, type );
+		int i = WxListCtrl1->InsertItem( WxListCtrl1->GetItemCount(), wxString(team->houseGet()->houseDataGet()->houseName.c_str(), wxConvUTF8) );
 
-		WxListCtrl1->SetItem( i, 3, unk1.str() );
-		WxListCtrl1->SetItem( i, 4, maxUnits.str() );
+		WxListCtrl1->SetItem( i, 1, wxString(mode.c_str(), wxConvUTF8) );
+		WxListCtrl1->SetItem( i, 2, wxString(type.c_str(), wxConvUTF8) );
+		WxListCtrl1->SetItem( i, 3, wxString(unk1.str().c_str(), wxConvUTF8) );
+		WxListCtrl1->SetItem( i, 4, wxString(maxUnits.str().c_str(), wxConvUTF8) );
 	}
 
 }
@@ -131,12 +131,30 @@ void cDialogTeams::mButtonDoneClick(wxCommandEvent& event) {
 
 	// Add all teams
 	for( int i =0; i < WxListCtrl1->GetItemCount(); ++i ) {
-		
-		string houseName = WxListCtrl1->GetItemText( i, 0 );
-		string aiMode= WxListCtrl1->GetItemText( i, 1 );
-		string movementType= WxListCtrl1->GetItemText( i, 2 );
-		string UnitsMin= WxListCtrl1->GetItemText( i, 3 );
-		string UnitsMax= WxListCtrl1->GetItemText( i, 4 );
+
+		wxListItem listItem;
+		listItem.SetId(i);
+		listItem.SetMask(wxLIST_MASK_TEXT);
+
+		listItem.SetColumn(0);
+		WxListCtrl1->GetItem(listItem);
+		string houseName = string(listItem.GetText().mb_str());
+
+		listItem.SetColumn(1);
+		WxListCtrl1->GetItem(listItem);
+		string aiMode = string(listItem.GetText().mb_str());
+
+		listItem.SetColumn(2);
+		WxListCtrl1->GetItem(listItem);
+		string movementType = string(listItem.GetText().mb_str());
+
+		listItem.SetColumn(3);
+		WxListCtrl1->GetItem(listItem);
+		string UnitsMin = string(listItem.GetText().mb_str());
+
+		listItem.SetColumn(4);
+		WxListCtrl1->GetItem(listItem);
+		string UnitsMax = string(listItem.GetText().mb_str());
 
 		g_DuneEngine->scenarioGet()->teamCreate( houseName, aiMode, movementType, UnitsMin, UnitsMax );
 
@@ -184,11 +202,12 @@ void cDialogTeams::mButtonNewClick(wxCommandEvent& event) {
 	sTeam *t = team->teamGet();
 
 	if(t) {
-		int i =	WxListCtrl1->InsertItem( WxListCtrl1->GetItemCount(), t->mHouse );
-		WxListCtrl1->SetItem( i, 1, t->mAIMode );
-		WxListCtrl1->SetItem( i, 2, t->mUnitType );
-		WxListCtrl1->SetItem( i, 3, t->mMinUnits );
-		WxListCtrl1->SetItem( i, 4, t->mMaxUnits );
+		int i =	WxListCtrl1->InsertItem( WxListCtrl1->GetItemCount(), wxString(t->mHouse.c_str(), wxConvUTF8) );
+
+		WxListCtrl1->SetItem( i, 1, wxString(t->mAIMode.c_str(), wxConvUTF8) );
+		WxListCtrl1->SetItem( i, 2, wxString(t->mUnitType.c_str(), wxConvUTF8) );
+		WxListCtrl1->SetItem( i, 3, wxString(t->mMinUnits.c_str(), wxConvUTF8) );
+		WxListCtrl1->SetItem( i, 4, wxString(t->mMaxUnits.c_str(), wxConvUTF8) );
 	}
 
 	delete team;
@@ -204,11 +223,30 @@ void cDialogTeams::WxListCtrl1ItemActivated(wxListEvent& event) {
 
 	sTeam *t = new sTeam();
 
-	t->mHouse =  WxListCtrl1->GetItemText( id, 0 );
-	t->mAIMode =  WxListCtrl1->GetItemText( id, 1 );
-	t->mUnitType =  WxListCtrl1->GetItemText( id, 2 );
-	t->mMinUnits =  WxListCtrl1->GetItemText( id, 3 );
-	t->mMaxUnits =  WxListCtrl1->GetItemText( id, 4 );
+	wxListItem listItem;
+	listItem.SetId(id);
+	listItem.SetMask(wxLIST_MASK_TEXT);
+
+	listItem.SetColumn(0);
+	WxListCtrl1->GetItem(listItem);
+	t->mHouse = string(listItem.GetText().mb_str());
+
+	listItem.SetColumn(1);
+	WxListCtrl1->GetItem(listItem);
+	t->mAIMode = string(listItem.GetText().mb_str());
+
+	listItem.SetColumn(2);
+	WxListCtrl1->GetItem(listItem);
+	t->mUnitType = string(listItem.GetText().mb_str());
+
+	listItem.SetColumn(3);
+	WxListCtrl1->GetItem(listItem);
+	t->mMinUnits = string(listItem.GetText().mb_str());
+
+	listItem.SetColumn(4);
+	WxListCtrl1->GetItem(listItem);
+	t->mMaxUnits = string(listItem.GetText().mb_str());
+
 	team->teamSet( t );
 
 	team->ShowModal();
@@ -217,11 +255,11 @@ void cDialogTeams::WxListCtrl1ItemActivated(wxListEvent& event) {
 
 	t = team->teamGet();
 
-	WxListCtrl1->SetItem( id, 0, t->mHouse );
-	WxListCtrl1->SetItem( id, 1, t->mAIMode );
-	WxListCtrl1->SetItem( id, 2, t->mUnitType );
-	WxListCtrl1->SetItem( id, 3, t->mMinUnits );
-	WxListCtrl1->SetItem( id, 4, t->mMaxUnits );
+	WxListCtrl1->SetItem( id, 0, wxString(t->mHouse.c_str(), wxConvUTF8) );
+	WxListCtrl1->SetItem( id, 1, wxString(t->mAIMode.c_str(), wxConvUTF8) );
+	WxListCtrl1->SetItem( id, 2, wxString(t->mUnitType.c_str(), wxConvUTF8) );
+	WxListCtrl1->SetItem( id, 3, wxString(t->mMinUnits.c_str(), wxConvUTF8) );
+	WxListCtrl1->SetItem( id, 4, wxString(t->mMaxUnits.c_str(), wxConvUTF8) );
 
 	delete team;
 }

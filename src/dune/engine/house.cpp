@@ -21,7 +21,7 @@ cHouse::~cHouse() {
 	reset();
 
 	if(_palette)
-		delete _palette->colors;
+		delete [] _palette->colors;
 	delete _palette;
 }
 

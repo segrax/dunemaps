@@ -9,6 +9,9 @@
 cDune *g_DuneEngine = 0;
 
 cDune::cDune( string pDataPath ) {
+
+	mFrame = NULL;
+	mSurface = NULL;
 	
 	screenTilesMaxXSet( 320 );
 	screenTilesMaxYSet( 200 );

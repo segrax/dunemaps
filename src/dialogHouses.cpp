@@ -48,12 +48,12 @@ cDialogHouses::cDialogHouses(wxWindow *parent, wxWindowID id, const wxString &ti
 		_houses.insert( make_pair( i, new sHouse( house->creditGet(), house->creditQuotaGet(), house->maxUnitGet()) ));
 
 		string brain = house->brainGet();
-		std::transform( brain.begin(), brain.end(), brain.begin(), tolower );
+		std::transform( brain.begin(), brain.end(), brain.begin(), ::tolower );
 
 		if( brain.compare( "human" ) == 0 )
 			_houses[i]->_human = true;
 
-		wxString name = house->houseDataGet()->houseName;
+		wxString name = wxString(house->houseDataGet()->houseName.c_str(), wxConvUTF8);
 
 		WxListBox1->InsertItems( 1, &name, i );
 	}
@@ -116,24 +116,24 @@ void cDialogHouses::OnClose(wxCloseEvent& event) {
 void cDialogHouses::updateHouse() {
 	
 	// Update Current Selected House
-	mHouse->_creditQuota	= atoi(mEditQuota->GetValue());
-	mHouse->_credits		= atoi(mEditCredits->GetValue());
-	mHouse->_maxUnits		= atoi(mEditMaxUnits->GetValue());
+	mHouse->_creditQuota	= atoi(mEditQuota->GetValue().mb_str());
+	mHouse->_credits		= atoi(mEditCredits->GetValue().mb_str());
+	mHouse->_maxUnits		= atoi(mEditMaxUnits->GetValue().mb_str());
 	mHouse->_human			= mCheckHuman->GetValue();
 }
 
 void cDialogHouses::updateValues() {
 	stringstream val;
 	val << mHouse->_creditQuota;
-	mEditQuota->SetValue( val.str() );
+	mEditQuota->SetValue( wxString(val.str().c_str(), wxConvUTF8) );
 
 	val.str("");
 	val << mHouse->_credits;
-	mEditCredits->SetValue( val.str() );
+	mEditCredits->SetValue( wxString(val.str().c_str(), wxConvUTF8) );
 
 	val.str("");
 	val << mHouse->_maxUnits;
-	mEditMaxUnits->SetValue( val.str() );
+	mEditMaxUnits->SetValue( wxString(val.str().c_str(), wxConvUTF8) );
 
 	mCheckHuman->SetValue( mHouse->_human );
 }

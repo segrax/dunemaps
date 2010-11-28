@@ -10,7 +10,9 @@
 #include "map.h"
 #include "minimap.h"
 
-#include "..\panelSurface.h"
+#include "panelSurface.h"
+
+#include <typeinfo>
 
 cScreenPlayfield::cScreenPlayfield( ) {
 	word Tactical = g_DuneEngine->scenarioGet()->mapTacticalGet();

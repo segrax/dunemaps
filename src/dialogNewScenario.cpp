@@ -77,7 +77,7 @@ void cDialogNewScenario::CreateGUIControls()
 	stringstream str;
 	str << mOriginalSeed;
 
-	WxEdit1->SetValue( str.str() );
+	WxEdit1->SetValue( wxString(str.str().c_str(), wxConvUTF8) );
 }
 
 void cDialogNewScenario::OnClose(wxCloseEvent& /*event*/)
@@ -108,7 +108,7 @@ void cDialogNewScenario::OnPaint(wxPaintEvent& event) {
  * WxEdit1Updated
  */
 void cDialogNewScenario::WxEdit1Updated(wxCommandEvent& event) {
-	string seed =  WxEdit1->GetValue();
+	string seed =  string(WxEdit1->GetValue().mb_str());
 
 	g_DuneEngine->scenarioGet()->mapSeedSet( seed );
 
@@ -120,7 +120,7 @@ void cDialogNewScenario::WxEdit1Updated(wxCommandEvent& event) {
  * buttonDoneClick
  */
 void cDialogNewScenario::buttonDoneClick(wxCommandEvent& event) {
-	string seed =  WxEdit1->GetValue();
+	string seed =  string(WxEdit1->GetValue().mb_str());
 
 	g_DuneEngine->scenarioNew( seed );
 	g_DuneEngine->frameGet()->Refresh(false);

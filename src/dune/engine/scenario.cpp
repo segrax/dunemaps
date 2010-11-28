@@ -1,17 +1,17 @@
-#include "..\stdafx.h"
+#include "stdafx.h"
 #include "house.h"
 #include "scenario.h"
 #include "mapGenerator.h"
 #include "map.h"
-#include "..\screenPlayfield.h"
-#include "objects\object.h"
-#include "objects\mapCell.h"
-#include "objects\structure.h"
-#include "objects\unit.h"
+#include "screenPlayfield.h"
+#include "objects/object.h"
+#include "objects/mapCell.h"
+#include "objects/structure.h"
+#include "objects/unit.h"
 #include "team.h"
 #include<fstream>
 
-#include "../../panelSurface.h"
+#include "panelSurface.h"
 
 vector<string> splitStr( string pStr ) {
 	vector<string> res;

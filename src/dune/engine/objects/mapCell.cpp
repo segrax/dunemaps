@@ -1,10 +1,12 @@
-#include "../../stdafx.h"
+#include "stdafx.h"
 #include "../mapGenerator.h"
 #include "object.h"
 #include "structure.h"
 #include "unit.h"
 #include "mapCell.h"
 #include "../scenario.h"
+
+#include <typeinfo>
 
 cMapCell::cMapCell(  word pMapIndex ) : cObject( 0, pMapIndex, 0 ) {
 

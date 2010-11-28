@@ -47,8 +47,8 @@ cDialogChoam::cDialogChoam(wxWindow *parent, wxWindowID id, const wxString &titl
 	for( int i = 0; i < 18; ++i ) {
 		sUnitData *unit = g_DuneEngine->resourcesGet()->unitGet(i);
 
-		WxListCtrl1->InsertItem( WxListCtrl1->GetItemCount(), unit->Name );
-		WxListCtrl1->SetItem( i, 1, "0" );
+		WxListCtrl1->InsertItem( WxListCtrl1->GetItemCount(), wxString(unit->Name.c_str(), wxConvUTF8) );
+		WxListCtrl1->SetItem( i, 1, wxT("0") );
 	}
 
 
@@ -60,9 +60,9 @@ cDialogChoam::cDialogChoam(wxWindow *parent, wxWindowID id, const wxString &titl
 		stringstream count;
 		count << reIT->mCount;
 
-		int i = WxListCtrl1->FindItem(0, reIT->mUnitType );
+		int i = WxListCtrl1->FindItem(0, wxString(reIT->mUnitType.c_str(), wxConvUTF8) );
 
-		WxListCtrl1->SetItem( i, 1, count.str() );
+		WxListCtrl1->SetItem( i, 1, wxString(count.str().c_str(), wxConvUTF8) );
 	}
 }
 
@@ -107,7 +107,7 @@ void cDialogChoam::OnClose(wxCloseEvent& /*event*/) {
  */
 void cDialogChoam::WxListCtrl1ItemActivated(wxListEvent& event) {
 
-	int units = wxGetNumberFromUser( wxT("Number of available Units"), "Units", "Choam Units" );
+	int units = wxGetNumberFromUser( wxT("Number of available Units"), wxT("Units"), wxT("Choam Units") );
 
 	if(units < 0)
 		return;
@@ -119,7 +119,7 @@ void cDialogChoam::WxListCtrl1ItemActivated(wxListEvent& event) {
 	stringstream unit;
 	unit << units;
 
-	WxListCtrl1->SetItem(id, 1, unit.str() );
+	WxListCtrl1->SetItem(id, 1, wxString(unit.str().c_str(), wxConvUTF8) );
 }
 
 /*
@@ -133,7 +133,7 @@ void cDialogChoam::mButtonDoneClick(wxCommandEvent& event) {
 	choams->clear();
 
 	for( int i = 0; i < WxListCtrl1->GetItemCount(); ++i ) {
-		int count = atoi( WxListCtrl1->GetItemText( i, 1 ) );
+		int count = atoi( WxListCtrl1->GetItemText( i).mb_str() );
 
 		if(count != 0 ) {
 			sChoam choam;

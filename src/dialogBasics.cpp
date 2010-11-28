@@ -8,6 +8,7 @@
 ///
 ///------------------------------------------------------------------
 
+
 #include "dialogBasics.h"
 #include "stdafx.h"
 #include "engine/scenario.h"
@@ -55,7 +56,7 @@ void cDialogBasics::missionLoad() {
 	stringstream time;
 	time << g_DuneEngine->scenarioGet()->mapTimeoutGet( );
 
-	WxEdit1->SetValue( time.str() );
+	WxEdit1->SetValue( wxString(time.str().c_str(), wxConvUTF8) );
 
 	if( scale == 0 )
 		WxRadioButton1->SetValue(true);
@@ -66,9 +67,9 @@ void cDialogBasics::missionLoad() {
 	flagsSet( WxCheckListBox1, g_DuneEngine->scenarioGet()->mapLoseFlagsGet() );
 	flagsSet( WxCheckListBox2, g_DuneEngine->scenarioGet()->mapWinFlagsGet() );
 
-	mPictureLose->SetValue( g_DuneEngine->scenarioGet()->pictureLoseGet() );
-	mPictureWin->SetValue( g_DuneEngine->scenarioGet()->pictureWinGet() );
-	mPictureBrief->SetValue( g_DuneEngine->scenarioGet()->pictureBriefGet() );
+	mPictureLose->SetValue( wxString(g_DuneEngine->scenarioGet()->pictureLoseGet().c_str(), wxConvUTF8) );
+	mPictureWin->SetValue( wxString(g_DuneEngine->scenarioGet()->pictureWinGet().c_str(), wxConvUTF8) );
+	mPictureBrief->SetValue( wxString(g_DuneEngine->scenarioGet()->pictureBriefGet().c_str(), wxConvUTF8) );
 }
 
 byte cDialogBasics::flagsGet( wxCheckListBox *checkList ) {
@@ -173,7 +174,7 @@ void cDialogBasics::OnClose(wxCloseEvent& /*event*/)
  */
 void cDialogBasics::mButtonDoneClick(wxCommandEvent& event) {
 
-	string timeout = WxEdit1->GetValue();
+	string timeout = string(WxEdit1->GetValue().mb_str());
 
 	int scale = 0;
 
@@ -191,9 +192,9 @@ void cDialogBasics::mButtonDoneClick(wxCommandEvent& event) {
 	
 	g_DuneEngine->screenPlayfieldGet()->scaleSet();
 
-	g_DuneEngine->scenarioGet()->pictureLoseSet( string( mPictureLose->GetValue() ) );
-	g_DuneEngine->scenarioGet()->pictureWinSet(  string( mPictureWin->GetValue() ) );
-	g_DuneEngine->scenarioGet()->pictureBriefSet( string( mPictureBrief->GetValue() ) );
+	g_DuneEngine->scenarioGet()->pictureLoseSet( string( mPictureLose->GetValue().mb_str() ) );
+	g_DuneEngine->scenarioGet()->pictureWinSet(  string( mPictureWin->GetValue().mb_str() ) );
+	g_DuneEngine->scenarioGet()->pictureBriefSet( string( mPictureBrief->GetValue().mb_str() ) );
 
 	Close();
 }

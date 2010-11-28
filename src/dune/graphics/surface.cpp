@@ -1,4 +1,9 @@
 #include "stdafx.h"
+
+extern "C"
+{
+#include "graphics/scale/scalebit.h"
+}
 		
 cVideoSurface::cVideoSurface( size_t pWidth, size_t pHeight ) {
 

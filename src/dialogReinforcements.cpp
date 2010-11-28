@@ -70,11 +70,11 @@ void cDialogReinforcements::reinforcementsLoad() {
 
 		timer << reIT->mTime;
 
-		int i = WxListCtrl1->InsertItem( WxListCtrl1->GetItemCount(), house->houseName );
-		WxListCtrl1->SetItem( i, 1, unit );
-		WxListCtrl1->SetItem( i, 2, direction );
-		WxListCtrl1->SetItem( i, 3, timer.str() );
-		WxListCtrl1->SetItem( i, 4, repeat );
+		int i = WxListCtrl1->InsertItem( WxListCtrl1->GetItemCount(), wxString(house->houseName.c_str(), wxConvUTF8) );
+		WxListCtrl1->SetItem( i, 1, wxString(unit.c_str(), wxConvUTF8) );
+		WxListCtrl1->SetItem( i, 2, wxString(direction.c_str(), wxConvUTF8) );
+		WxListCtrl1->SetItem( i, 3, wxString(timer.str().c_str(), wxConvUTF8) );
+		WxListCtrl1->SetItem( i, 4, wxString(repeat.c_str(), wxConvUTF8) );
 
 	}
 
@@ -129,12 +129,29 @@ void cDialogReinforcements::mButtonDoneClick(wxCommandEvent& event) {
 
 	// Add all teams
 	for( int i =0; i < WxListCtrl1->GetItemCount(); ++i ) {
-		
-		string houseName = WxListCtrl1->GetItemText( i, 0 );
-		string unitName= WxListCtrl1->GetItemText( i, 1 );
-		string direction= WxListCtrl1->GetItemText( i, 2 );
-		string timer= WxListCtrl1->GetItemText( i, 3 );
-		string repeats = WxListCtrl1->GetItemText( i, 4 );
+		wxListItem listItem;
+		listItem.SetId(i);
+		listItem.SetMask(wxLIST_MASK_TEXT);
+
+		listItem.SetColumn(0);
+		WxListCtrl1->GetItem(listItem);
+		string houseName = string(listItem.GetText().mb_str());
+
+		listItem.SetColumn(1);
+		WxListCtrl1->GetItem(listItem);
+		string unitName = string(listItem.GetText().mb_str());
+
+		listItem.SetColumn(2);
+		WxListCtrl1->GetItem(listItem);
+		string direction = string(listItem.GetText().mb_str());
+
+		listItem.SetColumn(3);
+		WxListCtrl1->GetItem(listItem);
+		string timer = string(listItem.GetText().mb_str());
+
+		listItem.SetColumn(4);
+		WxListCtrl1->GetItem(listItem);
+		string repeats = string(listItem.GetText().mb_str());
 
 		bool repeat = false;
 
@@ -156,11 +173,24 @@ void cDialogReinforcements::WxListCtrl1ItemActivated(wxListEvent& event) {
 	cDialogReinforcement *reinforcement = new cDialogReinforcement(this);
 	sReinforce *reinforce = new sReinforce();
 
-	reinforce->mHouse =  WxListCtrl1->GetItemText( id, 0 );
-	reinforce->mUnitType =  WxListCtrl1->GetItemText( id, 1 );
-	reinforce->mDirection =  WxListCtrl1->GetItemText( id, 2 );
-	reinforce->mTimer =  WxListCtrl1->GetItemText( id, 3 );
-	reinforce->mRepeat =  WxListCtrl1->GetItemText( id, 4 );
+	wxListItem listItem;
+	listItem.SetId(id);
+	listItem.SetMask(wxLIST_MASK_TEXT);
+
+	listItem.SetColumn(0);
+	reinforce->mHouse = string(listItem.GetText().mb_str());
+
+	listItem.SetColumn(1);
+	reinforce->mUnitType = string(listItem.GetText().mb_str());
+
+	listItem.SetColumn(2);
+	reinforce->mDirection = string(listItem.GetText().mb_str());
+
+	listItem.SetColumn(3);
+	reinforce->mTimer = string(listItem.GetText().mb_str());
+
+	listItem.SetColumn(4);
+	reinforce->mRepeat = string(listItem.GetText().mb_str());
 
 	reinforcement->reinforcementSet( reinforce );
 	reinforcement->ShowModal();
@@ -171,11 +201,25 @@ void cDialogReinforcements::WxListCtrl1ItemActivated(wxListEvent& event) {
 	if(!reinforce)
 		return;
 
-	WxListCtrl1->SetItem(id, 0, reinforce->mHouse );
-	WxListCtrl1->SetItem( id, 1, reinforce->mUnitType );
-	WxListCtrl1->SetItem( id, 2, reinforce->mDirection );
-	WxListCtrl1->SetItem( id, 3, reinforce->mTimer );
-	WxListCtrl1->SetItem( id, 4, reinforce->mRepeat );
+	listItem.SetColumn(0);
+	listItem.SetText(wxString(reinforce->mHouse.c_str(), wxConvUTF8));
+	WxListCtrl1->SetItem(listItem);
+
+	listItem.SetColumn(1);
+	listItem.SetText(wxString(reinforce->mUnitType.c_str(), wxConvUTF8));
+	WxListCtrl1->SetItem(listItem);
+
+	listItem.SetColumn(2);
+	listItem.SetText(wxString(reinforce->mDirection.c_str(), wxConvUTF8));
+	WxListCtrl1->SetItem(listItem);
+
+	listItem.SetColumn(3);
+	listItem.SetText(wxString(reinforce->mTimer.c_str(), wxConvUTF8));
+	WxListCtrl1->SetItem(listItem);
+
+	listItem.SetColumn(4);
+	listItem.SetText(wxString(reinforce->mRepeat.c_str(), wxConvUTF8));
+	WxListCtrl1->SetItem(listItem);
 
 	delete reinforcement;
 }
@@ -192,11 +236,27 @@ void cDialogReinforcements::WxButton1Click(wxCommandEvent& event) {
 	if(!reinforce)
 		return;
 
-	int id = WxListCtrl1->InsertItem( WxListCtrl1->GetItemCount(), reinforce->mHouse );
-	WxListCtrl1->SetItem( id, 1, reinforce->mUnitType );
-	WxListCtrl1->SetItem( id, 2, reinforce->mDirection );
-	WxListCtrl1->SetItem( id, 3, reinforce->mTimer );
-	WxListCtrl1->SetItem( id, 4, reinforce->mRepeat );
+	int id = WxListCtrl1->InsertItem( WxListCtrl1->GetItemCount(), wxString(reinforce->mHouse.c_str(), wxConvUTF8) );
+
+	wxListItem listItem;
+	listItem.SetId(id);
+	listItem.SetMask(wxLIST_MASK_TEXT);
+
+	listItem.SetColumn(1);
+	listItem.SetText(wxString(reinforce->mUnitType.c_str(), wxConvUTF8));
+	WxListCtrl1->SetItem(listItem);
+
+	listItem.SetColumn(2);
+	listItem.SetText(wxString(reinforce->mDirection.c_str(), wxConvUTF8));
+	WxListCtrl1->SetItem(listItem);
+
+	listItem.SetColumn(3);
+	listItem.SetText(wxString(reinforce->mTimer.c_str(), wxConvUTF8));
+	WxListCtrl1->SetItem(listItem);
+
+	listItem.SetColumn(4);
+	listItem.SetText(wxString(reinforce->mRepeat.c_str(), wxConvUTF8));
+	WxListCtrl1->SetItem(listItem);
 
 	delete reinforcement;
 

@@ -20,11 +20,11 @@
 #include "dialogChoam.h"
 
 #include "stdafx.h"
-#include "dune\engine\objects\object.h"
-#include "dune\engine\objects\structure.h"
-#include "dune\engine\objects\unit.h"
-#include "eastwood\PakFile.h"
-#include "dune\engine\scenario.h"
+#include "dune/engine/objects/object.h"
+#include "dune/engine/objects/structure.h"
+#include "dune/engine/objects/unit.h"
+#include "eastwood/PakFile.h"
+#include "dune/engine/scenario.h"
 
 #include <algorithm>
 #include "../rev.h"
@@ -77,6 +77,10 @@ cFrameDuneMaps::cFrameDuneMaps(wxWindow *parent, wxWindowID id, const wxString &
 : wxFrame(parent, id, title, position, size)
 {
 	mHouse = eHouse_Harkonnen;
+	mMinimap = 0;
+	mTileView = 0;
+	WxToolBar2 = 0;
+
 	CreateGUIControls();
 
 	mMinimapLock = true;
@@ -88,7 +92,7 @@ cFrameDuneMaps::cFrameDuneMaps(wxWindow *parent, wxWindowID id, const wxString &
 	windowTitle.append( SVNDATE );
 	windowTitle.append( ")");
 
-	SetTitle( windowTitle );
+	SetTitle( wxString(windowTitle.c_str(), wxConvUTF8) );
 
 	// Prepare the tool bars and the PAK load menu
 	loadToolbarStructures();
@@ -205,7 +209,7 @@ void cFrameDuneMaps::CreateGUIControls()
 
 void cFrameDuneMaps::loadScenariosFromPak() {
 
-	wxMenuItem *mnuItemPak = FindItemInMenuBar( ID_MNU_LOADSCENFROMPAK );
+	wxMenuItem *mnuItemPak = WxMenuBar1->FindItem( ID_MNU_LOADSCENFROMPAK ); //FindItemInMenuBar( ID_MNU_LOADSCENFROMPAK );
 	wxMenu *mnuPakScenarios = mnuItemPak->GetSubMenu();
 
 	// Cleanup the PAK menu
@@ -222,10 +226,10 @@ void cFrameDuneMaps::loadScenariosFromPak() {
 	
 		string name = pak->getFileName( i );
 
-		std::transform( name.begin(), name.end(), name.begin(), tolower );
+		std::transform( name.begin(), name.end(), name.begin(), ::tolower );
 
 		if( name.find("scen") != string::npos ) {
-			mnuPakScenarios->Insert(mnuPakScenarios->GetMenuItemCount(), ID_MNU_SCEN + count, name );
+			mnuPakScenarios->Insert(mnuPakScenarios->GetMenuItemCount(), ID_MNU_SCEN + count, wxString(name.c_str(), wxConvUTF8) );
 			++count;
 		}
 	}
@@ -243,7 +247,7 @@ void cFrameDuneMaps::loadToolbarUnits() {
 
 		surface.surfacePut( shp, 0, 0 );
 		
-		WxToolBar2->AddTool(ID_WXTOOLBAR2 + id, wxT(""), SDL_To_Bitmap(surface.scaleTo(1)), wxNullBitmap, wxITEM_NORMAL, unitData->Name, wxT("") );
+		WxToolBar2->AddTool(ID_WXTOOLBAR2 + id, wxT(""), SDL_To_Bitmap(surface.scaleTo(1)), wxNullBitmap, wxITEM_NORMAL, wxString(unitData->Name.c_str(), wxConvUTF8), wxT("") );
 	}
 
 	// Sandworm
@@ -252,7 +256,7 @@ void cFrameDuneMaps::loadToolbarUnits() {
 
 	surface.surfacePut( shp, 0, 0 );
 		
-	WxToolBar2->AddTool(ID_WXTOOLBAR2 + 0x19, wxT(""), SDL_To_Bitmap(surface.scaleTo(1)), wxNullBitmap, wxITEM_NORMAL, unitData->Name, wxT("") );
+	WxToolBar2->AddTool(ID_WXTOOLBAR2 + 0x19, wxT(""), SDL_To_Bitmap(surface.scaleTo(1)), wxNullBitmap, wxITEM_NORMAL, wxString(unitData->Name.c_str(), wxConvUTF8), wxT("") );
 
 	WxToolBar2->Realize();
 }
@@ -268,7 +272,7 @@ void cFrameDuneMaps::loadToolbarStructures() {
 
 		surface.surfacePut( shp, 0, 0 );
 		
-		WxToolBar1->AddTool(ID_WXTOOLBAR1 + id, wxT(""), SDL_To_Bitmap(surface.scaleTo(1)), wxNullBitmap, wxITEM_NORMAL, buildingData->Name, wxT("") );
+		WxToolBar1->AddTool(ID_WXTOOLBAR1 + id, wxT(""), SDL_To_Bitmap(surface.scaleTo(1)), wxNullBitmap, wxITEM_NORMAL, wxString(buildingData->Name.c_str(), wxConvUTF8), wxT("") );
 	}
 
 	WxToolBar1->Realize();
@@ -279,7 +283,7 @@ void cFrameDuneMaps::OnClose(wxCloseEvent& /*event*/) {
 }
 
 void cFrameDuneMaps::OnMove(wxMoveEvent& event) {
-	if(mMinimapLock) {
+	if(mMinimap && mMinimapLock) {
 		wxPoint a( GetPosition().x + GetSize().GetWidth(), GetPosition().y );
 		mMinimap->SetPosition( a );
 	}
@@ -289,7 +293,7 @@ void cFrameDuneMaps::OnSize(wxSizeEvent& event) {
 	size_t width = event.GetSize().GetWidth();
 	size_t height = event.GetSize().GetHeight();
 	
-	if(mMinimapLock) {
+	if(mMinimapLock && mMinimap) {
 		wxPoint a( GetPosition().x + GetSize().GetWidth(), GetPosition().y );
 		mMinimap->SetPosition( a );
 	}
@@ -297,8 +301,10 @@ void cFrameDuneMaps::OnSize(wxSizeEvent& event) {
 	if(mTileView)
 		mTileView->SetSize( width - 40, height - 130 );
 
-	WxToolBar2->SetPosition( wxPoint( 0, height - 126 ) );
-	WxToolBar2->Refresh();
+	if(WxToolBar2) {
+		WxToolBar2->SetPosition( wxPoint( 0, height - 126 ) );
+		WxToolBar2->Refresh();
+	}
 	Refresh(false);
 }
 
@@ -306,10 +312,10 @@ void cFrameDuneMaps::OnSize(wxSizeEvent& event) {
  * Mnuloadscenario1002Click
  */
 void cFrameDuneMaps::Mnuloadscenario1002Click(wxCommandEvent& event) {
-	WxOpenFileDialog1->SetTitle("Load Scenario");
+	WxOpenFileDialog1->SetTitle(wxT("Load Scenario"));
 	WxOpenFileDialog1->ShowModal();
 
-	string filename = WxOpenFileDialog1->GetPath();
+	string filename = string(WxOpenFileDialog1->GetPath().mb_str());
 
 	if(!filename.size())
 		return;
@@ -322,10 +328,10 @@ void cFrameDuneMaps::Mnuloadscenario1002Click(wxCommandEvent& event) {
  * Mnusavescenario1007Click
  */
 void cFrameDuneMaps::Mnusavescenario1007Click(wxCommandEvent& event) {
-	WxSaveFileDialog1->SetTitle("Save Scenario");
+	WxSaveFileDialog1->SetTitle(wxT("Save Scenario"));
 	WxSaveFileDialog1->ShowModal();
 
-	string filename = WxSaveFileDialog1->GetPath();
+	string filename = string(WxSaveFileDialog1->GetPath().mb_str());
 
 	g_DuneEngine->scenarioGet()->iniSave( filename );
 }
@@ -343,10 +349,10 @@ void cFrameDuneMaps::Mnunewscenario1005Click(wxCommandEvent& event) {
  * Mnufromamiga7001Click
  */
 void cFrameDuneMaps::Mnufromamiga7001Click(wxCommandEvent& event) {
-	WxOpenFileDialog1->SetTitle("Load Amiga Scenario");
+	WxOpenFileDialog1->SetTitle(wxT("Load Amiga Scenario"));
 	WxOpenFileDialog1->ShowModal();
 
-	string filename = WxOpenFileDialog1->GetPath();
+	string filename = string(WxOpenFileDialog1->GetPath().mb_str());
 	if(!filename.size())
 		return;
 
@@ -360,7 +366,7 @@ void cFrameDuneMaps::Mnufromamiga7001Click(wxCommandEvent& event) {
 void cFrameDuneMaps::MnuLoadPak_ScenClick(wxCommandEvent& event) {
 	wxMenuItem *item = WxMenuBar1->FindItem( event.GetId() );
 
-	string filename = item->GetItemLabel();
+	string filename = string(item->GetItemLabel().mb_str());
 
 	g_DuneEngine->scenarioLoad( filename, eLoad_PC_Pak );
 
@@ -371,13 +377,13 @@ void cFrameDuneMaps::MnuLoadPak_ScenClick(wxCommandEvent& event) {
  * Mnuloadscenariopak7005Click
  */
 void cFrameDuneMaps::Mnuloadscenariopak7005Click(wxCommandEvent& event) {
-	WxOpenFileDialog1->SetTitle("Load Scenario PAK");
+	WxOpenFileDialog1->SetTitle(wxT("Load Scenario PAK"));
 
 	WxOpenFileDialog1->SetWildcard(wxT("*.PAK"));
 	WxOpenFileDialog1->ShowModal();
 	WxOpenFileDialog1->SetWildcard(wxT("SCEN*.INI"));
 	
-	string filename = WxOpenFileDialog1->GetPath();
+	string filename = string(WxOpenFileDialog1->GetPath().mb_str());
 	if(!filename.size())
 		return;
 
@@ -515,6 +521,6 @@ void cFrameDuneMaps::Mnuchoam4017Click(wxCommandEvent& event) {
  */
 void cFrameDuneMaps::Mnuabout1008Click(wxCommandEvent& event) {
 
-	wxMessageBox("DuneMaps\n\nhttp://dunemaps.sourceforge.net\nCopyright 2009-2010 Robert Crossfield\n\nLibEastwood\nCopyright 2009-2010 Per Øyvind Karlsen\n", "About");
+	wxMessageBox(wxT("DuneMaps\n\nhttp://dunemaps.sourceforge.net\nCopyright 2009-2010 Robert Crossfield\n\nLibEastwood\nCopyright 2009-2010 Per Oyvind Karlsen\n"), wxT("About"));
 
 }

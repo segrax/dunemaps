@@ -44,19 +44,19 @@ cDialogReinforcement::cDialogReinforcement(wxWindow *parent, wxWindowID id, cons
 	for( int i = eHouse_Harkonnen; i < eHouse_End; ++i ) {
 		cHouse *house = g_DuneEngine->houseGet( (eHouse) i );
 
-		mChoiceHouse->Insert( house->houseDataGet()->houseName, i );
+		mChoiceHouse->Insert( wxString(house->houseDataGet()->houseName.c_str(), wxConvUTF8), i );
 	}
 
 	for( int i = 0; i < 18; ++i ) {
 		string unit = g_DuneEngine->resourcesGet()->unitGet(i)->Name;
 
-		mChoiceUnit->Insert( unit, i );
+		mChoiceUnit->Insert( wxString(unit.c_str(), wxConvUTF8), i );
 	}
 
 	for( int i = 0; i < 8; ++i ) {
 		string dir = g_DuneEngine->resourcesGet()->directionGet( i );
 
-		mChoiceDirection->Insert( dir, i );
+		mChoiceDirection->Insert( wxString(dir.c_str(), wxConvUTF8), i );
 	}
 }
 
@@ -115,11 +115,11 @@ void cDialogReinforcement::OnClose(wxCloseEvent& /*event*/)
 
 void cDialogReinforcement::reinforcementSet( sReinforce *pReinforcement ) {
 		
-	mChoiceHouse->Select( mChoiceHouse->FindString( pReinforcement->mHouse ) );
-	mChoiceUnit->Select( mChoiceUnit->FindString( pReinforcement->mUnitType ) );
-	mChoiceDirection->Select( mChoiceDirection->FindString( pReinforcement->mDirection ) );
+	mChoiceHouse->Select( mChoiceHouse->FindString( wxString(pReinforcement->mHouse.c_str(), wxConvUTF8) ) );
+	mChoiceUnit->Select( mChoiceUnit->FindString( wxString(pReinforcement->mUnitType.c_str(), wxConvUTF8) ) );
+	mChoiceDirection->Select( mChoiceDirection->FindString( wxString(pReinforcement->mDirection.c_str(), wxConvUTF8) ) );
 
-	mTimer->SetValue( pReinforcement->mTimer );
+	mTimer->SetValue( wxString(pReinforcement->mTimer.c_str(), wxConvUTF8) );
 
 	if( pReinforcement->mRepeat == "True" )
 		mRepeat->SetValue( true );
@@ -132,10 +132,10 @@ void cDialogReinforcement::reinforcementSet( sReinforce *pReinforcement ) {
  */
 void cDialogReinforcement::mButtonDoneClick(wxCommandEvent& event) {
 
-	mReinforce.mHouse = mChoiceHouse->GetStringSelection();
-	mReinforce.mUnitType = mChoiceUnit->GetStringSelection();
-	mReinforce.mDirection = mChoiceDirection->GetStringSelection();
-	mReinforce.mTimer = mTimer->GetValue();
+	mReinforce.mHouse = mChoiceHouse->GetStringSelection().mb_str();
+	mReinforce.mUnitType = mChoiceUnit->GetStringSelection().mb_str();
+	mReinforce.mDirection = mChoiceDirection->GetStringSelection().mb_str();
+	mReinforce.mTimer = mTimer->GetValue().mb_str();
 
 	if( mRepeat->GetValue() == true )
 		mReinforce.mRepeat = "True";

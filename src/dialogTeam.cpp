@@ -43,19 +43,19 @@ cDialogTeam::cDialogTeam(wxWindow *parent, wxWindowID id, const wxString &title,
 	for( int i = eHouse_Harkonnen; i < eHouse_End; ++i ) {
 		cHouse *house = g_DuneEngine->houseGet( (eHouse) i );
 
-		mChoiceHouse->Insert( house->houseDataGet()->houseName, i );
+		mChoiceHouse->Insert( wxString(house->houseDataGet()->houseName.c_str(), wxConvUTF8), i );
 	}
 
 	for( int i = 0; i < 6; ++i ) {
 		string movement = g_DuneEngine->resourcesGet()->movementNameGet(i);
 
-		mChoiceUnitType->Insert( movement, i );
+		mChoiceUnitType->Insert( wxString(movement.c_str(), wxConvUTF8), i );
 	}
 
 	for( int i = 0; i < 0x5; ++i) {
 		string modeName = g_DuneEngine->resourcesGet()->aiModeGet(i);
 		
-		mChoiceAI->Insert( modeName, i );
+		mChoiceAI->Insert( wxString(modeName.c_str(), wxConvUTF8), i );
 	}
 }
 
@@ -119,12 +119,12 @@ void cDialogTeam::OnClose(wxCloseEvent& /*event*/)
  */
 void cDialogTeam::mButtonDoneClick(wxCommandEvent& event) {
 
-	mTeam.mHouse = mChoiceHouse->GetStringSelection();
-	mTeam.mAIMode = mChoiceAI->GetStringSelection();
-	mTeam.mUnitType = mChoiceUnitType->GetStringSelection();
+	mTeam.mHouse = mChoiceHouse->GetStringSelection().mb_str();
+	mTeam.mAIMode = mChoiceAI->GetStringSelection().mb_str();
+	mTeam.mUnitType = mChoiceUnitType->GetStringSelection().mb_str();
 
-	mTeam.mMaxUnits = mTextMaxUnits->GetValue();
-	mTeam.mMinUnits = mTextMinUnits->GetValue();
+	mTeam.mMaxUnits = mTextMaxUnits->GetValue().mb_str();
+	mTeam.mMinUnits = mTextMinUnits->GetValue().mb_str();
 
 	mCancel = false;
 	Close();
@@ -140,10 +140,10 @@ void cDialogTeam::mButtonCancelClick(wxCommandEvent& event) {
 
 void cDialogTeam::teamSet( sTeam *pTeam ) {
 
-	mChoiceHouse->Select( mChoiceHouse->FindString( pTeam->mHouse ) );
-	mChoiceAI->Select( mChoiceAI->FindString( pTeam->mAIMode ) );
-	mChoiceUnitType->Select( mChoiceUnitType->FindString( pTeam->mUnitType ) );
+	mChoiceHouse->Select( mChoiceHouse->FindString( wxString(pTeam->mHouse.c_str(), wxConvUTF8) ) );
+	mChoiceAI->Select( mChoiceAI->FindString( wxString(pTeam->mAIMode.c_str(), wxConvUTF8) ) );
+	mChoiceUnitType->Select( mChoiceUnitType->FindString( wxString(pTeam->mUnitType.c_str(), wxConvUTF8) ) );
 
-	mTextMaxUnits->SetValue( pTeam->mMaxUnits );
-	mTextMinUnits->SetValue( pTeam->mMinUnits );
+	mTextMaxUnits->SetValue( wxString(pTeam->mMaxUnits.c_str(), wxConvUTF8) );
+	mTextMinUnits->SetValue( wxString(pTeam->mMinUnits.c_str(), wxConvUTF8) );
 }
